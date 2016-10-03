@@ -31,6 +31,16 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IJLEListener : IParseTreeListener {
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.start"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStart([NotNull] JLEParser.StartContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.start"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStart([NotNull] JLEParser.StartContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="JLEParser.prog"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -60,4 +70,24 @@ public interface IJLEListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitFunc([NotNull] JLEParser.FuncContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.args"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterArgs([NotNull] JLEParser.ArgsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.args"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitArgs([NotNull] JLEParser.ArgsContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.arg"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterArg([NotNull] JLEParser.ArgContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.arg"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitArg([NotNull] JLEParser.ArgContext context);
 }

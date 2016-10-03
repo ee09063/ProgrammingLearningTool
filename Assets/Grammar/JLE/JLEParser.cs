@@ -33,20 +33,21 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 [System.CLSCompliant(false)]
 public partial class JLEParser : Parser {
 	public const int
-		ARGS=1, ARG=2, DIR=3, ANG=4, INT=5, IDENTIFIER=6, LEFTPAR=7, RIGHTPAR=8, 
-		SEMICOLON=9, COMMA=10, NEWLINE=11, WS=12;
+		INT=1, STRING=2, LEFTPAR=3, RIGHTPAR=4, SEMICOLON=5, COMMA=6, NEWLINE=7, 
+		WS=8;
 	public const int
-		RULE_prog = 0, RULE_cmd = 1, RULE_func = 2;
+		RULE_start = 0, RULE_prog = 1, RULE_cmd = 2, RULE_func = 3, RULE_args = 4, 
+		RULE_arg = 5;
 	public static readonly string[] ruleNames = {
-		"prog", "cmd", "func"
+		"start", "prog", "cmd", "func", "args", "arg"
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, null, null, null, null, null, null, "'('", "')'", "';'", "','"
+		null, null, null, "'('", "')'", "';'", "','"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, "ARGS", "ARG", "DIR", "ANG", "INT", "IDENTIFIER", "LEFTPAR", "RIGHTPAR", 
-		"SEMICOLON", "COMMA", "NEWLINE", "WS"
+		null, "INT", "STRING", "LEFTPAR", "RIGHTPAR", "SEMICOLON", "COMMA", "NEWLINE", 
+		"WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -73,6 +74,48 @@ public partial class JLEParser : Parser {
 	{
 		Interpreter = new ParserATNSimulator(this,_ATN);
 	}
+	public partial class StartContext : ParserRuleContext {
+		public ProgContext prog() {
+			return GetRuleContext<ProgContext>(0);
+		}
+		public ITerminalNode Eof() { return GetToken(JLEParser.Eof, 0); }
+		public StartContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_start; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IJLEListener typedListener = listener as IJLEListener;
+			if (typedListener != null) typedListener.EnterStart(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IJLEListener typedListener = listener as IJLEListener;
+			if (typedListener != null) typedListener.ExitStart(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public StartContext start() {
+		StartContext _localctx = new StartContext(Context, State);
+		EnterRule(_localctx, 0, RULE_start);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 12; prog();
+			State = 13; Match(Eof);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
 	public partial class ProgContext : ParserRuleContext {
 		public CmdContext[] cmd() {
 			return GetRuleContexts<CmdContext>();
@@ -98,24 +141,24 @@ public partial class JLEParser : Parser {
 	[RuleVersion(0)]
 	public ProgContext prog() {
 		ProgContext _localctx = new ProgContext(Context, State);
-		EnterRule(_localctx, 0, RULE_prog);
+		EnterRule(_localctx, 2, RULE_prog);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 7;
+			State = 16;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.La(1);
 			do {
 				{
 				{
-				State = 6; cmd();
+				State = 15; cmd();
 				}
 				}
-				State = 9;
+				State = 18;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
-			} while ( _la==IDENTIFIER );
+			} while ( _la==STRING );
 			}
 		}
 		catch (RecognitionException re) {
@@ -153,13 +196,13 @@ public partial class JLEParser : Parser {
 	[RuleVersion(0)]
 	public CmdContext cmd() {
 		CmdContext _localctx = new CmdContext(Context, State);
-		EnterRule(_localctx, 2, RULE_cmd);
+		EnterRule(_localctx, 4, RULE_cmd);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 11; func();
-			State = 12; Match(SEMICOLON);
-			State = 13; Match(NEWLINE);
+			State = 20; func();
+			State = 21; Match(SEMICOLON);
+			State = 22; Match(NEWLINE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -174,12 +217,14 @@ public partial class JLEParser : Parser {
 	}
 
 	public partial class FuncContext : ParserRuleContext {
-		public IToken _IDENTIFIER;
-		public IToken _ARGS;
-		public ITerminalNode IDENTIFIER() { return GetToken(JLEParser.IDENTIFIER, 0); }
+		public IToken func_name;
+		public ArgsContext _args;
 		public ITerminalNode LEFTPAR() { return GetToken(JLEParser.LEFTPAR, 0); }
-		public ITerminalNode ARGS() { return GetToken(JLEParser.ARGS, 0); }
+		public ArgsContext args() {
+			return GetRuleContext<ArgsContext>(0);
+		}
 		public ITerminalNode RIGHTPAR() { return GetToken(JLEParser.RIGHTPAR, 0); }
+		public ITerminalNode STRING() { return GetToken(JLEParser.STRING, 0); }
 		public FuncContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -198,15 +243,142 @@ public partial class JLEParser : Parser {
 	[RuleVersion(0)]
 	public FuncContext func() {
 		FuncContext _localctx = new FuncContext(Context, State);
-		EnterRule(_localctx, 4, RULE_func);
+		EnterRule(_localctx, 6, RULE_func);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 15; _localctx._IDENTIFIER = Match(IDENTIFIER);
-			State = 16; Match(LEFTPAR);
-			State = 17; _localctx._ARGS = Match(ARGS);
-			State = 18; Match(RIGHTPAR);
-			 compiler.addGenericCommand((_localctx._IDENTIFIER!=null?_localctx._IDENTIFIER.Text:null), (_localctx._ARGS!=null?_localctx._ARGS.Text:null)); 
+			State = 24; _localctx.func_name = Match(STRING);
+			State = 25; Match(LEFTPAR);
+			State = 26; _localctx._args = args();
+			State = 27; Match(RIGHTPAR);
+			 compiler.addGenericCommand((_localctx.func_name!=null?_localctx.func_name.Text:null), (_localctx._args!=null?TokenStream.GetText(_localctx._args.Start,_localctx._args.Stop):null)); 
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ArgsContext : ParserRuleContext {
+		public ArgContext[] arg() {
+			return GetRuleContexts<ArgContext>();
+		}
+		public ArgContext arg(int i) {
+			return GetRuleContext<ArgContext>(i);
+		}
+		public ITerminalNode[] COMMA() { return GetTokens(JLEParser.COMMA); }
+		public ITerminalNode COMMA(int i) {
+			return GetToken(JLEParser.COMMA, i);
+		}
+		public ArgsContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_args; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IJLEListener typedListener = listener as IJLEListener;
+			if (typedListener != null) typedListener.EnterArgs(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IJLEListener typedListener = listener as IJLEListener;
+			if (typedListener != null) typedListener.ExitArgs(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ArgsContext args() {
+		ArgsContext _localctx = new ArgsContext(Context, State);
+		EnterRule(_localctx, 8, RULE_args);
+		try {
+			int _alt;
+			State = 40;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,2,Context) ) {
+			case 1:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 33;
+				ErrorHandler.Sync(this);
+				_alt = 1;
+				do {
+					switch (_alt) {
+					case 1:
+						{
+						{
+						State = 30; arg();
+						State = 31; Match(COMMA);
+						}
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					State = 35;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream,1,Context);
+				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
+				State = 37; arg();
+				}
+				break;
+			case 2:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 39; arg();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ArgContext : ParserRuleContext {
+		public ITerminalNode STRING() { return GetToken(JLEParser.STRING, 0); }
+		public ITerminalNode INT() { return GetToken(JLEParser.INT, 0); }
+		public ArgContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_arg; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IJLEListener typedListener = listener as IJLEListener;
+			if (typedListener != null) typedListener.EnterArg(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IJLEListener typedListener = listener as IJLEListener;
+			if (typedListener != null) typedListener.ExitArg(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ArgContext arg() {
+		ArgContext _localctx = new ArgContext(Context, State);
+		EnterRule(_localctx, 10, RULE_arg);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 42;
+			_la = TokenStream.La(1);
+			if ( !(_la==INT || _la==STRING) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+			    Consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -224,16 +396,24 @@ public partial class JLEParser : Parser {
 	private static string _serializeATN()
 	{
 	    StringBuilder sb = new StringBuilder();
-	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\xE");
-		sb.Append("\x18\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x3\x2\x6\x2\n\n\x2\r\x2");
-		sb.Append("\xE\x2\v\x3\x3\x3\x3\x3\x3\x3\x3\x3\x4\x3\x4\x3\x4\x3\x4\x3");
-		sb.Append("\x4\x3\x4\x3\x4\x2\x2\x5\x2\x4\x6\x2\x2\x15\x2\t\x3\x2\x2\x2");
-		sb.Append("\x4\r\x3\x2\x2\x2\x6\x11\x3\x2\x2\x2\b\n\x5\x4\x3\x2\t\b\x3");
-		sb.Append("\x2\x2\x2\n\v\x3\x2\x2\x2\v\t\x3\x2\x2\x2\v\f\x3\x2\x2\x2\f");
-		sb.Append("\x3\x3\x2\x2\x2\r\xE\x5\x6\x4\x2\xE\xF\a\v\x2\x2\xF\x10\a\r");
-		sb.Append("\x2\x2\x10\x5\x3\x2\x2\x2\x11\x12\a\b\x2\x2\x12\x13\a\t\x2\x2");
-		sb.Append("\x13\x14\a\x3\x2\x2\x14\x15\a\n\x2\x2\x15\x16\b\x4\x1\x2\x16");
-		sb.Append("\a\x3\x2\x2\x2\x3\v");
+	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\n/");
+		sb.Append("\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a");
+		sb.Append("\t\a\x3\x2\x3\x2\x3\x2\x3\x3\x6\x3\x13\n\x3\r\x3\xE\x3\x14\x3");
+		sb.Append("\x4\x3\x4\x3\x4\x3\x4\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3");
+		sb.Append("\x6\x3\x6\x3\x6\x6\x6$\n\x6\r\x6\xE\x6%\x3\x6\x3\x6\x3\x6\x5");
+		sb.Append("\x6+\n\x6\x3\a\x3\a\x3\a\x2\x2\b\x2\x4\x6\b\n\f\x2\x3\x3\x2");
+		sb.Append("\x3\x4+\x2\xE\x3\x2\x2\x2\x4\x12\x3\x2\x2\x2\x6\x16\x3\x2\x2");
+		sb.Append("\x2\b\x1A\x3\x2\x2\x2\n*\x3\x2\x2\x2\f,\x3\x2\x2\x2\xE\xF\x5");
+		sb.Append("\x4\x3\x2\xF\x10\a\x2\x2\x3\x10\x3\x3\x2\x2\x2\x11\x13\x5\x6");
+		sb.Append("\x4\x2\x12\x11\x3\x2\x2\x2\x13\x14\x3\x2\x2\x2\x14\x12\x3\x2");
+		sb.Append("\x2\x2\x14\x15\x3\x2\x2\x2\x15\x5\x3\x2\x2\x2\x16\x17\x5\b\x5");
+		sb.Append("\x2\x17\x18\a\a\x2\x2\x18\x19\a\t\x2\x2\x19\a\x3\x2\x2\x2\x1A");
+		sb.Append("\x1B\a\x4\x2\x2\x1B\x1C\a\x5\x2\x2\x1C\x1D\x5\n\x6\x2\x1D\x1E");
+		sb.Append("\a\x6\x2\x2\x1E\x1F\b\x5\x1\x2\x1F\t\x3\x2\x2\x2 !\x5\f\a\x2");
+		sb.Append("!\"\a\b\x2\x2\"$\x3\x2\x2\x2# \x3\x2\x2\x2$%\x3\x2\x2\x2%#\x3");
+		sb.Append("\x2\x2\x2%&\x3\x2\x2\x2&\'\x3\x2\x2\x2\'(\x5\f\a\x2(+\x3\x2");
+		sb.Append("\x2\x2)+\x5\f\a\x2*#\x3\x2\x2\x2*)\x3\x2\x2\x2+\v\x3\x2\x2\x2");
+		sb.Append(",-\t\x2\x2\x2-\r\x3\x2\x2\x2\x5\x14%*");
 	    return sb.ToString();
 	}
 

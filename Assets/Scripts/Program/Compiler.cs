@@ -46,41 +46,60 @@ public class Compiler
 		return program;
 	}
 
-	public void addGenericCommand (string identifier, string arg)
+	public void addGenericCommand (string identifier, string args)
 	{
-		Debug.Log ("asdasdasd");
-		Debug.Log (arg);
+		Debug.Log ("ADDING GENERIC COMMAND: " + identifier);
 		if (Enum.IsDefined (typeof(ReservedCommands), identifier.ToUpper ())) {
-			addReservedCommand (identifier, arg);
+			addReservedCommand (identifier, args);
 		}
 	}
 
-	private void addReservedCommand (string identifier, string arg)
+	private void addReservedCommand (string identifier, string args)
 	{
+		Debug.Log ("ADDING RESERVED COMMAND");
 		if (identifier.ToUpper ().Equals (Enum.GetName (typeof(ReservedCommands), ReservedCommands.MOVE))) {
-			addMoveCommand (arg);
+			addMoveCommand (args);
 		} else if (identifier.ToUpper ().Equals (Enum.GetName (typeof(ReservedCommands), ReservedCommands.ROTATE))) {
-			addRotateCommand (arg);
+			addRotateCommand (args);
 		}
+
+		launchUnrecognizedFunctionException ();
 	}
 
-	private void addMoveCommand (string direction)
+	private void addMoveCommand (string args)
 	{
+		if (!MoveCommand.validateArgs (args)) {
+			//TODO
+			Debug.Log(MoveCommand.getArgsError());
+			return;
+		}
+		string direction = args; 
 		MoveDirection dir = MoveDirection.MOV_BWD;
 		string fwdString = Enum.GetName (typeof(MoveDirection), MoveDirection.MOV_FWD);
 
 		if (direction.ToUpper ().Equals (fwdString)) {
 			dir = MoveDirection.MOV_FWD;
 		}
-
+		Debug.Log ("ADDING A MOVE COMMAND");
 		MoveCommand moveCommand = new MoveCommand (dir);
 		_commands.Add (moveCommand);
 	}
 
-	private void addRotateCommand (string angle)
+	private void addRotateCommand (string args)
 	{
+		if (!RotateCommand.validateArgs (args)) {
+			//TODO
+			Debug.Log("INVALID ARGUMENTS IN ROTATE FUNCTION");
+			return;
+		}
+		string angle = args;
 		float ang = float.Parse (angle);
 		RotateCommand rotateCommand = new RotateCommand (ang);
 		_commands.Add (rotateCommand);
+	}
+
+	private void launchUnrecognizedFunctionException()
+	{
+		string warning = "This is a warning";
 	}
 }

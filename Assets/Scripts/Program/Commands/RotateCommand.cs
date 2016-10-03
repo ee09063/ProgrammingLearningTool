@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class RotateCommand : Command {
+
 	private float _angle;
+	private static int _numberOfArgs = 1;
 
 	public RotateCommand (float angle)
 	{
@@ -16,4 +18,10 @@ public class RotateCommand : Command {
 		return null;
 	}
 
+	public static bool validateArgs(string args)
+	{
+		string[] sArgs = args.Split (',');
+		int number;
+		return sArgs.Length == _numberOfArgs && int.TryParse(args, out number);
+	}
 }

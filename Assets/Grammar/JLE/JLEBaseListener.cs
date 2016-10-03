@@ -35,6 +35,18 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class JLEBaseListener : IJLEListener {
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.start"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterStart([NotNull] JLEParser.StartContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.start"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitStart([NotNull] JLEParser.StartContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="JLEParser.prog"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -70,6 +82,30 @@ public partial class JLEBaseListener : IJLEListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFunc([NotNull] JLEParser.FuncContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.args"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterArgs([NotNull] JLEParser.ArgsContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.args"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitArgs([NotNull] JLEParser.ArgsContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.arg"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterArg([NotNull] JLEParser.ArgContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.arg"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitArg([NotNull] JLEParser.ArgContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>
