@@ -6,8 +6,8 @@ public class MoveCommand : Command
 {
 	public enum Direction
 	{
-		MOV_FWD,
-		MOV_BWD
+		FWD,
+		BWD
 	}
 
 	private Direction _direction;
@@ -21,26 +21,30 @@ public class MoveCommand : Command
 
 	public IEnumerator Execute (GameObject gameObj)
 	{
+		Vector3 pos = gameObj.transform.position;
+
 		switch (_direction) {
-		case Direction.MOV_FWD:
+		case Direction.FWD:
 			{
 				_distance = 1;	
 			}
 			break;
-		case Direction.MOV_BWD:
+		case Direction.BWD:
 			{
 				_distance = -1;
 			}
 			break;
 		}
 
-		gameObj.transform.Translate (Vector3.right * _distance);
+		//gameObj.transform.Translate (Vector3.right * _distance);
+		gameObj.GetComponent<CubeBehaviour>().moveCube();
 
 		return null;
 	}
 
 	public static bool validateArgs(string args)
 	{
+		Debug.Log (args);
 		string[] sArgs = args.Split (',');
 		return sArgs.Length == _numberOfArgs && isArgInEnum(args);
 	}
@@ -52,7 +56,7 @@ public class MoveCommand : Command
 
 	private static bool isArgInEnum(string arg)
 	{
-		return arg.ToUpper ().Equals (Enum.GetName (typeof(Direction), Direction.MOV_FWD))
-			|| arg.ToUpper ().Equals (Enum.GetName (typeof(Direction), Direction.MOV_BWD));
+		return arg.ToUpper ().Equals (Enum.GetName (typeof(Direction), Direction.FWD))
+			|| arg.ToUpper ().Equals (Enum.GetName (typeof(Direction), Direction.BWD));
 	}
 }

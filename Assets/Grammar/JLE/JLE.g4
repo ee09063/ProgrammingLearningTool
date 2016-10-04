@@ -6,7 +6,7 @@ grammar JLE;
 }
 
 INT : '-'? ('0'..'9')+ ; 
-STRING : [a-zA-Z]+ ;
+STRING : [a-zA-Z_]+ ;
 LEFTPAR : '(' ;
 RIGHTPAR : ')' ;
 SEMICOLON : ';' ;

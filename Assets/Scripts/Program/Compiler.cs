@@ -23,7 +23,8 @@ public class Compiler
 	private enum ReservedCommands
 	{
 		MOVE,
-		ROTATE
+		TURN_RIGHT,
+		TURN_LEFT
 	}
 
 	public Compiler ()
@@ -59,8 +60,10 @@ public class Compiler
 		Debug.Log ("ADDING RESERVED COMMAND");
 		if (identifier.ToUpper ().Equals (Enum.GetName (typeof(ReservedCommands), ReservedCommands.MOVE))) {
 			addMoveCommand (args);
-		} else if (identifier.ToUpper ().Equals (Enum.GetName (typeof(ReservedCommands), ReservedCommands.ROTATE))) {
-			addRotateCommand (args);
+		} else if (identifier.ToUpper ().Equals (Enum.GetName (typeof(ReservedCommands), ReservedCommands.TURN_LEFT))) {
+			addRotateCommand (-90f);
+		} else if(identifier.ToUpper ().Equals (Enum.GetName (typeof(ReservedCommands), ReservedCommands.TURN_RIGHT))) {
+			addRotateCommand (90f);
 		}
 
 		launchUnrecognizedFunctionException ();
@@ -74,27 +77,18 @@ public class Compiler
 			return;
 		}
 		string direction = args; 
-		MoveDirection dir = MoveDirection.MOV_BWD;
-		string fwdString = Enum.GetName (typeof(MoveDirection), MoveDirection.MOV_FWD);
-
+		MoveDirection dir = MoveDirection.BWD;
+		string fwdString = Enum.GetName (typeof(MoveDirection), MoveDirection.FWD);
 		if (direction.ToUpper ().Equals (fwdString)) {
-			dir = MoveDirection.MOV_FWD;
+			dir = MoveDirection.FWD;
 		}
-		Debug.Log ("ADDING A MOVE COMMAND");
 		MoveCommand moveCommand = new MoveCommand (dir);
 		_commands.Add (moveCommand);
 	}
 
-	private void addRotateCommand (string args)
+	private void addRotateCommand (float angle)
 	{
-		if (!RotateCommand.validateArgs (args)) {
-			//TODO
-			Debug.Log("INVALID ARGUMENTS IN ROTATE FUNCTION");
-			return;
-		}
-		string angle = args;
-		float ang = float.Parse (angle);
-		RotateCommand rotateCommand = new RotateCommand (ang);
+		RotateCommand rotateCommand = new RotateCommand (angle);
 		_commands.Add (rotateCommand);
 	}
 

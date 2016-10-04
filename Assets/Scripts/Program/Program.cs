@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Program
 {
 	public static float EXECUTION_DELAY = 0.5f;
+	public static bool currentCommandOver;
 
 	private List<Command> _commands;
 	private int _commandCount;
@@ -13,6 +14,7 @@ public class Program
 	{
 		_commands = commands;
 		_commandCount = 0;
+		currentCommandOver = false;
 	}
 
 	public IEnumerator Run (GameObject gameObj)
@@ -23,6 +25,10 @@ public class Program
 
 			Command nextCommand = _commands [_commandCount++];
 			yield return nextCommand.Execute (gameObj);
+			while (!currentCommandOver) {
+				yield return null;
+			}
+			currentCommandOver = false;
 		}
 	}
 

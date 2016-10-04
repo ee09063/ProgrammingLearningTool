@@ -49,6 +49,7 @@
      <Compile Include="Assets\Grammar\JLE\JLELexer.cs" />
      <Compile Include="Assets\Grammar\JLE\JLEListener.cs" />
      <Compile Include="Assets\Grammar\JLE\JLEParser.cs" />
+     <Compile Include="Assets\Scripts\CubeBehaviour.cs" />
      <Compile Include="Assets\Scripts\Interfaces\Command.cs" />
      <Compile Include="Assets\Scripts\Program\Commands\MoveCommand.cs" />
      <Compile Include="Assets\Scripts\Program\Commands\RotateCommand.cs" />
