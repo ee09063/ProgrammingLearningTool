@@ -37,7 +37,10 @@ public class MoveCommand : Command
 		}
 
 		//gameObj.transform.Translate (Vector3.right * _distance);
-		gameObj.GetComponent<CubeBehaviour>().moveCube();
+		bool forward = false;
+		if (_direction.Equals (Direction.FWD))
+			forward = true;
+		gameObj.GetComponent<CubeBehaviour>().moveCube(forward);
 
 		return null;
 	}
