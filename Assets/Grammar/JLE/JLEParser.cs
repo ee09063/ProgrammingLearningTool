@@ -123,6 +123,10 @@ public partial class JLEParser : Parser {
 		public CmdContext cmd(int i) {
 			return GetRuleContext<CmdContext>(i);
 		}
+		public ITerminalNode[] NEWLINE() { return GetTokens(JLEParser.NEWLINE); }
+		public ITerminalNode NEWLINE(int i) {
+			return GetToken(JLEParser.NEWLINE, i);
+		}
 		public ProgContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -142,23 +146,43 @@ public partial class JLEParser : Parser {
 	public ProgContext prog() {
 		ProgContext _localctx = new ProgContext(Context, State);
 		EnterRule(_localctx, 2, RULE_prog);
-		int _la;
 		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 16;
+			int _alt;
+			State = 25;
 			ErrorHandler.Sync(this);
-			_la = TokenStream.La(1);
-			do {
+			switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
+			case 1:
+				EnterOuterAlt(_localctx, 1);
 				{
-				{
-				State = 15; cmd();
-				}
-				}
 				State = 18;
 				ErrorHandler.Sync(this);
-				_la = TokenStream.La(1);
-			} while ( _la==STRING );
+				_alt = 1;
+				do {
+					switch (_alt) {
+					case 1:
+						{
+						{
+						State = 15; cmd();
+						State = 16; Match(NEWLINE);
+						}
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					State = 20;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
+				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
+				State = 22; cmd();
+				}
+				break;
+			case 2:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 24; cmd();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -173,11 +197,11 @@ public partial class JLEParser : Parser {
 	}
 
 	public partial class CmdContext : ParserRuleContext {
+		public IToken _SEMICOLON;
 		public FuncContext func() {
 			return GetRuleContext<FuncContext>(0);
 		}
 		public ITerminalNode SEMICOLON() { return GetToken(JLEParser.SEMICOLON, 0); }
-		public ITerminalNode NEWLINE() { return GetToken(JLEParser.NEWLINE, 0); }
 		public CmdContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -197,12 +221,20 @@ public partial class JLEParser : Parser {
 	public CmdContext cmd() {
 		CmdContext _localctx = new CmdContext(Context, State);
 		EnterRule(_localctx, 4, RULE_cmd);
+		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 20; func();
-			State = 21; Match(SEMICOLON);
-			State = 22; Match(NEWLINE);
+			State = 27; func();
+			State = 29;
+			_la = TokenStream.La(1);
+			if (_la==SEMICOLON) {
+				{
+				State = 28; _localctx._SEMICOLON = Match(SEMICOLON);
+				}
+			}
+
+			 compiler.checkLineEnding((_localctx._SEMICOLON!=null?_localctx._SEMICOLON.Text:null)); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -247,10 +279,10 @@ public partial class JLEParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 24; _localctx.func_name = Match(STRING);
-			State = 25; Match(LEFTPAR);
-			State = 26; _localctx._args = args();
-			State = 27; Match(RIGHTPAR);
+			State = 33; _localctx.func_name = Match(STRING);
+			State = 34; Match(LEFTPAR);
+			State = 35; _localctx._args = args();
+			State = 36; Match(RIGHTPAR);
 			 compiler.addGenericCommand((_localctx.func_name!=null?_localctx.func_name.Text:null), (_localctx._args!=null?TokenStream.GetText(_localctx._args.Start,_localctx._args.Stop):null)); 
 			}
 		}
@@ -297,13 +329,13 @@ public partial class JLEParser : Parser {
 		EnterRule(_localctx, 8, RULE_args);
 		try {
 			int _alt;
-			State = 40;
+			State = 49;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,2,Context) ) {
+			switch ( Interpreter.AdaptivePredict(TokenStream,4,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 33;
+				State = 42;
 				ErrorHandler.Sync(this);
 				_alt = 1;
 				do {
@@ -311,25 +343,25 @@ public partial class JLEParser : Parser {
 					case 1:
 						{
 						{
-						State = 30; arg();
-						State = 31; Match(COMMA);
+						State = 39; arg();
+						State = 40; Match(COMMA);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 35;
+					State = 44;
 					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,1,Context);
+					_alt = Interpreter.AdaptivePredict(TokenStream,3,Context);
 				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
-				State = 37; arg();
+				State = 46; arg();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 39; arg();
+				State = 48; arg();
 				}
 				break;
 			}
@@ -371,7 +403,7 @@ public partial class JLEParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 42;
+			State = 51;
 			_la = TokenStream.La(1);
 			if ( !(_la==INT || _la==STRING) ) {
 			ErrorHandler.RecoverInline(this);
@@ -396,24 +428,29 @@ public partial class JLEParser : Parser {
 	private static string _serializeATN()
 	{
 	    StringBuilder sb = new StringBuilder();
-	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\n/");
+	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\n\x38");
 		sb.Append("\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a");
-		sb.Append("\t\a\x3\x2\x3\x2\x3\x2\x3\x3\x6\x3\x13\n\x3\r\x3\xE\x3\x14\x3");
-		sb.Append("\x4\x3\x4\x3\x4\x3\x4\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3");
-		sb.Append("\x6\x3\x6\x3\x6\x6\x6$\n\x6\r\x6\xE\x6%\x3\x6\x3\x6\x3\x6\x5");
-		sb.Append("\x6+\n\x6\x3\a\x3\a\x3\a\x2\x2\b\x2\x4\x6\b\n\f\x2\x3\x3\x2");
-		sb.Append("\x3\x4+\x2\xE\x3\x2\x2\x2\x4\x12\x3\x2\x2\x2\x6\x16\x3\x2\x2");
-		sb.Append("\x2\b\x1A\x3\x2\x2\x2\n*\x3\x2\x2\x2\f,\x3\x2\x2\x2\xE\xF\x5");
-		sb.Append("\x4\x3\x2\xF\x10\a\x2\x2\x3\x10\x3\x3\x2\x2\x2\x11\x13\x5\x6");
-		sb.Append("\x4\x2\x12\x11\x3\x2\x2\x2\x13\x14\x3\x2\x2\x2\x14\x12\x3\x2");
-		sb.Append("\x2\x2\x14\x15\x3\x2\x2\x2\x15\x5\x3\x2\x2\x2\x16\x17\x5\b\x5");
-		sb.Append("\x2\x17\x18\a\a\x2\x2\x18\x19\a\t\x2\x2\x19\a\x3\x2\x2\x2\x1A");
-		sb.Append("\x1B\a\x4\x2\x2\x1B\x1C\a\x5\x2\x2\x1C\x1D\x5\n\x6\x2\x1D\x1E");
-		sb.Append("\a\x6\x2\x2\x1E\x1F\b\x5\x1\x2\x1F\t\x3\x2\x2\x2 !\x5\f\a\x2");
-		sb.Append("!\"\a\b\x2\x2\"$\x3\x2\x2\x2# \x3\x2\x2\x2$%\x3\x2\x2\x2%#\x3");
-		sb.Append("\x2\x2\x2%&\x3\x2\x2\x2&\'\x3\x2\x2\x2\'(\x5\f\a\x2(+\x3\x2");
-		sb.Append("\x2\x2)+\x5\f\a\x2*#\x3\x2\x2\x2*)\x3\x2\x2\x2+\v\x3\x2\x2\x2");
-		sb.Append(",-\t\x2\x2\x2-\r\x3\x2\x2\x2\x5\x14%*");
+		sb.Append("\t\a\x3\x2\x3\x2\x3\x2\x3\x3\x3\x3\x3\x3\x6\x3\x15\n\x3\r\x3");
+		sb.Append("\xE\x3\x16\x3\x3\x3\x3\x3\x3\x5\x3\x1C\n\x3\x3\x4\x3\x4\x5\x4");
+		sb.Append(" \n\x4\x3\x4\x3\x4\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x6");
+		sb.Append("\x3\x6\x3\x6\x6\x6-\n\x6\r\x6\xE\x6.\x3\x6\x3\x6\x3\x6\x5\x6");
+		sb.Append("\x34\n\x6\x3\a\x3\a\x3\a\x2\x2\b\x2\x4\x6\b\n\f\x2\x3\x3\x2");
+		sb.Append("\x3\x4\x36\x2\xE\x3\x2\x2\x2\x4\x1B\x3\x2\x2\x2\x6\x1D\x3\x2");
+		sb.Append("\x2\x2\b#\x3\x2\x2\x2\n\x33\x3\x2\x2\x2\f\x35\x3\x2\x2\x2\xE");
+		sb.Append("\xF\x5\x4\x3\x2\xF\x10\a\x2\x2\x3\x10\x3\x3\x2\x2\x2\x11\x12");
+		sb.Append("\x5\x6\x4\x2\x12\x13\a\t\x2\x2\x13\x15\x3\x2\x2\x2\x14\x11\x3");
+		sb.Append("\x2\x2\x2\x15\x16\x3\x2\x2\x2\x16\x14\x3\x2\x2\x2\x16\x17\x3");
+		sb.Append("\x2\x2\x2\x17\x18\x3\x2\x2\x2\x18\x19\x5\x6\x4\x2\x19\x1C\x3");
+		sb.Append("\x2\x2\x2\x1A\x1C\x5\x6\x4\x2\x1B\x14\x3\x2\x2\x2\x1B\x1A\x3");
+		sb.Append("\x2\x2\x2\x1C\x5\x3\x2\x2\x2\x1D\x1F\x5\b\x5\x2\x1E \a\a\x2");
+		sb.Append("\x2\x1F\x1E\x3\x2\x2\x2\x1F \x3\x2\x2\x2 !\x3\x2\x2\x2!\"\b");
+		sb.Append("\x4\x1\x2\"\a\x3\x2\x2\x2#$\a\x4\x2\x2$%\a\x5\x2\x2%&\x5\n\x6");
+		sb.Append("\x2&\'\a\x6\x2\x2\'(\b\x5\x1\x2(\t\x3\x2\x2\x2)*\x5\f\a\x2*");
+		sb.Append("+\a\b\x2\x2+-\x3\x2\x2\x2,)\x3\x2\x2\x2-.\x3\x2\x2\x2.,\x3\x2");
+		sb.Append("\x2\x2./\x3\x2\x2\x2/\x30\x3\x2\x2\x2\x30\x31\x5\f\a\x2\x31");
+		sb.Append("\x34\x3\x2\x2\x2\x32\x34\x5\f\a\x2\x33,\x3\x2\x2\x2\x33\x32");
+		sb.Append("\x3\x2\x2\x2\x34\v\x3\x2\x2\x2\x35\x36\t\x2\x2\x2\x36\r\x3\x2");
+		sb.Append("\x2\x2\a\x16\x1B\x1F.\x33");
 	    return sb.ToString();
 	}
 

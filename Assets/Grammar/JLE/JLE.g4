@@ -17,11 +17,15 @@ WS : [ \t\r\n]+ -> skip ;
 
 start : prog EOF ;
 
-prog : cmd+ ;
+prog : (cmd NEWLINE)+ cmd | cmd ;
 
-cmd : func SEMICOLON NEWLINE ;
+cmd : func 
+	  SEMICOLON? { compiler.checkLineEnding($SEMICOLON.text); };
 
-func : func_name=STRING LEFTPAR args RIGHTPAR { compiler.addGenericCommand($func_name.text, $args.text); };
+func : func_name=STRING
+		LEFTPAR
+		args
+		RIGHTPAR { compiler.addGenericCommand($func_name.text, $args.text); };
 
 args : (arg COMMA)+ arg | arg ;
 

@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Interfaces\Command.cs" />
      <Compile Include="Assets\Scripts\Program\Commands\MoveCommand.cs" />
      <Compile Include="Assets\Scripts\Program\Commands\RotateCommand.cs" />
+     <Compile Include="Assets\Scripts\Program\CompilationError.cs" />
      <Compile Include="Assets\Scripts\Program\Compiler.cs" />
      <Compile Include="Assets\Scripts\Program\ErrorListener.cs" />
      <Compile Include="Assets\Scripts\Program\Program.cs" />

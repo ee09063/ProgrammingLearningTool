@@ -13,10 +13,18 @@ using MoveDirection = MoveCommand.Direction;
 public class Compiler
 {
 	private List<Command> _commands;
+	private List<CompilationError> _errors;
 
 	private List<Command> Commands {
 		get {
 			return _commands;
+		}
+	}
+
+	private List<CompilationError> Errors
+	{
+		get {
+			return _errors;
 		}
 	}
 
@@ -30,9 +38,10 @@ public class Compiler
 	public Compiler ()
 	{
 		_commands = new List<Command> ();
+		_errors = new List<CompilationError> ();
 	}
 
-	public static Program Compile (string source)
+	public Program Compile (string source)
 	{
 		AntlrInputStream antlrStream = new AntlrInputStream (source);
 		JLELexer lexer = new JLELexer (antlrStream);
@@ -40,8 +49,16 @@ public class Compiler
 		JLEParser parser = new JLEParser (tokenStream);
 
 		parser.prog ();
-
 		Compiler compiler = parser.compiler;
+
+		if (compiler.Errors.Count > 0) {
+			Debug.Log ("ERRORS FOUND!");
+			printAllErrors ();
+			return null;
+		} else {
+			Debug.Log ("NO ERRORS FOUND");
+		}
+			
 		Program program = new Program (compiler.Commands);
 
 		return program;
@@ -95,5 +112,18 @@ public class Compiler
 	private void launchUnrecognizedFunctionException()
 	{
 		string warning = "This is a warning";
+	}
+
+	public void checkLineEnding(string lineEnding)
+	{
+		if (lineEnding == null) {
+			_errors.Add (new CompilationError (0, 0, "MISSING LINE TERMINATOR -> ;"));
+		}
+	}
+
+	public void printAllErrors(){
+		foreach(CompilationError err in _errors){
+			Debug.Log (err.getMessage ());
+		}
 	}
 }

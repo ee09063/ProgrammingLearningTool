@@ -15,8 +15,11 @@ public class RuntimeScriptable : MonoBehaviour {
 	public void CompileAndRun(string code)
 	{
 		StopAllCoroutines ();
-		_program = Compiler.Compile (code);
-		StartCoroutine (_program.Run (gameObject));
+		Compiler compiler = new Compiler ();
+		_program = compiler.Compile (code);
+		if (_program != null) {
+			StartCoroutine (_program.Run (gameObject));
+		}
 	}
 
 	private void ResetTransform()
