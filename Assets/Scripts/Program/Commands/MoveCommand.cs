@@ -11,7 +11,6 @@ public class MoveCommand : Command
 	}
 
 	private Direction _direction;
-	private int _distance;
 	private static int _numberOfArgs = 1;
 
 	public MoveCommand (Direction direction)
@@ -21,22 +20,6 @@ public class MoveCommand : Command
 
 	public IEnumerator Execute (GameObject gameObj)
 	{
-		Vector3 pos = gameObj.transform.position;
-
-		switch (_direction) {
-		case Direction.FWD:
-			{
-				_distance = 1;	
-			}
-			break;
-		case Direction.BWD:
-			{
-				_distance = -1;
-			}
-			break;
-		}
-
-		//gameObj.transform.Translate (Vector3.right * _distance);
 		bool forward = false;
 		if (_direction.Equals (Direction.FWD))
 			forward = true;
@@ -47,14 +30,17 @@ public class MoveCommand : Command
 
 	public static bool validateArgs(string args)
 	{
-		Debug.Log (args);
-		string[] sArgs = args.Split (',');
-		return sArgs.Length == _numberOfArgs && isArgInEnum(args);
+		if (args != null) {
+			string[] sArgs = args.Split (',');
+			return sArgs.Length == _numberOfArgs && isArgInEnum (args);
+		}
+
+		return false;
 	}
 
 	public static string getArgsError()
 	{
-		return "move() takes 1 argument, MOV_FWD or MOV_BWD";
+		return "The move function takes 1 of 2 arguments -> move("+Direction.FWD.ToString()+") or move("+Direction.BWD.ToString()+")";
 	}
 
 	private static bool isArgInEnum(string arg)

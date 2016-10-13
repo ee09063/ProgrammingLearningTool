@@ -20,12 +20,12 @@ start : prog EOF ;
 prog : (cmd NEWLINE)+ cmd | cmd ;
 
 cmd : func 
-	  SEMICOLON? { compiler.checkLineEnding($SEMICOLON.text); };
+	  SEMICOLON? { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); };
 
-func : func_name=STRING
+func : func_name=STRING { compiler.FunctionManager.addFunctionName($func_name.text); }
 		LEFTPAR
-		args
-		RIGHTPAR { compiler.addGenericCommand($func_name.text, $args.text); };
+		args?
+		RIGHTPAR { compiler.FunctionManager.addGenericCommand($func_name.text, $args.text); };
 
 args : (arg COMMA)+ arg | arg ;
 

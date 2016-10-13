@@ -78,7 +78,6 @@ public class CubeBehaviour : MonoBehaviour {
 
 	private bool canMove(bool forward)
 	{
-		Vector3 pos = transform.position;
 		return isInsideBounds (getFuturePosition (forward));
 	}
 

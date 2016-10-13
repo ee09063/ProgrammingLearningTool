@@ -6,13 +6,21 @@ public class CompilationError {
 	private int _line;
 	private int _position;
 
-	public CompilationError(int line, int position, string message){
-		_message = message;
-		_line = line;
-		_position = position;
+	public CompilationError(){
+		
 	}
 
 	public string getMessage(){
 		return _message;
+	}
+
+	public void missingLineEnding()
+	{
+		_message = "MISSING LINE TERMINATOR -> ;";
+	}
+
+	public void unrecognizedFunction(string identifier)
+	{
+		_message = identifier + " IS NOT A RECOGNIZED FUNCTION";
 	}
 }

@@ -234,7 +234,7 @@ public partial class JLEParser : Parser {
 				}
 			}
 
-			 compiler.checkLineEnding((_localctx._SEMICOLON!=null?_localctx._SEMICOLON.Text:null)); 
+			 compiler.FunctionManager.ErrorManager.checkLineEnding((_localctx._SEMICOLON!=null?_localctx._SEMICOLON.Text:null)); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -252,11 +252,11 @@ public partial class JLEParser : Parser {
 		public IToken func_name;
 		public ArgsContext _args;
 		public ITerminalNode LEFTPAR() { return GetToken(JLEParser.LEFTPAR, 0); }
+		public ITerminalNode RIGHTPAR() { return GetToken(JLEParser.RIGHTPAR, 0); }
+		public ITerminalNode STRING() { return GetToken(JLEParser.STRING, 0); }
 		public ArgsContext args() {
 			return GetRuleContext<ArgsContext>(0);
 		}
-		public ITerminalNode RIGHTPAR() { return GetToken(JLEParser.RIGHTPAR, 0); }
-		public ITerminalNode STRING() { return GetToken(JLEParser.STRING, 0); }
 		public FuncContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -276,14 +276,23 @@ public partial class JLEParser : Parser {
 	public FuncContext func() {
 		FuncContext _localctx = new FuncContext(Context, State);
 		EnterRule(_localctx, 6, RULE_func);
+		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 33; _localctx.func_name = Match(STRING);
-			State = 34; Match(LEFTPAR);
-			State = 35; _localctx._args = args();
-			State = 36; Match(RIGHTPAR);
-			 compiler.addGenericCommand((_localctx.func_name!=null?_localctx.func_name.Text:null), (_localctx._args!=null?TokenStream.GetText(_localctx._args.Start,_localctx._args.Stop):null)); 
+			 compiler.FunctionManager.addFunctionName((_localctx.func_name!=null?_localctx.func_name.Text:null)); 
+			State = 35; Match(LEFTPAR);
+			State = 37;
+			_la = TokenStream.La(1);
+			if (_la==INT || _la==STRING) {
+				{
+				State = 36; _localctx._args = args();
+				}
+			}
+
+			State = 39; Match(RIGHTPAR);
+			 compiler.FunctionManager.addGenericCommand((_localctx.func_name!=null?_localctx.func_name.Text:null), (_localctx._args!=null?TokenStream.GetText(_localctx._args.Start,_localctx._args.Stop):null)); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -329,13 +338,13 @@ public partial class JLEParser : Parser {
 		EnterRule(_localctx, 8, RULE_args);
 		try {
 			int _alt;
-			State = 49;
+			State = 52;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,4,Context) ) {
+			switch ( Interpreter.AdaptivePredict(TokenStream,5,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 42;
+				State = 45;
 				ErrorHandler.Sync(this);
 				_alt = 1;
 				do {
@@ -343,25 +352,25 @@ public partial class JLEParser : Parser {
 					case 1:
 						{
 						{
-						State = 39; arg();
-						State = 40; Match(COMMA);
+						State = 42; arg();
+						State = 43; Match(COMMA);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 44;
+					State = 47;
 					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,3,Context);
+					_alt = Interpreter.AdaptivePredict(TokenStream,4,Context);
 				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
-				State = 46; arg();
+				State = 49; arg();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 48; arg();
+				State = 51; arg();
 				}
 				break;
 			}
@@ -403,7 +412,7 @@ public partial class JLEParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 51;
+			State = 54;
 			_la = TokenStream.La(1);
 			if ( !(_la==INT || _la==STRING) ) {
 			ErrorHandler.RecoverInline(this);
@@ -428,29 +437,31 @@ public partial class JLEParser : Parser {
 	private static string _serializeATN()
 	{
 	    StringBuilder sb = new StringBuilder();
-	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\n\x38");
+	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\n;");
 		sb.Append("\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a");
 		sb.Append("\t\a\x3\x2\x3\x2\x3\x2\x3\x3\x3\x3\x3\x3\x6\x3\x15\n\x3\r\x3");
 		sb.Append("\xE\x3\x16\x3\x3\x3\x3\x3\x3\x5\x3\x1C\n\x3\x3\x4\x3\x4\x5\x4");
-		sb.Append(" \n\x4\x3\x4\x3\x4\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x6");
-		sb.Append("\x3\x6\x3\x6\x6\x6-\n\x6\r\x6\xE\x6.\x3\x6\x3\x6\x3\x6\x5\x6");
-		sb.Append("\x34\n\x6\x3\a\x3\a\x3\a\x2\x2\b\x2\x4\x6\b\n\f\x2\x3\x3\x2");
-		sb.Append("\x3\x4\x36\x2\xE\x3\x2\x2\x2\x4\x1B\x3\x2\x2\x2\x6\x1D\x3\x2");
-		sb.Append("\x2\x2\b#\x3\x2\x2\x2\n\x33\x3\x2\x2\x2\f\x35\x3\x2\x2\x2\xE");
-		sb.Append("\xF\x5\x4\x3\x2\xF\x10\a\x2\x2\x3\x10\x3\x3\x2\x2\x2\x11\x12");
-		sb.Append("\x5\x6\x4\x2\x12\x13\a\t\x2\x2\x13\x15\x3\x2\x2\x2\x14\x11\x3");
-		sb.Append("\x2\x2\x2\x15\x16\x3\x2\x2\x2\x16\x14\x3\x2\x2\x2\x16\x17\x3");
-		sb.Append("\x2\x2\x2\x17\x18\x3\x2\x2\x2\x18\x19\x5\x6\x4\x2\x19\x1C\x3");
-		sb.Append("\x2\x2\x2\x1A\x1C\x5\x6\x4\x2\x1B\x14\x3\x2\x2\x2\x1B\x1A\x3");
-		sb.Append("\x2\x2\x2\x1C\x5\x3\x2\x2\x2\x1D\x1F\x5\b\x5\x2\x1E \a\a\x2");
-		sb.Append("\x2\x1F\x1E\x3\x2\x2\x2\x1F \x3\x2\x2\x2 !\x3\x2\x2\x2!\"\b");
-		sb.Append("\x4\x1\x2\"\a\x3\x2\x2\x2#$\a\x4\x2\x2$%\a\x5\x2\x2%&\x5\n\x6");
-		sb.Append("\x2&\'\a\x6\x2\x2\'(\b\x5\x1\x2(\t\x3\x2\x2\x2)*\x5\f\a\x2*");
-		sb.Append("+\a\b\x2\x2+-\x3\x2\x2\x2,)\x3\x2\x2\x2-.\x3\x2\x2\x2.,\x3\x2");
-		sb.Append("\x2\x2./\x3\x2\x2\x2/\x30\x3\x2\x2\x2\x30\x31\x5\f\a\x2\x31");
-		sb.Append("\x34\x3\x2\x2\x2\x32\x34\x5\f\a\x2\x33,\x3\x2\x2\x2\x33\x32");
-		sb.Append("\x3\x2\x2\x2\x34\v\x3\x2\x2\x2\x35\x36\t\x2\x2\x2\x36\r\x3\x2");
-		sb.Append("\x2\x2\a\x16\x1B\x1F.\x33");
+		sb.Append(" \n\x4\x3\x4\x3\x4\x3\x5\x3\x5\x3\x5\x3\x5\x5\x5(\n\x5\x3\x5");
+		sb.Append("\x3\x5\x3\x5\x3\x6\x3\x6\x3\x6\x6\x6\x30\n\x6\r\x6\xE\x6\x31");
+		sb.Append("\x3\x6\x3\x6\x3\x6\x5\x6\x37\n\x6\x3\a\x3\a\x3\a\x2\x2\b\x2");
+		sb.Append("\x4\x6\b\n\f\x2\x3\x3\x2\x3\x4:\x2\xE\x3\x2\x2\x2\x4\x1B\x3");
+		sb.Append("\x2\x2\x2\x6\x1D\x3\x2\x2\x2\b#\x3\x2\x2\x2\n\x36\x3\x2\x2\x2");
+		sb.Append("\f\x38\x3\x2\x2\x2\xE\xF\x5\x4\x3\x2\xF\x10\a\x2\x2\x3\x10\x3");
+		sb.Append("\x3\x2\x2\x2\x11\x12\x5\x6\x4\x2\x12\x13\a\t\x2\x2\x13\x15\x3");
+		sb.Append("\x2\x2\x2\x14\x11\x3\x2\x2\x2\x15\x16\x3\x2\x2\x2\x16\x14\x3");
+		sb.Append("\x2\x2\x2\x16\x17\x3\x2\x2\x2\x17\x18\x3\x2\x2\x2\x18\x19\x5");
+		sb.Append("\x6\x4\x2\x19\x1C\x3\x2\x2\x2\x1A\x1C\x5\x6\x4\x2\x1B\x14\x3");
+		sb.Append("\x2\x2\x2\x1B\x1A\x3\x2\x2\x2\x1C\x5\x3\x2\x2\x2\x1D\x1F\x5");
+		sb.Append("\b\x5\x2\x1E \a\a\x2\x2\x1F\x1E\x3\x2\x2\x2\x1F \x3\x2\x2\x2");
+		sb.Append(" !\x3\x2\x2\x2!\"\b\x4\x1\x2\"\a\x3\x2\x2\x2#$\a\x4\x2\x2$%");
+		sb.Append("\b\x5\x1\x2%\'\a\x5\x2\x2&(\x5\n\x6\x2\'&\x3\x2\x2\x2\'(\x3");
+		sb.Append("\x2\x2\x2()\x3\x2\x2\x2)*\a\x6\x2\x2*+\b\x5\x1\x2+\t\x3\x2\x2");
+		sb.Append("\x2,-\x5\f\a\x2-.\a\b\x2\x2.\x30\x3\x2\x2\x2/,\x3\x2\x2\x2\x30");
+		sb.Append("\x31\x3\x2\x2\x2\x31/\x3\x2\x2\x2\x31\x32\x3\x2\x2\x2\x32\x33");
+		sb.Append("\x3\x2\x2\x2\x33\x34\x5\f\a\x2\x34\x37\x3\x2\x2\x2\x35\x37\x5");
+		sb.Append("\f\a\x2\x36/\x3\x2\x2\x2\x36\x35\x3\x2\x2\x2\x37\v\x3\x2\x2");
+		sb.Append("\x2\x38\x39\t\x2\x2\x2\x39\r\x3\x2\x2\x2\b\x16\x1B\x1F\'\x31");
+		sb.Append("\x36");
 	    return sb.ToString();
 	}
 
