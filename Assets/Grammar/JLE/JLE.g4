@@ -15,7 +15,7 @@ COMMA : ',' ;
 NEWLINE:'\r'? '\n' ;
 WS : [ \t\r\n]+ -> skip ;
 
-start : prog EOF ;
+start : prog EOF { compiler.FunctionManager.checkForErrors(); };
 
 prog : (cmd NEWLINE)+ cmd | cmd ;
 

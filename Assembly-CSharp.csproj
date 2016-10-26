@@ -51,11 +51,14 @@
      <Compile Include="Assets\Grammar\JLE\JLEParser.cs" />
      <Compile Include="Assets\Scripts\CubeBehaviour.cs" />
      <Compile Include="Assets\Scripts\Interfaces\Command.cs" />
+     <Compile Include="Assets\Scripts\Menus\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Program\Commands\MoveCommand.cs" />
      <Compile Include="Assets\Scripts\Program\Commands\RotateCommand.cs" />
      <Compile Include="Assets\Scripts\Program\CompilationError.cs" />
      <Compile Include="Assets\Scripts\Program\Compiler.cs" />
      <Compile Include="Assets\Scripts\Program\ErrorListener.cs" />
+     <Compile Include="Assets\Scripts\Program\ErrorManager.cs" />
+     <Compile Include="Assets\Scripts\Program\FunctionManager.cs" />
      <Compile Include="Assets\Scripts\Program\Program.cs" />
      <Compile Include="Assets\Scripts\RuntimeScriptable.cs" />
      <Compile Include="Assets\Scripts\SouceCodeEditor.cs" />

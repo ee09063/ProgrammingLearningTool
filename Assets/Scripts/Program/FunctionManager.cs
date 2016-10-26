@@ -10,11 +10,10 @@ using MoveDirection = MoveCommand.Direction;
 
 public class FunctionManager {
 
-	private List<string> _functionNames;
-	private List<string> _declaredFunctions;
+	private List<string> _calledFunctions; //THE FUNCTIONS BEING CALLED
+	private List<string> _declaredFunctions;//THE FUNCTIONS BEING DECLARED
 	private List<Command> _commands;
 	private ErrorManager _errorManager;
-
 
 	private enum ReservedCommands
 	{
@@ -29,10 +28,10 @@ public class FunctionManager {
 		}
 	}
 
-	public List<string> FunctionNames
+	public List<string> CalledFunctions
 	{
 		get{
-			return _functionNames;
+			return _calledFunctions;
 		}
 	}
 
@@ -52,7 +51,7 @@ public class FunctionManager {
 	public FunctionManager()
 	{
 		_commands = new List<Command> ();
-		_functionNames = new List<string> ();
+		_calledFunctions = new List<string> ();
 		_declaredFunctions = new List<string> ();
 		_errorManager = new ErrorManager ();
 	}
@@ -102,12 +101,22 @@ public class FunctionManager {
 	public void addFunctionName(string identifier){
 		Debug.Log ("[FUNCTION MANAGER] Adding function name");
 		if(identifier != null)
-			_functionNames.Add (identifier);
+			_calledFunctions.Add (identifier);
 	}
-
+		
 	public void addDeclaredFunction(string identifier){
 		Debug.Log ("[FUNCTION MANAGER] Adding declared function");
-		if(identifier != null)
+		if (identifier != null)
+		if (CalledFunctions.Contains (identifier.Trim ())) {
+			ErrorManager.addError ("Function " + identifier + " has already been declared");
+		} else {
 			_declaredFunctions.Add (identifier);
+		}
+	}
+
+	public void checkForErrors()
+	{
+		Debug.Log ("[FUNCTION MANAGER] Looking for errors...");
+
 	}
 }
