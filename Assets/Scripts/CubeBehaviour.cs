@@ -5,6 +5,7 @@ public class CubeBehaviour : MonoBehaviour {
 	private float _fixedAngle = 3f;
 	private float _time = 0.015f;
 	private float _rotAngle = 90f;
+	private float _leanAngle = 30f;
 
 	enum Facing
 	{
@@ -18,8 +19,15 @@ public class CubeBehaviour : MonoBehaviour {
 			StartCoroutine (moveRoutine (forward));
 	}
 
+	public void leanCube(bool forward)
+	{
+		if(canMove(forward))
+			StartCoroutine (leanCubeRoutine (forward));
+	}
+
 	private IEnumerator moveRoutine(bool isForward)
 	{
+		Debug.Log ("MOVE ROUTINE");
 		float angle = 0;
 		Vector3 fwd = transform.forward;
 		Vector3 pivot;
@@ -38,6 +46,41 @@ public class CubeBehaviour : MonoBehaviour {
 		}
 
 		transform.forward = fwd;
+
+		Program.currentCommandOver = true;
+	}
+
+	private IEnumerator leanCubeRoutine(bool isForward)
+	{
+		Debug.Log ("LEAN ROUTINE");
+		float angle = 0;
+		bool leanForward = true;
+		Vector3 fwd = transform.forward;
+		Vector3 pivot;
+
+		for (int i = 0; i < 1; i++)
+		{
+			angle = 0;
+			pivot = getPivotPoint (transform.position, fwd, isForward);
+			transform.forward = fwd;
+
+			Vector3 axis = isFwdVector(fwd) ? Vector3.left : Vector3.forward;
+			float rotAngle = leanForward ? -_fixedAngle : _fixedAngle;
+
+			while (angle < _leanAngle)
+			{
+				Debug.Log(gameObject.transform.position);
+				angle += _fixedAngle;
+				transform.RotateAround (pivot, axis, rotAngle);
+				yield return new WaitForSeconds (_time);
+			}
+
+			leanForward = !leanForward;
+		}
+
+		transform.forward = fwd;
+
+		Debug.Log(gameObject.transform.position);
 
 		Program.currentCommandOver = true;
 	}

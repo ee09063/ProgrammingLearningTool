@@ -12,18 +12,32 @@ public class MoveCommand : Command
 
 	private Direction _direction;
 	private static int _numberOfArgs = 1;
+	private ObstacleChecker _obsChecker;
 
 	public MoveCommand (Direction direction)
 	{
 		_direction = direction;
+		_obsChecker = new ObstacleChecker ();
+		_obsChecker.Initialize ();
 	}
 
 	public IEnumerator Execute (GameObject gameObj)
 	{
 		bool forward = false;
+
 		if (_direction.Equals (Direction.FWD))
 			forward = true;
-		gameObj.GetComponent<CubeBehaviour>().moveCube(forward);
+
+		Vector3 curr = gameObj.transform.position;
+
+		if (_obsChecker.checkWall (curr, gameObj.transform.forward))
+		{
+			gameObj.GetComponent<CubeBehaviour>().leanCube (forward);
+		}
+		else
+		{
+			gameObj.GetComponent<CubeBehaviour>().moveCube(forward);
+		}
 
 		return null;
 	}
