@@ -51,43 +51,73 @@ public interface IJLEListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProg([NotNull] JLEParser.ProgContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JLEParser.cmd"/>.
+	/// Enter a parse tree produced by <see cref="JLEParser.function"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterCmd([NotNull] JLEParser.CmdContext context);
+	void EnterFunction([NotNull] JLEParser.FunctionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JLEParser.cmd"/>.
+	/// Exit a parse tree produced by <see cref="JLEParser.function"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitCmd([NotNull] JLEParser.CmdContext context);
+	void ExitFunction([NotNull] JLEParser.FunctionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JLEParser.func"/>.
+	/// Enter a parse tree produced by <see cref="JLEParser.function_use"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFunc([NotNull] JLEParser.FuncContext context);
+	void EnterFunction_use([NotNull] JLEParser.Function_useContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JLEParser.func"/>.
+	/// Exit a parse tree produced by <see cref="JLEParser.function_use"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFunc([NotNull] JLEParser.FuncContext context);
+	void ExitFunction_use([NotNull] JLEParser.Function_useContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JLEParser.args"/>.
+	/// Enter a parse tree produced by <see cref="JLEParser.function_declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterArgs([NotNull] JLEParser.ArgsContext context);
+	void EnterFunction_declaration([NotNull] JLEParser.Function_declarationContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JLEParser.args"/>.
+	/// Exit a parse tree produced by <see cref="JLEParser.function_declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitArgs([NotNull] JLEParser.ArgsContext context);
+	void ExitFunction_declaration([NotNull] JLEParser.Function_declarationContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JLEParser.arg"/>.
+	/// Enter a parse tree produced by <see cref="JLEParser.param_id_list"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterArg([NotNull] JLEParser.ArgContext context);
+	void EnterParam_id_list([NotNull] JLEParser.Param_id_listContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JLEParser.arg"/>.
+	/// Exit a parse tree produced by <see cref="JLEParser.param_id_list"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitArg([NotNull] JLEParser.ArgContext context);
+	void ExitParam_id_list([NotNull] JLEParser.Param_id_listContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.param_decl_list"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParam_decl_list([NotNull] JLEParser.Param_decl_listContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.param_decl_list"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParam_decl_list([NotNull] JLEParser.Param_decl_listContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.param_decl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParam_decl([NotNull] JLEParser.Param_declContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.param_decl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParam_decl([NotNull] JLEParser.Param_declContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.param_id"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParam_id([NotNull] JLEParser.Param_idContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.param_id"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParam_id([NotNull] JLEParser.Param_idContext context);
 }

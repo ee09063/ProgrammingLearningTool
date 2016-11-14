@@ -59,53 +59,89 @@ public partial class JLEBaseListener : IJLEListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitProg([NotNull] JLEParser.ProgContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JLEParser.cmd"/>.
+	/// Enter a parse tree produced by <see cref="JLEParser.function"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterCmd([NotNull] JLEParser.CmdContext context) { }
+	public virtual void EnterFunction([NotNull] JLEParser.FunctionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JLEParser.cmd"/>.
+	/// Exit a parse tree produced by <see cref="JLEParser.function"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitCmd([NotNull] JLEParser.CmdContext context) { }
+	public virtual void ExitFunction([NotNull] JLEParser.FunctionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JLEParser.func"/>.
+	/// Enter a parse tree produced by <see cref="JLEParser.function_use"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFunc([NotNull] JLEParser.FuncContext context) { }
+	public virtual void EnterFunction_use([NotNull] JLEParser.Function_useContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JLEParser.func"/>.
+	/// Exit a parse tree produced by <see cref="JLEParser.function_use"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFunc([NotNull] JLEParser.FuncContext context) { }
+	public virtual void ExitFunction_use([NotNull] JLEParser.Function_useContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JLEParser.args"/>.
+	/// Enter a parse tree produced by <see cref="JLEParser.function_declaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterArgs([NotNull] JLEParser.ArgsContext context) { }
+	public virtual void EnterFunction_declaration([NotNull] JLEParser.Function_declarationContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JLEParser.args"/>.
+	/// Exit a parse tree produced by <see cref="JLEParser.function_declaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitArgs([NotNull] JLEParser.ArgsContext context) { }
+	public virtual void ExitFunction_declaration([NotNull] JLEParser.Function_declarationContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JLEParser.arg"/>.
+	/// Enter a parse tree produced by <see cref="JLEParser.param_id_list"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterArg([NotNull] JLEParser.ArgContext context) { }
+	public virtual void EnterParam_id_list([NotNull] JLEParser.Param_id_listContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JLEParser.arg"/>.
+	/// Exit a parse tree produced by <see cref="JLEParser.param_id_list"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitArg([NotNull] JLEParser.ArgContext context) { }
+	public virtual void ExitParam_id_list([NotNull] JLEParser.Param_id_listContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.param_decl_list"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterParam_decl_list([NotNull] JLEParser.Param_decl_listContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.param_decl_list"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitParam_decl_list([NotNull] JLEParser.Param_decl_listContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.param_decl"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterParam_decl([NotNull] JLEParser.Param_declContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.param_decl"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitParam_decl([NotNull] JLEParser.Param_declContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="JLEParser.param_id"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterParam_id([NotNull] JLEParser.Param_idContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JLEParser.param_id"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitParam_id([NotNull] JLEParser.Param_idContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

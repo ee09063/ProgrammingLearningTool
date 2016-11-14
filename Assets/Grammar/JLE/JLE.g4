@@ -9,27 +9,41 @@ INT : '-'? ('0'..'9')+ ;
 STRING : [a-zA-Z_]+ ;
 LEFTPAR : '(' ;
 RIGHTPAR : ')' ;
+LEFTSQ: '{' ;
+RIGHTSQ : '}' ; 
 SEMICOLON : ';' ;
 COMMA : ',' ;
 
-NEWLINE:'\r'? '\n' ;
+NEWLINE:'\r'? '\n' { compiler.FunctionManager.oneMoreLine(); };
 WS : [ \t\r\n]+ -> skip ;
 
-start : prog EOF { compiler.FunctionManager.checkForErrors(); };
+start : prog EOF ;
 
-prog : (cmd NEWLINE)+ cmd | cmd ;
+prog : (function NEWLINE)+ function | function ;
 
-cmd : func 
-	  SEMICOLON? { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); };
+function : (function_use SEMICOLON? { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); })
+         | function_declaration;
 
-func : func_name=STRING { compiler.FunctionManager.addFunctionName($func_name.text); }
-		LEFTPAR
-		args?
-		RIGHTPAR { compiler.FunctionManager.addGenericCommand($func_name.text, $args.text); };
+function_use : identifier=STRING { compiler.FunctionManager.addFunctionUse($identifier.text); }
+		   LEFTPAR
+		   param_id_list?
+		   RIGHTPAR {compiler.FunctionManager.addCommand($identifier.text, $param_id_list.text); };
 
-args : (arg COMMA)+ arg | arg ;
+function_declaration : function_type=STRING 
+					   identifier=STRING {compiler.FunctionManager.addDeclaredFunction($identifier.text); }
+					   LEFTPAR
+					   param_decl_list?
+					   RIGHTPAR
+					   LEFTSQ
+					   RIGHTSQ {compiler.FunctionManager.addNewFunction($function_type.text, $identifier.text, $param_decl_list.text); };
+		   
+param_id_list : (param_id COMMA)+ param_id | param_id ;
 
-arg : STRING | INT ;
+param_decl_list : (param_decl COMMA)+ param_decl | param_decl ;
+
+param_decl : param_type=STRING param_identifier=STRING;
+
+param_id : STRING | INT ;
 
 
 

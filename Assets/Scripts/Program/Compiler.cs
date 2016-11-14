@@ -8,7 +8,6 @@ public class Compiler
 {
 	private FunctionManager _functionManager;
 
-
 	public FunctionManager FunctionManager {
 		get {
 			return _functionManager;
@@ -32,11 +31,11 @@ public class Compiler
 
 		if (compiler.FunctionManager.ErrorManager.hasErrors()) {
 			Debug.Log ("ERRORS FOUND!");
-			FunctionManager.ErrorManager.printAllErrors ();
+			compiler.FunctionManager.ErrorManager.printAllErrors ();
 			return null;
-		} else {
-			Debug.Log ("NO ERRORS FOUND");
 		}
+
+        Debug.Log("[FUNCTION MANAGER] Number of Lines: " + compiler.FunctionManager.lineNumber);
 			
 		Program program = new Program (compiler.FunctionManager.Commands);
 
