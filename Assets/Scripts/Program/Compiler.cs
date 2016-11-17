@@ -22,9 +22,9 @@ public class Compiler
 	public Program Compile (string source)
 	{
 		AntlrInputStream antlrStream = new AntlrInputStream (source);
-		JLELexer lexer = new JLELexer (antlrStream);
+		JSONLexer lexer = new JSONLexer (antlrStream);
 		CommonTokenStream tokenStream = new CommonTokenStream (lexer);
-		JLEParser parser = new JLEParser (tokenStream);
+		JSONParser parser = new JSONParser (tokenStream);
 
 		parser.prog ();
 		Compiler compiler = parser.compiler;

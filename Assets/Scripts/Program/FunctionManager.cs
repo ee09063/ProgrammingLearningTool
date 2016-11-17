@@ -63,6 +63,7 @@ public class FunctionManager
         _commands = new List<Command>();
         _calledFunctions = new List<string>();
         _declaredFunctions = new List<string>();
+        _functions = new List<Function>();
         _errorManager = new ErrorManager();
         addReservedCommands();
         lineNumber = 0;
@@ -79,75 +80,104 @@ public class FunctionManager
             ErrorManager.addError("Function " + identifier + "was not previously declared");
             return;
         }
+
+        Debug.Log("USING FUNCTION " + identifier);
         _calledFunctions.Add(identifier.Trim());
+
+        List<Command> functionCommands = getFunctionCommands(identifier);
+
+        if (functionCommands != null)
+        {
+            foreach (Command cmd in getFunctionCommands(identifier))
+            {
+                _commands.Add(cmd);
+            }
+        }
     }
 
-    public void addDeclaredFunction(string identifier)
+    public void addDeclaredFunction(string type, string identifier) // add a new function
     {
-        if (identifier == null)
+        if (identifier == null || type == null)
         {
             return;
         }
+
         if (_declaredFunctions.Contains(identifier.Trim()))
         {
             ErrorManager.addError("Function " + identifier + " has already been declared");
             return;
         }
+
+        Debug.Log("ADDING NEW DECLARED FUNCTION " + identifier);
         _declaredFunctions.Add(identifier.Trim());
+        _currentFunction = new Function(type.Trim(), identifier.Trim());
+        _functions.Add(_currentFunction);
     }
 
-    public void addCommand(string identifier, string args)
+    public void addCommand(string identifier, string args, bool insideFunction)
     {
+        Debug.Log("Adding a new command");
         if (Enum.IsDefined(typeof(ReservedCommands), identifier.ToUpper())) //add a reserved command
         {
-            addReservedFunction(identifier, args);
+            addReservedFunction(identifier, args, insideFunction);
         }
     }
 
-    private void addReservedFunction(string identifier, string args)
+    private void addReservedFunction(string identifier, string args, bool insideFunction)
     {
         if (identifier.ToUpper().Equals(Enum.GetName(typeof(ReservedCommands), ReservedCommands.MOVE)))
         {
-            addMoveCommand(args);
+            addMoveCommand(args, insideFunction);
         }
         else if (identifier.ToUpper().Equals(Enum.GetName(typeof(ReservedCommands), ReservedCommands.TURN_LEFT)))
         {
-            addRotateCommand(-90f);
+            addRotateCommand(-90f, insideFunction);
         }
         else if (identifier.ToUpper().Equals(Enum.GetName(typeof(ReservedCommands), ReservedCommands.TURN_RIGHT)))
         {
-            addRotateCommand(90f);
+            addRotateCommand(90f, insideFunction);
         }
     }
-
-    public void addNewFunction(string type, string identifier, string args)
-    {
-        Debug.Log("ADDING NEW FUNCTION: " + type + " " + identifier + " " + args); 
-        _currentFunction = new Function(type, identifier);
-    }
-
-    private void addMoveCommand(string args)
+        
+    private void addMoveCommand(string args, bool insideFunction)
     {
         if (!MoveCommand.validateArgs(args))
         {
             ErrorManager.addError(MoveCommand.getArgsError());
             return;
         }
+
         string direction = args; 
         MoveDirection dir = MoveDirection.BWD;
         string fwdString = Enum.GetName(typeof(MoveDirection), MoveDirection.FWD);
+
         if (direction.ToUpper().Equals(fwdString))
         {
             dir = MoveDirection.FWD;
         }
+
         MoveCommand moveCommand = new MoveCommand(dir);
-        _commands.Add(moveCommand);
+        if (!insideFunction)
+        {
+            _commands.Add(moveCommand);
+        }
+        else
+        {
+            _currentFunction.addCommand(moveCommand);
+        }
     }
 
-    private void addRotateCommand(float angle)
+    private void addRotateCommand(float angle, bool insideFunction)
     {
         RotateCommand rotateCommand = new RotateCommand(angle);
-        _commands.Add(rotateCommand);
+        if (!insideFunction)
+        {
+            _commands.Add(rotateCommand);
+        }
+        else
+        {
+            _currentFunction.addCommand(rotateCommand);
+        }
     }
 
     public void checkForErrors()
@@ -160,6 +190,11 @@ public class FunctionManager
         foreach (ReservedCommands command in Enum.GetValues(typeof(ReservedCommands)))
         {
             _declaredFunctions.Add(command.ToString().ToLower());
+            /*Function cmd = new Function("void", command.ToString().ToLower());
+            if (cmd.Equals("move"))
+            {
+                cmd.addCommand(newRora)
+            }*/
         }
     }
 
@@ -167,5 +202,18 @@ public class FunctionManager
     {
         Debug.Log("ADDING ONE MORE LINE");
         lineNumber++;
+    }
+
+    private List<Command> getFunctionCommands(string identifier)
+    {
+        foreach(Function function in _functions)
+        {
+            if (function.getIdentifier().Equals(identifier))
+            {
+                return function.getCommands();
+            }
+        }
+
+        return null;
     }
 }

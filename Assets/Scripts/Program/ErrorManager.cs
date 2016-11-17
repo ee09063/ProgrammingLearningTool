@@ -29,10 +29,10 @@ public class ErrorManager {
 	{
 		Debug.Log ("[ERROR MANAGER] Checking Line Ending");
 		if (lineEnding == null) {
-			addError ("[ERROR MANAGER] Adding a missin Line Ending Error");
+			addError ("[ERROR MANAGER] Adding a missing Line Ending Error");
 		} else {
 			if (!lineEnding.Trim ().Equals (";")) {
-				addError ("[ERROR MANAGER] Adding a missin Line Ending Error");
+				addError ("[ERROR MANAGER] Adding a missing Line Ending Error");
 			}
 		}
 	}
