@@ -14,7 +14,6 @@ RIGHTSQ : '}' ;
 SEMICOLON : ';' ;
 COMMA : ',' ;
 
-NEWLINE:'\r'? '\n' ;
 WS : [ \t\r\n]+ -> skip ;
 
 start
@@ -46,7 +45,7 @@ function_inside_function
       RIGHTPAR {compiler.FunctionManager.addCommand($identifier.text, $param_id_list.text, true); }
       SEMICOLON { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); }
     ;
-	
+
 function_declaration
     : function_type=STRING
       identifier=STRING {compiler.FunctionManager.addDeclaredFunction($function_type.text, $identifier.text); }
@@ -85,5 +84,3 @@ statement_list
 statement
     : function_use
     ;
-
-
