@@ -42,7 +42,7 @@ function_inside_function
 	: identifier=STRING
       LEFTPAR
       param_id_list?
-      RIGHTPAR {compiler.FunctionManager.addCommand($identifier.text, $param_id_list.text, true); }
+      RIGHTPAR {compiler.FunctionManager.addFunctionToCurrent($identifier.text, $param_id_list.text); }
       SEMICOLON { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); }
     ;
 

@@ -19,7 +19,8 @@ public class FunctionManager
  
     private enum ReservedCommands
     {
-        MOVE,
+        MOVE_FWD,
+        MOVE_BWD,
         TURN_RIGHT,
         TURN_LEFT
     }
@@ -66,7 +67,7 @@ public class FunctionManager
         addReservedFunctions();
     }
 
-    public void addFunctionUse(string identifier) //use a predefined or previously declared function
+    public void addFunctionUse(string identifier, string args) //use a predefined or previously declared function
     {
         if (identifier == null)
         {
@@ -79,7 +80,6 @@ public class FunctionManager
         }
 
         Debug.Log("USING FUNCTION " + identifier);
-        _calledFunctions.Add(identifier.Trim());
 
         List<Command> functionCommands = getFunctionCommands(identifier);
 
@@ -106,37 +106,23 @@ public class FunctionManager
         }
 
         Debug.Log("ADDING NEW DECLARED FUNCTION " + identifier);
+
         _declaredFunctions.Add(identifier.Trim());
         _currentFunction = new Function(type.Trim(), identifier.Trim());
         _functions.Add(_currentFunction);
     }
-
-    public void addCommand(string identifier, string args, bool insideFunction)
-    {
-        Debug.Log("Adding a new command");
-        if (Enum.IsDefined(typeof(ReservedCommands), identifier.ToUpper())) //add a reserved command
-        {
-            addReservedFunction(identifier, args, insideFunction);
-        }
-    }
-
-    private void addReservedFunction(string identifier, string args, bool insideFunction)
-    {
-        if (identifier.ToUpper().Equals(Enum.GetName(typeof(ReservedCommands), ReservedCommands.MOVE)))
-        {
-            addMoveCommand(args, insideFunction);
-        }
-        else if (identifier.ToUpper().Equals(Enum.GetName(typeof(ReservedCommands), ReservedCommands.TURN_LEFT)))
-        {
-            addRotateCommand(-90f, insideFunction);
-        }
-        else if (identifier.ToUpper().Equals(Enum.GetName(typeof(ReservedCommands), ReservedCommands.TURN_RIGHT)))
-        {
-            addRotateCommand(90f, insideFunction);
-        }
-    }
         
-    private void addMoveCommand(string args, bool insideFunction)
+    public void addFunctionToCurrent(string identifier, string args)
+    {
+        List<Command> cmds = getFunctionCommands(identifier.Trim());
+
+        foreach (Command cmd in cmds)
+        {
+            _functions[_functions.Count - 1].addCommand(cmd);
+        }
+    }
+
+    private void addMoveCommand(string args)
     {
         if (!MoveCommand.validateArgs(args))
         {
@@ -155,7 +141,7 @@ public class FunctionManager
         }
     }
 
-    private void addRotateCommand(float angle, bool insideFunction)
+    private void addRotateCommand(float angle)
     {
         string identifier = angle == 90f ? "turn_right" : "turn_left";
 
@@ -173,8 +159,8 @@ public class FunctionManager
 
     private void addReservedFunctions()
     {            
-        Function moveForward = new Function("void", "move_forward");
-        Function moveBackwards = new Function("void", "move_backwards");
+        Function moveForward = new Function("void", "move_fwd");
+        Function moveBackwards = new Function("void", "move_bwd");
         Function turnLeft = new Function("void", "turn_left");
         Function turnRight = new Function("void", "turn_right");
        
