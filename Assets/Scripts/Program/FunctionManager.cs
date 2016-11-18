@@ -16,9 +16,7 @@ public class FunctionManager
     private List<Command> _commands;
     private ErrorManager _errorManager;
     private Function _currentFunction;
-
-    public int lineNumber;
-
+ 
     private enum ReservedCommands
     {
         MOVE,
@@ -65,8 +63,7 @@ public class FunctionManager
         _declaredFunctions = new List<string>();
         _functions = new List<Function>();
         _errorManager = new ErrorManager();
-        addReservedCommands();
-        lineNumber = 0;
+        addReservedFunctions();
     }
 
     public void addFunctionUse(string identifier) //use a predefined or previously declared function
@@ -75,7 +72,7 @@ public class FunctionManager
         {
             return;
         }
-        if (!_declaredFunctions.Contains(identifier.Trim()))
+        if (!functionAlreadyDeclared(identifier.Trim()))
         {
             ErrorManager.addError("Function " + identifier + "was not previously declared");
             return;
@@ -102,7 +99,7 @@ public class FunctionManager
             return;
         }
 
-        if (_declaredFunctions.Contains(identifier.Trim()))
+        if (functionAlreadyDeclared(identifier.Trim()))
         {
             ErrorManager.addError("Function " + identifier + " has already been declared");
             return;
@@ -148,35 +145,24 @@ public class FunctionManager
         }
 
         string direction = args; 
-        MoveDirection dir = MoveDirection.BWD;
         string fwdString = Enum.GetName(typeof(MoveDirection), MoveDirection.FWD);
+        string identifier = direction.ToUpper().Equals(fwdString) ? "move_forward" : "move_backwards";
 
-        if (direction.ToUpper().Equals(fwdString))
+        List<Command> functionCommands = getFunctionCommands(identifier);
+        foreach (Command cmd in functionCommands)
         {
-            dir = MoveDirection.FWD;
-        }
-
-        MoveCommand moveCommand = new MoveCommand(dir);
-        if (!insideFunction)
-        {
-            _commands.Add(moveCommand);
-        }
-        else
-        {
-            _currentFunction.addCommand(moveCommand);
+            _commands.Add(cmd);
         }
     }
 
     private void addRotateCommand(float angle, bool insideFunction)
     {
-        RotateCommand rotateCommand = new RotateCommand(angle);
-        if (!insideFunction)
+        string identifier = angle == 90f ? "turn_right" : "turn_left";
+
+        List<Command> functionCommands = getFunctionCommands(identifier);
+        foreach (Command cmd in functionCommands)
         {
-            _commands.Add(rotateCommand);
-        }
-        else
-        {
-            _currentFunction.addCommand(rotateCommand);
+            _commands.Add(cmd);
         }
     }
 
@@ -185,23 +171,22 @@ public class FunctionManager
         
     }
 
-    private void addReservedCommands()
-    {
-        foreach (ReservedCommands command in Enum.GetValues(typeof(ReservedCommands)))
-        {
-            _declaredFunctions.Add(command.ToString().ToLower());
-            /*Function cmd = new Function("void", command.ToString().ToLower());
-            if (cmd.Equals("move"))
-            {
-                cmd.addCommand(newRora)
-            }*/
-        }
-    }
-
-    public void oneMoreLine()
-    {
-        Debug.Log("ADDING ONE MORE LINE");
-        lineNumber++;
+    private void addReservedFunctions()
+    {            
+        Function moveForward = new Function("void", "move_forward");
+        Function moveBackwards = new Function("void", "move_backwards");
+        Function turnLeft = new Function("void", "turn_left");
+        Function turnRight = new Function("void", "turn_right");
+       
+        moveForward.addCommand(new MoveCommand(MoveDirection.FWD));
+        moveBackwards.addCommand(new MoveCommand(MoveDirection.BWD));
+        turnLeft.addCommand(new RotateCommand(-90f));
+        turnRight.addCommand(new RotateCommand(90f));
+       
+        _functions.Add(moveForward);
+        _functions.Add(moveBackwards);
+        _functions.Add(turnLeft);
+        _functions.Add(turnRight);
     }
 
     private List<Command> getFunctionCommands(string identifier)
@@ -215,5 +200,18 @@ public class FunctionManager
         }
 
         return null;
+    }
+
+    private bool functionAlreadyDeclared(string identifier)
+    {
+        foreach (Function fun in _functions)
+        {
+            if (identifier.Equals(fun.getIdentifier()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

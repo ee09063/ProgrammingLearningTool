@@ -31,10 +31,10 @@ function
     ;
 
 function_use
-    : identifier=STRING { compiler.FunctionManager.addFunctionUse($identifier.text); }
+    : identifier=STRING
       LEFTPAR
       param_id_list?
-      RIGHTPAR {compiler.FunctionManager.addCommand($identifier.text, $param_id_list.text, false); }
+      RIGHTPAR {compiler.FunctionManager.addFunctionUse($identifier.text, $param_id_list.text); }
       SEMICOLON { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); }
     ;
 

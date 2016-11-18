@@ -34,9 +34,7 @@ public class Compiler
 			compiler.FunctionManager.ErrorManager.printAllErrors ();
 			return null;
 		}
-
-        Debug.Log("[FUNCTION MANAGER] Number of Lines: " + compiler.FunctionManager.lineNumber);
-			
+          		
 		Program program = new Program (compiler.FunctionManager.Commands);
 
 		return program;
