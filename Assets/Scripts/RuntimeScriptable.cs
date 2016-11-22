@@ -22,7 +22,7 @@ public class RuntimeScriptable : MonoBehaviour {
 		}
 	}
 
-	private void ResetTransform()
+    public void ResetTransform()
 	{
 		transform.position = _startPosition;
 		transform.rotation = _startRotation;

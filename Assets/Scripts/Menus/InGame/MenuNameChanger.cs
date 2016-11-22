@@ -37,5 +37,20 @@ public class MenuNameChanger : MonoBehaviour
             MenuName.text = "LOAD LEVEL";
         }
     }
- 
+
+    public void OnRestartLevelHover()
+    {
+        if (MenuName != null)
+        {
+            MenuName.text = "RESTART LEVEL";
+        }
+    }
+
+    public void OnQuitHover()
+    {
+        if (MenuName != null)
+        {
+            MenuName.text = "QUIT TO MAIN MENU";
+        }
+    }
 }
