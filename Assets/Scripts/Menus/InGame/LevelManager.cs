@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     {
         _walls = new List<GameObject>();
         _player = GameObject.FindGameObjectWithTag("Player");
+        _currentLevel = "Assets/Levels/level_0.txt";
     }
 
     public static void LoadLevel()
@@ -26,49 +27,21 @@ public class LevelManager : MonoBehaviour
             if (Path.GetExtension(path).Equals(".txt"))
             {
                 _currentLevel = path;
-                _level = File.ReadAllLines(path);
-
-                ClearLevel();
-
-                if (_level != null)
-                {
-                    for (int y = 0; y < _level.Length; y++)
-                    {
-                        string str = _level[9 - y].Substring(1, _level[y].Length - 2);
-                        for (int x = 0; x < str.Length; x++)
-                        {
-                            char ch = str[x];
-                            if (ch.Equals(' ')) //empty
-                            {
-
-                            }
-                            else if (ch.Equals('_')) // wall
-                            {
-                                float x1 = (x / 2.0f) + 0.5f;
-                                float y1 = y;
-                                GameObject wall = Instantiate(Resources.Load("Wall", typeof(GameObject))) as GameObject;
-                                wall.transform.position = new Vector3(x1, 0.5f, y1);
-                                wall.transform.eulerAngles = new Vector3(0.0f, 90.0f, 0.0f);
-                                _walls.Add(wall);
-                            }
-                            else if (ch.Equals('|')) // wall
-                            {
-                                float x1 = (x / 2.0f) + 0.5f;
-                                float y1 = y + 0.5f;
-                                GameObject wall = Instantiate(Resources.Load("Wall", typeof(GameObject))) as GameObject;
-                                wall.transform.position = new Vector3(x1, 0.5f, y1);
-                                _walls.Add(wall);
-                            }
-                        }
-                    }
-                }
+                CreateLevel(path);
             }
         }
     }
 
     public static void RestartLevel()
     {
-        LoadLevel();
+        if (_currentLevel != null)
+        {
+            CreateLevel(_currentLevel);
+        }
+        else
+        {
+            Debug.LogError("LevelManager.cs -- _currentLevel is null and should not be");
+        }
     }
 
     private static void ClearLevel()
@@ -89,6 +62,46 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    private static void CreateLevel(string path)
+    {
+        _level = File.ReadAllLines(path);
+
+        ClearLevel();
+
+        if (_level != null)
+        {
+            for (int y = 0; y < _level.Length; y++)
+            {
+                string str = _level[9 - y].Substring(1, _level[y].Length - 2);
+                for (int x = 0; x < str.Length; x++)
+                {
+                    char ch = str[x];
+                    if (ch.Equals(' ')) //empty
+                    {
+
+                    }
+                    else if (ch.Equals('_')) // wall
+                    {
+                        float x1 = (x / 2.0f) + 0.5f;
+                        float y1 = y;
+                        GameObject wall = Instantiate(Resources.Load("Wall", typeof(GameObject))) as GameObject;
+                        wall.transform.position = new Vector3(x1, 0.5f, y1);
+                        wall.transform.eulerAngles = new Vector3(0.0f, 90.0f, 0.0f);
+                        _walls.Add(wall);
+                    }
+                    else if (ch.Equals('|')) // wall
+                    {
+                        float x1 = (x / 2.0f) + 0.5f;
+                        float y1 = y + 0.5f;
+                        GameObject wall = Instantiate(Resources.Load("Wall", typeof(GameObject))) as GameObject;
+                        wall.transform.position = new Vector3(x1, 0.5f, y1);
+                        _walls.Add(wall);
+                    }
+                }
+            }
+        }
+    }
+
     public static void QuitGame()
     {
         if (EditorUtility.DisplayDialog("QUIT", "Are you sure you want to return to the Main Menu?", "Yes", "No"))
@@ -99,7 +112,6 @@ public class LevelManager : MonoBehaviour
 
     public static void ToggleMsgPanel(GameObject MsgPanel)
     {
-        Debug.Log("LM TOGGLING PANEL");
         bool visible = MsgPanel.GetComponent<SlidePanel>().Visible;
         MsgPanel.GetComponent<SlidePanel>().SetVisible(!visible);
     }

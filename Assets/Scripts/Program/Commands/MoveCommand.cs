@@ -30,13 +30,9 @@ public class MoveCommand : Command
 
 		Vector3 curr = gameObj.transform.position;
 
-		if (_obsChecker.checkWall (curr, gameObj.transform.forward))
+		if (!_obsChecker.checkWall (curr, gameObj.transform.forward))
 		{
-			gameObj.GetComponent<CubeBehaviour>().leanCube (forward);
-		}
-		else
-		{
-			gameObj.GetComponent<CubeBehaviour>().moveCube(forward);
+            gameObj.GetComponent<CubeBehaviour>().moveCube(forward);
 		}
 
 		return null;

@@ -6,37 +6,33 @@ using System.Collections.Generic;
 
 public class Compiler
 {
-	private FunctionManager _functionManager;
+    private FunctionManager _functionManager;
 
-	public FunctionManager FunctionManager {
-		get {
-			return _functionManager;
-		}
-	}
-		
-	public Compiler ()
-	{
-		_functionManager = new FunctionManager ();
-	}
+    public FunctionManager FunctionManager
+    {
+        get
+        {
+            return _functionManager;
+        }
+    }
 
-	public Program Compile (string source)
-	{
-		AntlrInputStream antlrStream = new AntlrInputStream (source);
-		JSONLexer lexer = new JSONLexer (antlrStream);
-		CommonTokenStream tokenStream = new CommonTokenStream (lexer);
-		JSONParser parser = new JSONParser (tokenStream);
+    public Compiler()
+    {
+        _functionManager = new FunctionManager();
+    }
 
-		parser.prog ();
-		Compiler compiler = parser.compiler;
+    public Program Compile(string source)
+    {
+        AntlrInputStream antlrStream = new AntlrInputStream(source);
+        JSONLexer lexer = new JSONLexer(antlrStream);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        JSONParser parser = new JSONParser(tokenStream);
 
-		if (compiler.FunctionManager.ErrorManager.hasErrors()) {
-			Debug.Log ("ERRORS FOUND!");
-			compiler.FunctionManager.ErrorManager.printAllErrors ();
-			return null;
-		}
-          		
-		Program program = new Program (compiler.FunctionManager.Commands);
+        parser.prog();
+        Compiler compiler = parser.compiler;
+        		
+        Program program = new Program(compiler.FunctionManager.Commands);
 
-		return program;
-	}
+        return program;
+    }
 }
