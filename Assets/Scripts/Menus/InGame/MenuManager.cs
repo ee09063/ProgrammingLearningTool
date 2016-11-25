@@ -13,6 +13,16 @@ public class MenuManager : MonoBehaviour
         LevelManager.LoadLevel();
     }
 
+    public void OnLoadScript()
+    {
+        LevelManager.LoadScript();
+    }
+
+    public void OnSaveScript()
+    {
+        LevelManager.SaveScript();
+    }
+
     public void OnRestartLevel()
     {
         LevelManager.RestartLevel();
@@ -61,6 +71,22 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void OnSaveScriptHover()
+    {
+        if (MenuName != null)
+        {
+            MenuName.text = "SAVE SCRIPT";
+        }
+    }
+
+    public void OnLoadScriptHover()
+    {
+        if (MenuName != null)
+        {
+            MenuName.text = "LOAD SCRIPT";
+        }
+    }
+
     public void OnRestartLevelHover()
     {
         if (MenuName != null)
@@ -81,13 +107,20 @@ public class MenuManager : MonoBehaviour
     {
         if (MenuName != null)
         {
-            if (GetComponent<MenuManager>().MsgPanel.GetComponent<SlidePanel>().Visible)
+            if (MsgPanel != null)
             {
-                MenuName.text = "CLOSE MESSAGE PANEL";
+                if (MsgPanel.GetComponent<SlidePanel>().Visible)
+                {
+                    MenuName.text = "CLOSE MESSAGE PANEL";
+                }
+                else
+                {
+                    MenuName.text = "OPEN MESSAGE PANEL";
+                }
             }
             else
             {
-                MenuName.text = "OPEN MESSAGE PANEL";
+                Debug.LogError("MenuManager.cs -- MsgPanel is null and should not be");
             }
         }
     }

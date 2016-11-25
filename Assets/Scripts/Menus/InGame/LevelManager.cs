@@ -4,11 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
     private static List<GameObject> _walls;
     private static GameObject _player;
+    private static InputField _codeEditor;
     private static string _currentLevel;
     private static string[] _level;
 
@@ -16,12 +18,13 @@ public class LevelManager : MonoBehaviour
     {
         _walls = new List<GameObject>();
         _player = GameObject.FindGameObjectWithTag("Player");
-        _currentLevel = "Assets/Levels/level_0.txt";
+        _currentLevel = "Assets/SaveLoadFiles/Levels/level_0.txt";
+        _codeEditor = GameObject.FindGameObjectWithTag("CodeEditor").GetComponent<InputField>();
     }
 
     public static void LoadLevel()
     {
-        string path = EditorUtility.OpenFilePanel("Load Level", "Assets/Levels", "txt");
+        string path = EditorUtility.OpenFilePanel("Load Level", "Assets/SaveLoadFiles/Levels", "txt");
         if (path.Length != 0)
         {
             if (Path.GetExtension(path).Equals(".txt"))
@@ -97,6 +100,34 @@ public class LevelManager : MonoBehaviour
                         wall.transform.position = new Vector3(x1, 0.5f, y1);
                         _walls.Add(wall);
                     }
+                }
+            }
+        }
+    }
+
+    public static void SaveScript()
+    {
+        string path = EditorUtility.SaveFilePanel("Save Script", "Assets/SaveLoadFiles/Scripts", "script.txt", "txt");
+        if (path.Length != 0)
+        {
+            if (Path.GetExtension(path).Equals(".txt"))
+            {
+                File.WriteAllText(path, _codeEditor.text);
+            }
+        }
+    }
+
+    public static void LoadScript()
+    {
+        string path = EditorUtility.OpenFilePanel("Load Script", "Assets/SaveLoadFiles/Scripts", "txt");
+        if (path.Length != 0)
+        {
+            if (Path.GetExtension(path).Equals(".txt"))
+            {
+                _codeEditor.text = "";
+                foreach(string str in File.ReadAllLines(path))
+                {
+                    _codeEditor.text += str + "\n";
                 }
             }
         }
