@@ -75,7 +75,7 @@ public class LevelManager : MonoBehaviour
         {
             for (int y = 0; y < _level.Length; y++)
             {
-                string str = _level[9 - y].Substring(1, _level[y].Length - 2);
+                string str = _level[6 - y].Substring(1, _level[y].Length - 2);
                 for (int x = 0; x < str.Length; x++)
                 {
                     char ch = str[x];

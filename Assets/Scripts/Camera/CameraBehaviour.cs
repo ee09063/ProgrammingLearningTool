@@ -9,7 +9,7 @@ public class CameraBehaviour : MonoBehaviour
 
     private bool _orthoCamera;
     private float _fieldOfView = 47f;
-    private float _orthoSize = 5f;
+    private float _orthoSize = 3.75f;
 
     private Vector3 _offset;
     private Vector3 _cameraOrthoPosition;
@@ -25,8 +25,8 @@ public class CameraBehaviour : MonoBehaviour
         _offset = transform.position - _player.transform.position;
         _cameraPerspPosition = new Vector3(0.40f, 2.45f, -1.35f);
         _cameraPerspRot = Quaternion.Euler(48.85f, 0f, 0f);
-        _cameraOrthoPosition = new Vector3(4.9f, 7.8f, 3.65f);
-        _cameraOrthoRot = Quaternion.Euler(80f, 0f, 0f);
+        _cameraOrthoPosition = new Vector3(3.5f, 5.0f, 3.5f);
+        _cameraOrthoRot = Quaternion.Euler(90f, 0f, 0f);
         SetCameraOrtho();
     }
 
