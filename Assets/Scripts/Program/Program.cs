@@ -4,36 +4,39 @@ using System.Collections.Generic;
 
 public class Program
 {
-	public static float EXECUTION_DELAY = 0.5f;
-	public static bool currentCommandOver;
+    public static float EXECUTION_DELAY = 0.5f;
+    public static bool currentCommandOver;
 
-	private List<Command> _commands;
-	private int _commandCount;
+    private List<Command> _commands;
+    private int _commandCount;
 
-	public Program (List<Command> commands)
-	{
-		_commands = commands;
-		_commandCount = 0;
-		currentCommandOver = false;
-	}
+    public Program(List<Command> commands)
+    {
+        _commands = commands;
+        _commandCount = 0;
+        currentCommandOver = false;
+    }
 
-	public IEnumerator Run (GameObject gameObj)
-	{
-		while (_commandCount < _commands.Count)
-		{
-			yield return new WaitForSeconds (EXECUTION_DELAY);
+    public IEnumerator Run(GameObject gameObj)
+    {
+        while (_commandCount < _commands.Count)
+        {
+            yield return new WaitForSeconds(EXECUTION_DELAY);
 
-			Command nextCommand = _commands [_commandCount++];
-			yield return nextCommand.Execute (gameObj);
-			while (!currentCommandOver) {
-				yield return null;
-			}
-			currentCommandOver = false;
-		}
-	}
+            currentCommandOver = false;
 
-	public void Reset()
-	{
-		_commandCount = 0;
-	}
+            Command nextCommand = _commands[_commandCount++];
+            yield return nextCommand.Execute(gameObj);
+            while (!currentCommandOver)
+            {
+                yield return null;
+            }
+            //currentCommandOver = false;
+        }
+    }
+
+    public void Reset()
+    {
+        _commandCount = 0;
+    }
 }
