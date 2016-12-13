@@ -122,6 +122,11 @@ public class FunctionManager
         }
     }
 
+    public void addForCycle()
+    {
+        Debug.Log("For Cycle detected");
+    }
+
     private void addMoveCommand(string args)
     {
         if (!MoveCommand.validateArgs(args))

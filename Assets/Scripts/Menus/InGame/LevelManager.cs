@@ -146,4 +146,10 @@ public class LevelManager : MonoBehaviour
         bool visible = MsgPanel.GetComponent<SlidePanel>().Visible;
         MsgPanel.GetComponent<SlidePanel>().SetVisible(!visible);
     }
+
+    public static void ToggleBuildMode(GameObject BuildModePanel)
+    {
+        bool visible = BuildModePanel.GetComponent<SlidePanel>().Visible;
+        BuildModePanel.GetComponent<SlidePanel>().SetVisible(!visible);
+    }
 }

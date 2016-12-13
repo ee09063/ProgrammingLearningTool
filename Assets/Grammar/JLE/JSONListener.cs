@@ -91,6 +91,16 @@ public interface IJSONListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitFunction_declaration([NotNull] JSONParser.Function_declarationContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="JSONParser.for_cycle"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFor_cycle([NotNull] JSONParser.For_cycleContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JSONParser.for_cycle"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFor_cycle([NotNull] JSONParser.For_cycleContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="JSONParser.param_id_list"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

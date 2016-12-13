@@ -6,7 +6,6 @@ public class CubeBehaviour : MonoBehaviour
     private float _fixedAngle = 3f;
     private float _time = 0.015f;
     private float _rotAngle = 90f;
-    private float _leanAngle = 9f;
 
     enum Facing
     {

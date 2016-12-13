@@ -49,7 +49,7 @@ public class ObstacleChecker
 		return false;
 	}
 
-	public bool checkWall(BoardPoint curr, BoardPoint next, Direction dir)
+    public bool checkWall(BoardPoint curr, BoardPoint next, Direction dir)
 	{
 		foreach(GameObject wall in walls)
 		{
@@ -58,19 +58,19 @@ public class ObstacleChecker
 			{
 			case Direction.FWD_X:
 				if (position.x > curr.getX () && position.x < next.getX ())
-					return true;
+                    return wall.GetComponent<EditModeMarker>().Active;
 				break;
 			case Direction.FWD_Y:
 				if (position.y > curr.getY () && position.y < next.getY ())
-					return true;
+                    return wall.GetComponent<EditModeMarker>().Active;
 				break;
 			case Direction.BWD_X:
 				if (position.x < curr.getX () && position.x > next.getX ())
-					return true;
+                    return wall.GetComponent<EditModeMarker>().Active;
 				break;
 			case Direction.BWD_Y:
 				if (position.y < curr.getY () && position.y > next.getY ())
-					return true;
+                    return wall.GetComponent<EditModeMarker>().Active;
 				break;
 			}
 		}

@@ -28,6 +28,7 @@ prog
 function
     : function_use
     | function_declaration
+	| for_cycle
     ;
 
 function_use
@@ -57,6 +58,15 @@ function_declaration
 	  RIGHTSQ
 	;
 
+for_cycle
+	: 'for'
+	   LEFTPAR
+	   RIGHTPAR
+	   LEFTSQ
+	   function_inside_function*
+	   RIGHTSQ { compiler.FunctionManager.addForCycle(); }
+	;
+	
 param_id_list
     : (param_id COMMA)+ param_id
     | param_id

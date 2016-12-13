@@ -6,11 +6,17 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public GameObject MsgPanel;
+    public GameObject BuildModePanel;
     public Text MenuName;
 
     public void OnLoadLevel()
     {
         LevelManager.LoadLevel();
+    }
+
+    public void OnSaveLevel()
+    {
+
     }
 
     public void OnLoadScript()
@@ -37,6 +43,12 @@ public class MenuManager : MonoBehaviour
     {
         LevelManager.ToggleMsgPanel(MsgPanel);
         OnMsgConsoleHover();
+    }
+
+    public void OnToggleBuildMode()
+    {
+        LevelManager.ToggleBuildMode(BuildModePanel);
+        OnEditModeHover();
     }
         
     public void OnLostHover()
@@ -71,6 +83,14 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void OnSaveLevelHover()
+    {
+        if (MenuName != null)
+        {
+            MenuName.text = "Save Level";
+        }
+    }
+
     public void OnSaveScriptHover()
     {
         if (MenuName != null)
@@ -100,6 +120,21 @@ public class MenuManager : MonoBehaviour
         if (MenuName != null)
         {
             MenuName.text = "QUIT TO MAIN MENU";
+        }
+    }
+
+    public void OnEditModeHover()
+    {
+        if (MenuName != null)
+        {
+            if (EditModeManager.EditMode)
+            {
+                MenuName.text = "CLOSE BUILD MODE";
+            }
+            else
+            {
+                MenuName.text = "OPEN BUILD MODE";
+            }
         }
     }
 

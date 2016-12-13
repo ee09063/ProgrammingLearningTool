@@ -107,6 +107,18 @@ public partial class JSONBaseListener : IJSONListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFunction_declaration([NotNull] JSONParser.Function_declarationContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="JSONParser.for_cycle"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterFor_cycle([NotNull] JSONParser.For_cycleContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="JSONParser.for_cycle"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitFor_cycle([NotNull] JSONParser.For_cycleContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="JSONParser.param_id_list"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

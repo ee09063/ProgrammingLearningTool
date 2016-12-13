@@ -40,15 +40,18 @@ public class CameraBehaviour : MonoBehaviour
 
     public void OnCameraSwitch()
     {
-        if (_orthoCamera)
+        if (!EditModeManager.EditMode)
         {
-            SetCameraPersp();
+            if (_orthoCamera)
+            {
+                SetCameraPersp();
+            }
+            else
+            {
+                SetCameraOrtho();
+            }
+            _orthoCamera = !_orthoCamera;
         }
-        else
-        {
-            SetCameraOrtho();
-        }
-        _orthoCamera = !_orthoCamera;
     }
 
     private void SetCameraOrtho()

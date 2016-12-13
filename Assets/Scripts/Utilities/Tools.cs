@@ -33,13 +33,13 @@
                     break;
 
                 case WindowPositions.Left:
-                    anchorMin = new Vector2(-1, 0);
-                    anchorMax = Vector2.up;
+                    anchorMin = new Vector2(-0.2f, 0.86f);
+                    anchorMax = new Vector2(0, 1);
                     break;
 
                 default:
-                    anchorMin = new Vector2(0.8f, 0);
-                    anchorMax = new Vector2(1, 1);
+                    anchorMin = new Vector2(0, 0.86f);
+                    anchorMax = new Vector2(0.2f, 1);
                     break;
             }
         }
