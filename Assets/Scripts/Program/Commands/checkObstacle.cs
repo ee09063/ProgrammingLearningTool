@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ObstacleChecker
 {
-	private GameObject[] walls;
+    private GameObject[] _walls;
 
 	public enum Direction
 	{
@@ -15,9 +15,9 @@ public class ObstacleChecker
 
 	public void Initialize()
 	{
-		if (walls == null)
+		if (_walls == null)
 		{
-			walls = GameObject.FindGameObjectsWithTag ("Wall");
+			_walls = GameObject.FindGameObjectsWithTag ("Wall");
 		}
 	}
 
@@ -51,26 +51,26 @@ public class ObstacleChecker
 
     public bool checkWall(BoardPoint curr, BoardPoint next, Direction dir)
 	{
-		foreach(GameObject wall in walls)
+		foreach(GameObject wall in _walls)
 		{
 			Vector3 position = wall.transform.position;
 			switch (dir)
 			{
 			case Direction.FWD_X:
 				if (position.x > curr.getX () && position.x < next.getX ())
-                    return wall.GetComponent<EditModeMarker>().Active;
+                    return wall.GetComponent<Marker>().Active;
 				break;
 			case Direction.FWD_Y:
 				if (position.y > curr.getY () && position.y < next.getY ())
-                    return wall.GetComponent<EditModeMarker>().Active;
+                        return wall.GetComponent<Marker>().Active;
 				break;
 			case Direction.BWD_X:
 				if (position.x < curr.getX () && position.x > next.getX ())
-                    return wall.GetComponent<EditModeMarker>().Active;
+                        return wall.GetComponent<Marker>().Active;
 				break;
 			case Direction.BWD_Y:
 				if (position.y < curr.getY () && position.y > next.getY ())
-                    return wall.GetComponent<EditModeMarker>().Active;
+                        return wall.GetComponent<Marker>().Active;
 				break;
 			}
 		}

@@ -11,27 +11,27 @@ public class MenuManager : MonoBehaviour
 
     public void OnLoadLevel()
     {
-        LevelManager.LoadLevel();
+        SaveLoad.LoadLevel();
     }
 
     public void OnSaveLevel()
     {
-
+        SaveLoad.SaveLevel();
     }
 
     public void OnLoadScript()
     {
-        LevelManager.LoadScript();
+        SaveLoad.LoadScript();
     }
 
     public void OnSaveScript()
     {
-        LevelManager.SaveScript();
+        SaveLoad.SaveScript();
     }
 
     public void OnRestartLevel()
     {
-        LevelManager.RestartLevel();
+        SaveLoad.RestartLevel();
     }
 
     public void OnQuit()
@@ -48,7 +48,7 @@ public class MenuManager : MonoBehaviour
     public void OnToggleBuildMode()
     {
         LevelManager.ToggleBuildMode(BuildModePanel);
-        OnEditModeHover();
+        OnBuildModeHover();
     }
         
     public void OnLostHover()
@@ -123,11 +123,11 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void OnEditModeHover()
+    public void OnBuildModeHover()
     {
         if (MenuName != null)
         {
-            if (EditModeManager.EditMode)
+            if (BuildModeManager.BuildMode)
             {
                 MenuName.text = "CLOSE BUILD MODE";
             }

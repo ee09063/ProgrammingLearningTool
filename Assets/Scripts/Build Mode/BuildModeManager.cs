@@ -2,15 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class EditModeManager : MonoBehaviour
+public class BuildModeManager : MonoBehaviour
 {
-    private List<GameObject> _walls;
-    public static bool EditMode;
+    private static List<GameObject> _walls;
+    public static bool BuildMode;
 
-    void Start()
+    void Awake()
     {
         _walls = new List<GameObject>();
         PlaceMarkers();
+    }
+
+    public static void ToggleBuildMode()
+    {
+        BuildMode = !BuildMode;
+        foreach (GameObject wall in _walls)
+        {
+            Marker mrk = wall.GetComponent<Marker>();
+            if (!mrk.Active)
+            {
+                mrk.ToggleMeshRenderer(BuildMode);
+                mrk.ToggleColor(false);
+            }
+        }
     }
 
     private void PlaceMarkers()

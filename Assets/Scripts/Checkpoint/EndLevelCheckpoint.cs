@@ -23,7 +23,7 @@ public class EndLevelCheckpoint : MonoBehaviour
 
         if (EditorUtility.DisplayDialog("LEVEL COMPLETE", "Congratulations! You have completed the level!", "Restart", "Continue"))
         {   
-            LevelManager.RestartLevel();
+            SaveLoad.RestartLevel();
         }
 
         yield break;

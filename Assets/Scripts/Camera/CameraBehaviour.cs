@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CameraBehaviour : MonoBehaviour
 {
-
     private Camera _camera;
     private GameObject _player;
 
@@ -40,7 +39,7 @@ public class CameraBehaviour : MonoBehaviour
 
     public void OnCameraSwitch()
     {
-        if (!EditModeManager.EditMode)
+        if (!BuildModeManager.BuildMode)
         {
             if (_orthoCamera)
             {
