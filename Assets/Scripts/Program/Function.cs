@@ -6,7 +6,7 @@ public class Function
 {
     private string _identifier;
     private string _type;
-    private List<Command> _commands;
+    protected List<Command> _commands;
 
     public Function (string type, string identifier)
     {
@@ -20,7 +20,7 @@ public class Function
         return _identifier;
     }
 
-    public List<Command> getCommands()
+    public virtual List<Command> getCommands()
     {
         return _commands;
     }

@@ -4,18 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
-    private static List<GameObject> _walls;
-
-    public BuildModeManager buildModeManager;
-
-    void Start()
-    {
-        _walls = new List<GameObject>();
-    }
-       
     public static void QuitGame()
     {
         if (EditorUtility.DisplayDialog("QUIT", "Are you sure you want to return to the Main Menu?", "Yes", "No"))

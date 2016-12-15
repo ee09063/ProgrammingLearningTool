@@ -73,6 +73,7 @@ public class FunctionManager
         {
             return;
         }
+		
         if (!functionAlreadyDeclared(identifier.Trim()))
         {
             ErrorManager.addError("Function " + identifier + "was not previously declared");
@@ -114,6 +115,7 @@ public class FunctionManager
         
     public void addFunctionToCurrent(string identifier, string args)
     {
+        Debug.Log("Adding " + identifier + " to current");
         List<Command> cmds = getFunctionCommands(identifier.Trim());
 
         foreach (Command cmd in cmds)
@@ -122,9 +124,39 @@ public class FunctionManager
         }
     }
 
-    public void addForCycle()
+    public void addForCycle(string varDec, string varInit, string varUse, string varTotal, string varInc)
     {
-        Debug.Log("For Cycle detected");
+        Debug.Log("Adding For Cycle");
+        int varInitialValue = int.Parse(varInit);
+        int varLastValue = int.Parse(varTotal);
+
+        //check if the name of the variables matches
+        if (!varDec.Equals(varUse) || !varDec.Equals(varInc) || !varUse.Equals(varInc))
+        {
+            Debug.Log("Variables have different names");
+        }
+
+        int cycles = varLastValue - varInitialValue;
+
+        ForCycle forCycle = new ForCycle(cycles);
+
+        _functions.Add(forCycle);
+    }
+
+    public void addForCycleCommands()
+    {
+        List<Command> forCommands = _functions[_functions.Count - 1].getCommands();
+
+        if (forCommands == null)
+        {
+            Debug.LogError("For Cycle commands list is null");
+            return;
+        }
+
+        foreach (Command cmd in forCommands)
+        {
+            _commands.Add(cmd);
+        }
     }
 
     private void addMoveCommand(string args)
@@ -195,6 +227,11 @@ public class FunctionManager
 
     private bool functionAlreadyDeclared(string identifier)
     {
+        if (identifier.Equals("for_cycle"))
+        {
+            return false;
+        }
+
         foreach (Function fun in _functions)
         {
             if (identifier.Equals(fun.getIdentifier()))

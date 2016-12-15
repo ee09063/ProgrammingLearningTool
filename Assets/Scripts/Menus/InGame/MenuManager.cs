@@ -2,12 +2,15 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
     public GameObject MsgPanel;
     public GameObject BuildModePanel;
     public Text MenuName;
+
+    public Button[] ButtonsToDeactivate;
 
     public void OnLoadLevel()
     {
@@ -39,124 +42,38 @@ public class MenuManager : MonoBehaviour
         LevelManager.QuitGame();
     }
 
-    public void OnToggleMsgPanel()
-    {
-        LevelManager.ToggleMsgPanel(MsgPanel);
-        OnMsgConsoleHover();
-    }
-
     public void OnToggleBuildMode()
     {
         LevelManager.ToggleBuildMode(BuildModePanel);
-        OnBuildModeHover();
+
+        foreach (Button button in ButtonsToDeactivate)
+        {
+            button.interactable = !button.interactable;
+        }
     }
         
-    public void OnLostHover()
+    public void OnLostHover(Selectable target)
     {
-        if (MenuName != null)
+        if (MenuName == null)
         {
-            MenuName.text = "MENU";
+            Debug.LogError("MenuManager.cs -- Menu Name is null and should not be");
+            return;
         }
+
+        MenuName.text = "Menu";
+       
+        if(target)
+            target.OnDeselect(null);
     }
 
-    public void OnChangeCameraHover()
+    public void OnHover(Selectable target)
     {
-        if (MenuName != null)
+        if (MenuName == null)
         {
-            MenuName.text = "CHANGE CAMERA";
+            Debug.LogError("MenuManager.cs -- Menu Name is null and should not be");
+            return;
         }
-    }
 
-    public void OnCodeEditorHover()
-    {
-        if (MenuName != null)
-        {
-            MenuName.text = "WRITE SOME CODE";
-        }
-    }
-
-    public void OnLoadLevelHover()
-    {
-        if (MenuName != null)
-        {
-            MenuName.text = "LOAD LEVEL";
-        }
-    }
-
-    public void OnSaveLevelHover()
-    {
-        if (MenuName != null)
-        {
-            MenuName.text = "Save Level";
-        }
-    }
-
-    public void OnSaveScriptHover()
-    {
-        if (MenuName != null)
-        {
-            MenuName.text = "SAVE SCRIPT";
-        }
-    }
-
-    public void OnLoadScriptHover()
-    {
-        if (MenuName != null)
-        {
-            MenuName.text = "LOAD SCRIPT";
-        }
-    }
-
-    public void OnRestartLevelHover()
-    {
-        if (MenuName != null)
-        {
-            MenuName.text = "RESTART LEVEL";
-        }
-    }
-
-    public void OnQuitHover()
-    {
-        if (MenuName != null)
-        {
-            MenuName.text = "QUIT TO MAIN MENU";
-        }
-    }
-
-    public void OnBuildModeHover()
-    {
-        if (MenuName != null)
-        {
-            if (BuildModeManager.BuildMode)
-            {
-                MenuName.text = "CLOSE BUILD MODE";
-            }
-            else
-            {
-                MenuName.text = "OPEN BUILD MODE";
-            }
-        }
-    }
-
-    public void OnMsgConsoleHover()
-    {
-        if (MenuName != null)
-        {
-            if (MsgPanel != null)
-            {
-                if (MsgPanel.GetComponent<SlidePanel>().Visible)
-                {
-                    MenuName.text = "CLOSE MESSAGE PANEL";
-                }
-                else
-                {
-                    MenuName.text = "OPEN MESSAGE PANEL";
-                }
-            }
-            else
-            {
-                Debug.LogError("MenuManager.cs -- MsgPanel is null and should not be");
-            }
-        }
+        MenuName.text = target.name;
     }
 }

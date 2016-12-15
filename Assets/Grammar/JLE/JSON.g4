@@ -13,6 +13,10 @@ LEFTSQ: '{' ;
 RIGHTSQ : '}' ;
 SEMICOLON : ';' ;
 COMMA : ',' ;
+LESSERTHAN : '<' ;
+GREATERTHAN : '>' ;
+PLUS: '+' ;
+MINUS: '-' ;
 
 WS : [ \t\r\n]+ -> skip ;
 
@@ -61,10 +65,13 @@ function_declaration
 for_cycle
 	: 'for'
 	   LEFTPAR
-	   RIGHTPAR
+	   'int' val_dec=STRING '=' val_init=INT SEMICOLON
+	   val_use=STRING LESSERTHAN val_total=INT SEMICOLON
+	   val_inc=STRING PLUS PLUS
+	   RIGHTPAR { compiler.FunctionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
 	   LEFTSQ
 	   function_inside_function*
-	   RIGHTSQ { compiler.FunctionManager.addForCycle(); }
+	   RIGHTSQ { compiler.FunctionManager.addForCycleCommands(); }
 	;
 	
 param_id_list

@@ -33,8 +33,9 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 [System.CLSCompliant(false)]
 public partial class JSONParser : Parser {
 	public const int
-		T__0=1, INT=2, STRING=3, LEFTPAR=4, RIGHTPAR=5, LEFTSQ=6, RIGHTSQ=7, SEMICOLON=8, 
-		COMMA=9, WS=10;
+		T__0=1, T__1=2, T__2=3, INT=4, STRING=5, LEFTPAR=6, RIGHTPAR=7, LEFTSQ=8, 
+		RIGHTSQ=9, SEMICOLON=10, COMMA=11, LESSERTHAN=12, GREATERTHAN=13, PLUS=14, 
+		MINUS=15, WS=16;
 	public const int
 		RULE_start = 0, RULE_prog = 1, RULE_function = 2, RULE_function_use = 3, 
 		RULE_function_inside_function = 4, RULE_function_declaration = 5, RULE_for_cycle = 6, 
@@ -47,11 +48,13 @@ public partial class JSONParser : Parser {
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'for'", null, null, "'('", "')'", "'{'", "'}'", "';'", "','"
+		null, "'for'", "'int'", "'='", null, null, "'('", "')'", "'{'", "'}'", 
+		"';'", "','", "'<'", "'>'", "'+'", "'-'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, "INT", "STRING", "LEFTPAR", "RIGHTPAR", "LEFTSQ", "RIGHTSQ", 
-		"SEMICOLON", "COMMA", "WS"
+		null, null, null, null, "INT", "STRING", "LEFTPAR", "RIGHTPAR", "LEFTSQ", 
+		"RIGHTSQ", "SEMICOLON", "COMMA", "LESSERTHAN", "GREATERTHAN", "PLUS", 
+		"MINUS", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -466,10 +469,32 @@ public partial class JSONParser : Parser {
 	}
 
 	public partial class For_cycleContext : ParserRuleContext {
+		public IToken val_dec;
+		public IToken val_init;
+		public IToken val_use;
+		public IToken val_total;
+		public IToken val_inc;
 		public ITerminalNode LEFTPAR() { return GetToken(JSONParser.LEFTPAR, 0); }
+		public ITerminalNode[] SEMICOLON() { return GetTokens(JSONParser.SEMICOLON); }
+		public ITerminalNode SEMICOLON(int i) {
+			return GetToken(JSONParser.SEMICOLON, i);
+		}
+		public ITerminalNode LESSERTHAN() { return GetToken(JSONParser.LESSERTHAN, 0); }
+		public ITerminalNode[] PLUS() { return GetTokens(JSONParser.PLUS); }
+		public ITerminalNode PLUS(int i) {
+			return GetToken(JSONParser.PLUS, i);
+		}
 		public ITerminalNode RIGHTPAR() { return GetToken(JSONParser.RIGHTPAR, 0); }
 		public ITerminalNode LEFTSQ() { return GetToken(JSONParser.LEFTSQ, 0); }
 		public ITerminalNode RIGHTSQ() { return GetToken(JSONParser.RIGHTSQ, 0); }
+		public ITerminalNode[] STRING() { return GetTokens(JSONParser.STRING); }
+		public ITerminalNode STRING(int i) {
+			return GetToken(JSONParser.STRING, i);
+		}
+		public ITerminalNode[] INT() { return GetTokens(JSONParser.INT); }
+		public ITerminalNode INT(int i) {
+			return GetToken(JSONParser.INT, i);
+		}
 		public Function_inside_functionContext[] function_inside_function() {
 			return GetRuleContexts<Function_inside_functionContext>();
 		}
@@ -501,23 +526,36 @@ public partial class JSONParser : Parser {
 			{
 			State = 81; Match(T__0);
 			State = 82; Match(LEFTPAR);
-			State = 83; Match(RIGHTPAR);
-			State = 84; Match(LEFTSQ);
-			State = 88;
+			State = 83; Match(T__1);
+			State = 84; _localctx.val_dec = Match(STRING);
+			State = 85; Match(T__2);
+			State = 86; _localctx.val_init = Match(INT);
+			State = 87; Match(SEMICOLON);
+			State = 88; _localctx.val_use = Match(STRING);
+			State = 89; Match(LESSERTHAN);
+			State = 90; _localctx.val_total = Match(INT);
+			State = 91; Match(SEMICOLON);
+			State = 92; _localctx.val_inc = Match(STRING);
+			State = 93; Match(PLUS);
+			State = 94; Match(PLUS);
+			State = 95; Match(RIGHTPAR);
+			 compiler.FunctionManager.addForCycle((_localctx.val_dec!=null?_localctx.val_dec.Text:null), (_localctx.val_init!=null?_localctx.val_init.Text:null), (_localctx.val_use!=null?_localctx.val_use.Text:null), (_localctx.val_total!=null?_localctx.val_total.Text:null), (_localctx.val_inc!=null?_localctx.val_inc.Text:null)); 
+			State = 97; Match(LEFTSQ);
+			State = 101;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.La(1);
 			while (_la==STRING) {
 				{
 				{
-				State = 85; function_inside_function();
+				State = 98; function_inside_function();
 				}
 				}
-				State = 90;
+				State = 103;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 			}
-			State = 91; Match(RIGHTSQ);
-			 compiler.FunctionManager.addForCycle(); 
+			State = 104; Match(RIGHTSQ);
+			 compiler.FunctionManager.addForCycleCommands(); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -563,13 +601,13 @@ public partial class JSONParser : Parser {
 		EnterRule(_localctx, 14, RULE_param_id_list);
 		try {
 			int _alt;
-			State = 104;
+			State = 117;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,9,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 97;
+				State = 110;
 				ErrorHandler.Sync(this);
 				_alt = 1;
 				do {
@@ -577,25 +615,25 @@ public partial class JSONParser : Parser {
 					case 1:
 						{
 						{
-						State = 94; param_id();
-						State = 95; Match(COMMA);
+						State = 107; param_id();
+						State = 108; Match(COMMA);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 99;
+					State = 112;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,8,Context);
 				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
-				State = 101; param_id();
+				State = 114; param_id();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 103; param_id();
+				State = 116; param_id();
 				}
 				break;
 			}
@@ -643,13 +681,13 @@ public partial class JSONParser : Parser {
 		EnterRule(_localctx, 16, RULE_param_decl_list);
 		try {
 			int _alt;
-			State = 116;
+			State = 129;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,11,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 109;
+				State = 122;
 				ErrorHandler.Sync(this);
 				_alt = 1;
 				do {
@@ -657,25 +695,25 @@ public partial class JSONParser : Parser {
 					case 1:
 						{
 						{
-						State = 106; param_decl();
-						State = 107; Match(COMMA);
+						State = 119; param_decl();
+						State = 120; Match(COMMA);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 111;
+					State = 124;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,10,Context);
 				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
-				State = 113; param_decl();
+				State = 126; param_decl();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 115; param_decl();
+				State = 128; param_decl();
 				}
 				break;
 			}
@@ -720,8 +758,8 @@ public partial class JSONParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 118; _localctx.param_type = Match(STRING);
-			State = 119; _localctx.param_identifier = Match(STRING);
+			State = 131; _localctx.param_type = Match(STRING);
+			State = 132; _localctx.param_identifier = Match(STRING);
 			}
 		}
 		catch (RecognitionException re) {
@@ -761,7 +799,7 @@ public partial class JSONParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 121;
+			State = 134;
 			_la = TokenStream.La(1);
 			if ( !(_la==INT || _la==STRING) ) {
 			ErrorHandler.RecoverInline(this);
@@ -823,7 +861,7 @@ public partial class JSONParser : Parser {
 			{
 			}
 			Context.Stop = TokenStream.Lt(-1);
-			State = 128;
+			State = 141;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,12,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
@@ -835,13 +873,13 @@ public partial class JSONParser : Parser {
 					{
 					_localctx = new Statement_listContext(_parentctx, _parentState);
 					PushNewRecursionContext(_localctx, _startState, RULE_statement_list);
-					State = 124;
+					State = 137;
 					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-					State = 125; statement();
+					State = 138; statement();
 					}
 					} 
 				}
-				State = 130;
+				State = 143;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,12,Context);
 			}
@@ -884,7 +922,7 @@ public partial class JSONParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 131; function_use();
+			State = 144; function_use();
 			}
 		}
 		catch (RecognitionException re) {
@@ -915,56 +953,62 @@ public partial class JSONParser : Parser {
 	private static string _serializeATN()
 	{
 	    StringBuilder sb = new StringBuilder();
-	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\f\x88");
-		sb.Append("\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a");
-		sb.Append("\t\a\x4\b\t\b\x4\t\t\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4");
-		sb.Append("\xE\t\xE\x3\x2\x3\x2\x3\x2\x3\x3\x6\x3!\n\x3\r\x3\xE\x3\"\x3");
-		sb.Append("\x3\x3\x3\x3\x3\x5\x3(\n\x3\x3\x4\x3\x4\x3\x4\x5\x4-\n\x4\x3");
-		sb.Append("\x5\x3\x5\x3\x5\x5\x5\x32\n\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5");
-		sb.Append("\x3\x6\x3\x6\x3\x6\x5\x6<\n\x6\x3\x6\x3\x6\x3\x6\x3\x6\x3\x6");
-		sb.Append("\x3\a\x3\a\x3\a\x3\a\x3\a\x5\aH\n\a\x3\a\x3\a\x3\a\a\aM\n\a");
-		sb.Append("\f\a\xE\aP\v\a\x3\a\x3\a\x3\b\x3\b\x3\b\x3\b\x3\b\a\bY\n\b\f");
-		sb.Append("\b\xE\b\\\v\b\x3\b\x3\b\x3\b\x3\t\x3\t\x3\t\x6\t\x64\n\t\r\t");
-		sb.Append("\xE\t\x65\x3\t\x3\t\x3\t\x5\tk\n\t\x3\n\x3\n\x3\n\x6\np\n\n");
-		sb.Append("\r\n\xE\nq\x3\n\x3\n\x3\n\x5\nw\n\n\x3\v\x3\v\x3\v\x3\f\x3\f");
-		sb.Append("\x3\r\x3\r\x3\r\a\r\x81\n\r\f\r\xE\r\x84\v\r\x3\xE\x3\xE\x3");
-		sb.Append("\xE\x2\x3\x18\xF\x2\x4\x6\b\n\f\xE\x10\x12\x14\x16\x18\x1A\x2");
-		sb.Append("\x3\x3\x2\x4\x5\x88\x2\x1C\x3\x2\x2\x2\x4\'\x3\x2\x2\x2\x6,");
-		sb.Append("\x3\x2\x2\x2\b.\x3\x2\x2\x2\n\x38\x3\x2\x2\x2\f\x42\x3\x2\x2");
-		sb.Append("\x2\xES\x3\x2\x2\x2\x10j\x3\x2\x2\x2\x12v\x3\x2\x2\x2\x14x\x3");
-		sb.Append("\x2\x2\x2\x16{\x3\x2\x2\x2\x18}\x3\x2\x2\x2\x1A\x85\x3\x2\x2");
-		sb.Append("\x2\x1C\x1D\x5\x4\x3\x2\x1D\x1E\a\x2\x2\x3\x1E\x3\x3\x2\x2\x2");
-		sb.Append("\x1F!\x5\x6\x4\x2 \x1F\x3\x2\x2\x2!\"\x3\x2\x2\x2\" \x3\x2\x2");
-		sb.Append("\x2\"#\x3\x2\x2\x2#$\x3\x2\x2\x2$%\x5\x6\x4\x2%(\x3\x2\x2\x2");
-		sb.Append("&(\x5\x6\x4\x2\' \x3\x2\x2\x2\'&\x3\x2\x2\x2(\x5\x3\x2\x2\x2");
-		sb.Append(")-\x5\b\x5\x2*-\x5\f\a\x2+-\x5\xE\b\x2,)\x3\x2\x2\x2,*\x3\x2");
-		sb.Append("\x2\x2,+\x3\x2\x2\x2-\a\x3\x2\x2\x2./\a\x5\x2\x2/\x31\a\x6\x2");
-		sb.Append("\x2\x30\x32\x5\x10\t\x2\x31\x30\x3\x2\x2\x2\x31\x32\x3\x2\x2");
-		sb.Append("\x2\x32\x33\x3\x2\x2\x2\x33\x34\a\a\x2\x2\x34\x35\b\x5\x1\x2");
-		sb.Append("\x35\x36\a\n\x2\x2\x36\x37\b\x5\x1\x2\x37\t\x3\x2\x2\x2\x38");
-		sb.Append("\x39\a\x5\x2\x2\x39;\a\x6\x2\x2:<\x5\x10\t\x2;:\x3\x2\x2\x2");
-		sb.Append(";<\x3\x2\x2\x2<=\x3\x2\x2\x2=>\a\a\x2\x2>?\b\x6\x1\x2?@\a\n");
-		sb.Append("\x2\x2@\x41\b\x6\x1\x2\x41\v\x3\x2\x2\x2\x42\x43\a\x5\x2\x2");
-		sb.Append("\x43\x44\a\x5\x2\x2\x44\x45\b\a\x1\x2\x45G\a\x6\x2\x2\x46H\x5");
-		sb.Append("\x12\n\x2G\x46\x3\x2\x2\x2GH\x3\x2\x2\x2HI\x3\x2\x2\x2IJ\a\a");
-		sb.Append("\x2\x2JN\a\b\x2\x2KM\x5\n\x6\x2LK\x3\x2\x2\x2MP\x3\x2\x2\x2");
-		sb.Append("NL\x3\x2\x2\x2NO\x3\x2\x2\x2OQ\x3\x2\x2\x2PN\x3\x2\x2\x2QR\a");
-		sb.Append("\t\x2\x2R\r\x3\x2\x2\x2ST\a\x3\x2\x2TU\a\x6\x2\x2UV\a\a\x2\x2");
-		sb.Append("VZ\a\b\x2\x2WY\x5\n\x6\x2XW\x3\x2\x2\x2Y\\\x3\x2\x2\x2ZX\x3");
-		sb.Append("\x2\x2\x2Z[\x3\x2\x2\x2[]\x3\x2\x2\x2\\Z\x3\x2\x2\x2]^\a\t\x2");
-		sb.Append("\x2^_\b\b\x1\x2_\xF\x3\x2\x2\x2`\x61\x5\x16\f\x2\x61\x62\a\v");
-		sb.Append("\x2\x2\x62\x64\x3\x2\x2\x2\x63`\x3\x2\x2\x2\x64\x65\x3\x2\x2");
-		sb.Append("\x2\x65\x63\x3\x2\x2\x2\x65\x66\x3\x2\x2\x2\x66g\x3\x2\x2\x2");
-		sb.Append("gh\x5\x16\f\x2hk\x3\x2\x2\x2ik\x5\x16\f\x2j\x63\x3\x2\x2\x2");
-		sb.Append("ji\x3\x2\x2\x2k\x11\x3\x2\x2\x2lm\x5\x14\v\x2mn\a\v\x2\x2np");
-		sb.Append("\x3\x2\x2\x2ol\x3\x2\x2\x2pq\x3\x2\x2\x2qo\x3\x2\x2\x2qr\x3");
-		sb.Append("\x2\x2\x2rs\x3\x2\x2\x2st\x5\x14\v\x2tw\x3\x2\x2\x2uw\x5\x14");
-		sb.Append("\v\x2vo\x3\x2\x2\x2vu\x3\x2\x2\x2w\x13\x3\x2\x2\x2xy\a\x5\x2");
-		sb.Append("\x2yz\a\x5\x2\x2z\x15\x3\x2\x2\x2{|\t\x2\x2\x2|\x17\x3\x2\x2");
-		sb.Append("\x2}\x82\b\r\x1\x2~\x7F\f\x4\x2\x2\x7F\x81\x5\x1A\xE\x2\x80");
-		sb.Append("~\x3\x2\x2\x2\x81\x84\x3\x2\x2\x2\x82\x80\x3\x2\x2\x2\x82\x83");
-		sb.Append("\x3\x2\x2\x2\x83\x19\x3\x2\x2\x2\x84\x82\x3\x2\x2\x2\x85\x86");
-		sb.Append("\x5\b\x5\x2\x86\x1B\x3\x2\x2\x2\xF\"\',\x31;GNZ\x65jqv\x82");
+	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\x12");
+		sb.Append("\x95\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6");
+		sb.Append("\x4\a\t\a\x4\b\t\b\x4\t\t\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r");
+		sb.Append("\t\r\x4\xE\t\xE\x3\x2\x3\x2\x3\x2\x3\x3\x6\x3!\n\x3\r\x3\xE");
+		sb.Append("\x3\"\x3\x3\x3\x3\x3\x3\x5\x3(\n\x3\x3\x4\x3\x4\x3\x4\x5\x4");
+		sb.Append("-\n\x4\x3\x5\x3\x5\x3\x5\x5\x5\x32\n\x5\x3\x5\x3\x5\x3\x5\x3");
+		sb.Append("\x5\x3\x5\x3\x6\x3\x6\x3\x6\x5\x6<\n\x6\x3\x6\x3\x6\x3\x6\x3");
+		sb.Append("\x6\x3\x6\x3\a\x3\a\x3\a\x3\a\x3\a\x5\aH\n\a\x3\a\x3\a\x3\a");
+		sb.Append("\a\aM\n\a\f\a\xE\aP\v\a\x3\a\x3\a\x3\b\x3\b\x3\b\x3\b\x3\b\x3");
+		sb.Append("\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3");
+		sb.Append("\b\a\b\x66\n\b\f\b\xE\bi\v\b\x3\b\x3\b\x3\b\x3\t\x3\t\x3\t\x6");
+		sb.Append("\tq\n\t\r\t\xE\tr\x3\t\x3\t\x3\t\x5\tx\n\t\x3\n\x3\n\x3\n\x6");
+		sb.Append("\n}\n\n\r\n\xE\n~\x3\n\x3\n\x3\n\x5\n\x84\n\n\x3\v\x3\v\x3\v");
+		sb.Append("\x3\f\x3\f\x3\r\x3\r\x3\r\a\r\x8E\n\r\f\r\xE\r\x91\v\r\x3\xE");
+		sb.Append("\x3\xE\x3\xE\x2\x3\x18\xF\x2\x4\x6\b\n\f\xE\x10\x12\x14\x16");
+		sb.Append("\x18\x1A\x2\x3\x3\x2\x6\a\x95\x2\x1C\x3\x2\x2\x2\x4\'\x3\x2");
+		sb.Append("\x2\x2\x6,\x3\x2\x2\x2\b.\x3\x2\x2\x2\n\x38\x3\x2\x2\x2\f\x42");
+		sb.Append("\x3\x2\x2\x2\xES\x3\x2\x2\x2\x10w\x3\x2\x2\x2\x12\x83\x3\x2");
+		sb.Append("\x2\x2\x14\x85\x3\x2\x2\x2\x16\x88\x3\x2\x2\x2\x18\x8A\x3\x2");
+		sb.Append("\x2\x2\x1A\x92\x3\x2\x2\x2\x1C\x1D\x5\x4\x3\x2\x1D\x1E\a\x2");
+		sb.Append("\x2\x3\x1E\x3\x3\x2\x2\x2\x1F!\x5\x6\x4\x2 \x1F\x3\x2\x2\x2");
+		sb.Append("!\"\x3\x2\x2\x2\" \x3\x2\x2\x2\"#\x3\x2\x2\x2#$\x3\x2\x2\x2");
+		sb.Append("$%\x5\x6\x4\x2%(\x3\x2\x2\x2&(\x5\x6\x4\x2\' \x3\x2\x2\x2\'");
+		sb.Append("&\x3\x2\x2\x2(\x5\x3\x2\x2\x2)-\x5\b\x5\x2*-\x5\f\a\x2+-\x5");
+		sb.Append("\xE\b\x2,)\x3\x2\x2\x2,*\x3\x2\x2\x2,+\x3\x2\x2\x2-\a\x3\x2");
+		sb.Append("\x2\x2./\a\a\x2\x2/\x31\a\b\x2\x2\x30\x32\x5\x10\t\x2\x31\x30");
+		sb.Append("\x3\x2\x2\x2\x31\x32\x3\x2\x2\x2\x32\x33\x3\x2\x2\x2\x33\x34");
+		sb.Append("\a\t\x2\x2\x34\x35\b\x5\x1\x2\x35\x36\a\f\x2\x2\x36\x37\b\x5");
+		sb.Append("\x1\x2\x37\t\x3\x2\x2\x2\x38\x39\a\a\x2\x2\x39;\a\b\x2\x2:<");
+		sb.Append("\x5\x10\t\x2;:\x3\x2\x2\x2;<\x3\x2\x2\x2<=\x3\x2\x2\x2=>\a\t");
+		sb.Append("\x2\x2>?\b\x6\x1\x2?@\a\f\x2\x2@\x41\b\x6\x1\x2\x41\v\x3\x2");
+		sb.Append("\x2\x2\x42\x43\a\a\x2\x2\x43\x44\a\a\x2\x2\x44\x45\b\a\x1\x2");
+		sb.Append("\x45G\a\b\x2\x2\x46H\x5\x12\n\x2G\x46\x3\x2\x2\x2GH\x3\x2\x2");
+		sb.Append("\x2HI\x3\x2\x2\x2IJ\a\t\x2\x2JN\a\n\x2\x2KM\x5\n\x6\x2LK\x3");
+		sb.Append("\x2\x2\x2MP\x3\x2\x2\x2NL\x3\x2\x2\x2NO\x3\x2\x2\x2OQ\x3\x2");
+		sb.Append("\x2\x2PN\x3\x2\x2\x2QR\a\v\x2\x2R\r\x3\x2\x2\x2ST\a\x3\x2\x2");
+		sb.Append("TU\a\b\x2\x2UV\a\x4\x2\x2VW\a\a\x2\x2WX\a\x5\x2\x2XY\a\x6\x2");
+		sb.Append("\x2YZ\a\f\x2\x2Z[\a\a\x2\x2[\\\a\xE\x2\x2\\]\a\x6\x2\x2]^\a");
+		sb.Append("\f\x2\x2^_\a\a\x2\x2_`\a\x10\x2\x2`\x61\a\x10\x2\x2\x61\x62");
+		sb.Append("\a\t\x2\x2\x62\x63\b\b\x1\x2\x63g\a\n\x2\x2\x64\x66\x5\n\x6");
+		sb.Append("\x2\x65\x64\x3\x2\x2\x2\x66i\x3\x2\x2\x2g\x65\x3\x2\x2\x2gh");
+		sb.Append("\x3\x2\x2\x2hj\x3\x2\x2\x2ig\x3\x2\x2\x2jk\a\v\x2\x2kl\b\b\x1");
+		sb.Append("\x2l\xF\x3\x2\x2\x2mn\x5\x16\f\x2no\a\r\x2\x2oq\x3\x2\x2\x2");
+		sb.Append("pm\x3\x2\x2\x2qr\x3\x2\x2\x2rp\x3\x2\x2\x2rs\x3\x2\x2\x2st\x3");
+		sb.Append("\x2\x2\x2tu\x5\x16\f\x2ux\x3\x2\x2\x2vx\x5\x16\f\x2wp\x3\x2");
+		sb.Append("\x2\x2wv\x3\x2\x2\x2x\x11\x3\x2\x2\x2yz\x5\x14\v\x2z{\a\r\x2");
+		sb.Append("\x2{}\x3\x2\x2\x2|y\x3\x2\x2\x2}~\x3\x2\x2\x2~|\x3\x2\x2\x2");
+		sb.Append("~\x7F\x3\x2\x2\x2\x7F\x80\x3\x2\x2\x2\x80\x81\x5\x14\v\x2\x81");
+		sb.Append("\x84\x3\x2\x2\x2\x82\x84\x5\x14\v\x2\x83|\x3\x2\x2\x2\x83\x82");
+		sb.Append("\x3\x2\x2\x2\x84\x13\x3\x2\x2\x2\x85\x86\a\a\x2\x2\x86\x87\a");
+		sb.Append("\a\x2\x2\x87\x15\x3\x2\x2\x2\x88\x89\t\x2\x2\x2\x89\x17\x3\x2");
+		sb.Append("\x2\x2\x8A\x8F\b\r\x1\x2\x8B\x8C\f\x4\x2\x2\x8C\x8E\x5\x1A\xE");
+		sb.Append("\x2\x8D\x8B\x3\x2\x2\x2\x8E\x91\x3\x2\x2\x2\x8F\x8D\x3\x2\x2");
+		sb.Append("\x2\x8F\x90\x3\x2\x2\x2\x90\x19\x3\x2\x2\x2\x91\x8F\x3\x2\x2");
+		sb.Append("\x2\x92\x93\x5\b\x5\x2\x93\x1B\x3\x2\x2\x2\xF\"\',\x31;GNgr");
+		sb.Append("w~\x83\x8F");
 	    return sb.ToString();
 	}
 
