@@ -58,7 +58,7 @@ function_declaration
       param_decl_list?
 	  RIGHTPAR
 	  LEFTSQ
-	  function_inside_function*
+	  (function_inside_function | for_cycle)*
 	  RIGHTSQ
 	;
 

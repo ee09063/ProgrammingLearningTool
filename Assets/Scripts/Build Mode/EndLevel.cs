@@ -2,8 +2,14 @@
 using UnityEditor;
 using System.Collections;
 
-public class EndLevelCheckpoint : MonoBehaviour
+public class EndLevel : Marker
 {
+
+    void Start()
+    {
+        base.Start();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -14,10 +20,8 @@ public class EndLevelCheckpoint : MonoBehaviour
 
     private IEnumerator WaitForEndOfMovement()
     {
-        Debug.Log("asdasds");
         while (!Program.currentCommandOver)
         {
-            Debug.Log(Program.currentCommandOver);
             yield return new WaitForSeconds(0.25f);
         }
 

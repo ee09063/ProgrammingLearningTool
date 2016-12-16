@@ -17,7 +17,7 @@ public class Marker : MonoBehaviour
         }
     }
 
-    void Start()
+    protected void Start()
     {
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         ToggleColor(false);

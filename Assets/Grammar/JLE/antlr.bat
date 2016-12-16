@@ -1,0 +1,1 @@
+antlr4 -Dlanguage=CSharp JSON.g4
