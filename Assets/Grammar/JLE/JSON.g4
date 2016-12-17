@@ -15,8 +15,8 @@ SEMICOLON : ';' ;
 COMMA : ',' ;
 LESSERTHAN : '<' ;
 GREATERTHAN : '>' ;
-PLUS: '+' ;
-MINUS: '-' ;
+PLUSPLUS: '++' ;
+MINUSMINUS: '--' ;
 
 WS : [ \t\r\n]+ -> skip ;
 
@@ -32,66 +32,56 @@ prog
 function
     : function_use
     | function_declaration
-	| for_cycle
+	| for_cycle_use
     ;
 
 function_use
     : identifier=STRING
       LEFTPAR
-      param_id_list?
-      RIGHTPAR {compiler.FunctionManager.addFunctionUse($identifier.text, $param_id_list.text); }
+      RIGHTPAR {compiler.FunctionManager.addFunctionToMaster($identifier.text); }
       SEMICOLON { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); }
     ;
 
 function_inside_function
 	: identifier=STRING
       LEFTPAR
-      param_id_list?
-      RIGHTPAR {compiler.FunctionManager.addFunctionToCurrent($identifier.text, $param_id_list.text); }
+      RIGHTPAR {compiler.FunctionManager.addFunctionToCurrentFunction($identifier.text); }
       SEMICOLON { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); }
     ;
 
 function_declaration
     : function_type=STRING
-      identifier=STRING {compiler.FunctionManager.addDeclaredFunction($function_type.text, $identifier.text); }
+      identifier=STRING {compiler.FunctionManager.addDeclaredFunction($identifier.text); }
 	  LEFTPAR
-      param_decl_list?
 	  RIGHTPAR
 	  LEFTSQ
-	  (function_inside_function | for_cycle)*
+	  (function_inside_function | for_cycle_inside_function)*
 	  RIGHTSQ
 	;
 
-for_cycle
+for_cycle_use
 	: 'for'
 	   LEFTPAR
 	   'int' val_dec=STRING '=' val_init=INT SEMICOLON
 	   val_use=STRING LESSERTHAN val_total=INT SEMICOLON
-	   val_inc=STRING PLUS PLUS
+	   val_inc=STRING (PLUSPLUS | MINUSMINUS)
+ 	   RIGHTPAR { compiler.FunctionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
+	   LEFTSQ
+	   function_inside_function*
+	   RIGHTSQ { compiler.FunctionManager.addForCycleCommandsToMaster(); }
+	;
+
+for_cycle_inside_function
+	: 'for'
+	   LEFTPAR
+	   'int' val_dec=STRING '=' val_init=INT SEMICOLON
+	   val_use=STRING LESSERTHAN val_total=INT SEMICOLON
+	   val_inc=STRING (PLUSPLUS | MINUSMINUS)
 	   RIGHTPAR { compiler.FunctionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
 	   LEFTSQ
 	   function_inside_function*
-	   RIGHTSQ { compiler.FunctionManager.addForCycleCommands(); }
+	   RIGHTSQ { compiler.FunctionManager.addForCycleCommandsToCurrentFunction(); }
 	;
-	
-param_id_list
-    : (param_id COMMA)+ param_id
-    | param_id
-    ;
-
-param_decl_list
-    : (param_decl COMMA)+ param_decl
-    | param_decl
-    ;
-
-param_decl
-    : param_type=STRING param_identifier=STRING
-    ;
-
-param_id
-    : STRING
-    | INT
-    ;
 
 statement_list
     : statement_list statement

@@ -34,27 +34,26 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 public partial class JSONParser : Parser {
 	public const int
 		T__0=1, T__1=2, T__2=3, INT=4, STRING=5, LEFTPAR=6, RIGHTPAR=7, LEFTSQ=8, 
-		RIGHTSQ=9, SEMICOLON=10, COMMA=11, LESSERTHAN=12, GREATERTHAN=13, PLUS=14, 
-		MINUS=15, WS=16;
+		RIGHTSQ=9, SEMICOLON=10, COMMA=11, LESSERTHAN=12, GREATERTHAN=13, PLUSPLUS=14, 
+		MINUSMINUS=15, WS=16;
 	public const int
 		RULE_start = 0, RULE_prog = 1, RULE_function = 2, RULE_function_use = 3, 
-		RULE_function_inside_function = 4, RULE_function_declaration = 5, RULE_for_cycle = 6, 
-		RULE_param_id_list = 7, RULE_param_decl_list = 8, RULE_param_decl = 9, 
-		RULE_param_id = 10, RULE_statement_list = 11, RULE_statement = 12;
+		RULE_function_inside_function = 4, RULE_function_declaration = 5, RULE_for_cycle_use = 6, 
+		RULE_for_cycle_inside_function = 7, RULE_statement_list = 8, RULE_statement = 9;
 	public static readonly string[] ruleNames = {
 		"start", "prog", "function", "function_use", "function_inside_function", 
-		"function_declaration", "for_cycle", "param_id_list", "param_decl_list", 
-		"param_decl", "param_id", "statement_list", "statement"
+		"function_declaration", "for_cycle_use", "for_cycle_inside_function", 
+		"statement_list", "statement"
 	};
 
 	private static readonly string[] _LiteralNames = {
 		null, "'for'", "'int'", "'='", null, null, "'('", "')'", "'{'", "'}'", 
-		"';'", "','", "'<'", "'>'", "'+'", "'-'"
+		"';'", "','", "'<'", "'>'", "'++'", "'--'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, null, null, null, "INT", "STRING", "LEFTPAR", "RIGHTPAR", "LEFTSQ", 
-		"RIGHTSQ", "SEMICOLON", "COMMA", "LESSERTHAN", "GREATERTHAN", "PLUS", 
-		"MINUS", "WS"
+		"RIGHTSQ", "SEMICOLON", "COMMA", "LESSERTHAN", "GREATERTHAN", "PLUSPLUS", 
+		"MINUSMINUS", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -108,8 +107,8 @@ public partial class JSONParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 26; prog();
-			State = 27; Match(Eof);
+			State = 20; prog();
+			State = 21; Match(Eof);
 			}
 		}
 		catch (RecognitionException re) {
@@ -151,13 +150,13 @@ public partial class JSONParser : Parser {
 		EnterRule(_localctx, 2, RULE_prog);
 		try {
 			int _alt;
-			State = 37;
+			State = 31;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 30;
+				State = 24;
 				ErrorHandler.Sync(this);
 				_alt = 1;
 				do {
@@ -165,24 +164,24 @@ public partial class JSONParser : Parser {
 					case 1:
 						{
 						{
-						State = 29; function();
+						State = 23; function();
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 32;
+					State = 26;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
 				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
-				State = 34; function();
+				State = 28; function();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 36; function();
+				State = 30; function();
 				}
 				break;
 			}
@@ -205,8 +204,8 @@ public partial class JSONParser : Parser {
 		public Function_declarationContext function_declaration() {
 			return GetRuleContext<Function_declarationContext>(0);
 		}
-		public For_cycleContext for_cycle() {
-			return GetRuleContext<For_cycleContext>(0);
+		public For_cycle_useContext for_cycle_use() {
+			return GetRuleContext<For_cycle_useContext>(0);
 		}
 		public FunctionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -228,25 +227,25 @@ public partial class JSONParser : Parser {
 		FunctionContext _localctx = new FunctionContext(Context, State);
 		EnterRule(_localctx, 4, RULE_function);
 		try {
-			State = 42;
+			State = 36;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,2,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 39; function_use();
+				State = 33; function_use();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 40; function_declaration();
+				State = 34; function_declaration();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 41; for_cycle();
+				State = 35; for_cycle_use();
 				}
 				break;
 			}
@@ -264,15 +263,11 @@ public partial class JSONParser : Parser {
 
 	public partial class Function_useContext : ParserRuleContext {
 		public IToken identifier;
-		public Param_id_listContext _param_id_list;
 		public IToken _SEMICOLON;
 		public ITerminalNode LEFTPAR() { return GetToken(JSONParser.LEFTPAR, 0); }
 		public ITerminalNode RIGHTPAR() { return GetToken(JSONParser.RIGHTPAR, 0); }
 		public ITerminalNode SEMICOLON() { return GetToken(JSONParser.SEMICOLON, 0); }
 		public ITerminalNode STRING() { return GetToken(JSONParser.STRING, 0); }
-		public Param_id_listContext param_id_list() {
-			return GetRuleContext<Param_id_listContext>(0);
-		}
 		public Function_useContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -292,23 +287,14 @@ public partial class JSONParser : Parser {
 	public Function_useContext function_use() {
 		Function_useContext _localctx = new Function_useContext(Context, State);
 		EnterRule(_localctx, 6, RULE_function_use);
-		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 44; _localctx.identifier = Match(STRING);
-			State = 45; Match(LEFTPAR);
-			State = 47;
-			_la = TokenStream.La(1);
-			if (_la==INT || _la==STRING) {
-				{
-				State = 46; _localctx._param_id_list = param_id_list();
-				}
-			}
-
-			State = 49; Match(RIGHTPAR);
-			compiler.FunctionManager.addFunctionUse((_localctx.identifier!=null?_localctx.identifier.Text:null), (_localctx._param_id_list!=null?TokenStream.GetText(_localctx._param_id_list.Start,_localctx._param_id_list.Stop):null)); 
-			State = 51; _localctx._SEMICOLON = Match(SEMICOLON);
+			State = 38; _localctx.identifier = Match(STRING);
+			State = 39; Match(LEFTPAR);
+			State = 40; Match(RIGHTPAR);
+			compiler.FunctionManager.addFunctionToMaster((_localctx.identifier!=null?_localctx.identifier.Text:null)); 
+			State = 42; _localctx._SEMICOLON = Match(SEMICOLON);
 			 compiler.FunctionManager.ErrorManager.checkLineEnding((_localctx._SEMICOLON!=null?_localctx._SEMICOLON.Text:null)); 
 			}
 		}
@@ -325,15 +311,11 @@ public partial class JSONParser : Parser {
 
 	public partial class Function_inside_functionContext : ParserRuleContext {
 		public IToken identifier;
-		public Param_id_listContext _param_id_list;
 		public IToken _SEMICOLON;
 		public ITerminalNode LEFTPAR() { return GetToken(JSONParser.LEFTPAR, 0); }
 		public ITerminalNode RIGHTPAR() { return GetToken(JSONParser.RIGHTPAR, 0); }
 		public ITerminalNode SEMICOLON() { return GetToken(JSONParser.SEMICOLON, 0); }
 		public ITerminalNode STRING() { return GetToken(JSONParser.STRING, 0); }
-		public Param_id_listContext param_id_list() {
-			return GetRuleContext<Param_id_listContext>(0);
-		}
 		public Function_inside_functionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -353,23 +335,14 @@ public partial class JSONParser : Parser {
 	public Function_inside_functionContext function_inside_function() {
 		Function_inside_functionContext _localctx = new Function_inside_functionContext(Context, State);
 		EnterRule(_localctx, 8, RULE_function_inside_function);
-		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 54; _localctx.identifier = Match(STRING);
-			State = 55; Match(LEFTPAR);
-			State = 57;
-			_la = TokenStream.La(1);
-			if (_la==INT || _la==STRING) {
-				{
-				State = 56; _localctx._param_id_list = param_id_list();
-				}
-			}
-
-			State = 59; Match(RIGHTPAR);
-			compiler.FunctionManager.addFunctionToCurrent((_localctx.identifier!=null?_localctx.identifier.Text:null), (_localctx._param_id_list!=null?TokenStream.GetText(_localctx._param_id_list.Start,_localctx._param_id_list.Stop):null)); 
-			State = 61; _localctx._SEMICOLON = Match(SEMICOLON);
+			State = 45; _localctx.identifier = Match(STRING);
+			State = 46; Match(LEFTPAR);
+			State = 47; Match(RIGHTPAR);
+			compiler.FunctionManager.addFunctionToCurrentFunction((_localctx.identifier!=null?_localctx.identifier.Text:null)); 
+			State = 49; _localctx._SEMICOLON = Match(SEMICOLON);
 			 compiler.FunctionManager.ErrorManager.checkLineEnding((_localctx._SEMICOLON!=null?_localctx._SEMICOLON.Text:null)); 
 			}
 		}
@@ -395,20 +368,17 @@ public partial class JSONParser : Parser {
 		public ITerminalNode STRING(int i) {
 			return GetToken(JSONParser.STRING, i);
 		}
-		public Param_decl_listContext param_decl_list() {
-			return GetRuleContext<Param_decl_listContext>(0);
-		}
 		public Function_inside_functionContext[] function_inside_function() {
 			return GetRuleContexts<Function_inside_functionContext>();
 		}
 		public Function_inside_functionContext function_inside_function(int i) {
 			return GetRuleContext<Function_inside_functionContext>(i);
 		}
-		public For_cycleContext[] for_cycle() {
-			return GetRuleContexts<For_cycleContext>();
+		public For_cycle_inside_functionContext[] for_cycle_inside_function() {
+			return GetRuleContexts<For_cycle_inside_functionContext>();
 		}
-		public For_cycleContext for_cycle(int i) {
-			return GetRuleContext<For_cycleContext>(i);
+		public For_cycle_inside_functionContext for_cycle_inside_function(int i) {
+			return GetRuleContext<For_cycle_inside_functionContext>(i);
 		}
 		public Function_declarationContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -433,46 +403,38 @@ public partial class JSONParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 64; _localctx.function_type = Match(STRING);
-			State = 65; _localctx.identifier = Match(STRING);
-			compiler.FunctionManager.addDeclaredFunction((_localctx.function_type!=null?_localctx.function_type.Text:null), (_localctx.identifier!=null?_localctx.identifier.Text:null)); 
-			State = 67; Match(LEFTPAR);
-			State = 69;
-			_la = TokenStream.La(1);
-			if (_la==STRING) {
-				{
-				State = 68; param_decl_list();
-				}
-			}
-
-			State = 71; Match(RIGHTPAR);
-			State = 72; Match(LEFTSQ);
-			State = 77;
+			State = 52; _localctx.function_type = Match(STRING);
+			State = 53; _localctx.identifier = Match(STRING);
+			compiler.FunctionManager.addDeclaredFunction((_localctx.identifier!=null?_localctx.identifier.Text:null)); 
+			State = 55; Match(LEFTPAR);
+			State = 56; Match(RIGHTPAR);
+			State = 57; Match(LEFTSQ);
+			State = 62;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.La(1);
 			while (_la==T__0 || _la==STRING) {
 				{
-				State = 75;
+				State = 60;
 				switch (TokenStream.La(1)) {
 				case STRING:
 					{
-					State = 73; function_inside_function();
+					State = 58; function_inside_function();
 					}
 					break;
 				case T__0:
 					{
-					State = 74; for_cycle();
+					State = 59; for_cycle_inside_function();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
 				}
-				State = 79;
+				State = 64;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 			}
-			State = 80; Match(RIGHTSQ);
+			State = 65; Match(RIGHTSQ);
 			}
 		}
 		catch (RecognitionException re) {
@@ -486,7 +448,7 @@ public partial class JSONParser : Parser {
 		return _localctx;
 	}
 
-	public partial class For_cycleContext : ParserRuleContext {
+	public partial class For_cycle_useContext : ParserRuleContext {
 		public IToken val_dec;
 		public IToken val_init;
 		public IToken val_use;
@@ -498,10 +460,6 @@ public partial class JSONParser : Parser {
 			return GetToken(JSONParser.SEMICOLON, i);
 		}
 		public ITerminalNode LESSERTHAN() { return GetToken(JSONParser.LESSERTHAN, 0); }
-		public ITerminalNode[] PLUS() { return GetTokens(JSONParser.PLUS); }
-		public ITerminalNode PLUS(int i) {
-			return GetToken(JSONParser.PLUS, i);
-		}
 		public ITerminalNode RIGHTPAR() { return GetToken(JSONParser.RIGHTPAR, 0); }
 		public ITerminalNode LEFTSQ() { return GetToken(JSONParser.LEFTSQ, 0); }
 		public ITerminalNode RIGHTSQ() { return GetToken(JSONParser.RIGHTSQ, 0); }
@@ -513,318 +471,180 @@ public partial class JSONParser : Parser {
 		public ITerminalNode INT(int i) {
 			return GetToken(JSONParser.INT, i);
 		}
+		public ITerminalNode PLUSPLUS() { return GetToken(JSONParser.PLUSPLUS, 0); }
+		public ITerminalNode MINUSMINUS() { return GetToken(JSONParser.MINUSMINUS, 0); }
 		public Function_inside_functionContext[] function_inside_function() {
 			return GetRuleContexts<Function_inside_functionContext>();
 		}
 		public Function_inside_functionContext function_inside_function(int i) {
 			return GetRuleContext<Function_inside_functionContext>(i);
 		}
-		public For_cycleContext(ParserRuleContext parent, int invokingState)
+		public For_cycle_useContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_for_cycle; } }
+		public override int RuleIndex { get { return RULE_for_cycle_use; } }
 		public override void EnterRule(IParseTreeListener listener) {
 			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.EnterFor_cycle(this);
+			if (typedListener != null) typedListener.EnterFor_cycle_use(this);
 		}
 		public override void ExitRule(IParseTreeListener listener) {
 			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.ExitFor_cycle(this);
+			if (typedListener != null) typedListener.ExitFor_cycle_use(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public For_cycleContext for_cycle() {
-		For_cycleContext _localctx = new For_cycleContext(Context, State);
-		EnterRule(_localctx, 12, RULE_for_cycle);
+	public For_cycle_useContext for_cycle_use() {
+		For_cycle_useContext _localctx = new For_cycle_useContext(Context, State);
+		EnterRule(_localctx, 12, RULE_for_cycle_use);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 82; Match(T__0);
-			State = 83; Match(LEFTPAR);
-			State = 84; Match(T__1);
-			State = 85; _localctx.val_dec = Match(STRING);
-			State = 86; Match(T__2);
-			State = 87; _localctx.val_init = Match(INT);
-			State = 88; Match(SEMICOLON);
-			State = 89; _localctx.val_use = Match(STRING);
-			State = 90; Match(LESSERTHAN);
-			State = 91; _localctx.val_total = Match(INT);
-			State = 92; Match(SEMICOLON);
-			State = 93; _localctx.val_inc = Match(STRING);
-			State = 94; Match(PLUS);
-			State = 95; Match(PLUS);
-			State = 96; Match(RIGHTPAR);
-			 compiler.FunctionManager.addForCycle((_localctx.val_dec!=null?_localctx.val_dec.Text:null), (_localctx.val_init!=null?_localctx.val_init.Text:null), (_localctx.val_use!=null?_localctx.val_use.Text:null), (_localctx.val_total!=null?_localctx.val_total.Text:null), (_localctx.val_inc!=null?_localctx.val_inc.Text:null)); 
-			State = 98; Match(LEFTSQ);
-			State = 102;
-			ErrorHandler.Sync(this);
+			State = 67; Match(T__0);
+			State = 68; Match(LEFTPAR);
+			State = 69; Match(T__1);
+			State = 70; _localctx.val_dec = Match(STRING);
+			State = 71; Match(T__2);
+			State = 72; _localctx.val_init = Match(INT);
+			State = 73; Match(SEMICOLON);
+			State = 74; _localctx.val_use = Match(STRING);
+			State = 75; Match(LESSERTHAN);
+			State = 76; _localctx.val_total = Match(INT);
+			State = 77; Match(SEMICOLON);
+			State = 78; _localctx.val_inc = Match(STRING);
+			State = 79;
 			_la = TokenStream.La(1);
-			while (_la==STRING) {
-				{
-				{
-				State = 99; function_inside_function();
-				}
-				}
-				State = 104;
-				ErrorHandler.Sync(this);
-				_la = TokenStream.La(1);
-			}
-			State = 105; Match(RIGHTSQ);
-			 compiler.FunctionManager.addForCycleCommands(); 
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Param_id_listContext : ParserRuleContext {
-		public Param_idContext[] param_id() {
-			return GetRuleContexts<Param_idContext>();
-		}
-		public Param_idContext param_id(int i) {
-			return GetRuleContext<Param_idContext>(i);
-		}
-		public ITerminalNode[] COMMA() { return GetTokens(JSONParser.COMMA); }
-		public ITerminalNode COMMA(int i) {
-			return GetToken(JSONParser.COMMA, i);
-		}
-		public Param_id_listContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_param_id_list; } }
-		public override void EnterRule(IParseTreeListener listener) {
-			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.EnterParam_id_list(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.ExitParam_id_list(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Param_id_listContext param_id_list() {
-		Param_id_listContext _localctx = new Param_id_listContext(Context, State);
-		EnterRule(_localctx, 14, RULE_param_id_list);
-		try {
-			int _alt;
-			State = 118;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,10,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 111;
-				ErrorHandler.Sync(this);
-				_alt = 1;
-				do {
-					switch (_alt) {
-					case 1:
-						{
-						{
-						State = 108; param_id();
-						State = 109; Match(COMMA);
-						}
-						}
-						break;
-					default:
-						throw new NoViableAltException(this);
-					}
-					State = 113;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,9,Context);
-				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
-				State = 115; param_id();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 117; param_id();
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Param_decl_listContext : ParserRuleContext {
-		public Param_declContext[] param_decl() {
-			return GetRuleContexts<Param_declContext>();
-		}
-		public Param_declContext param_decl(int i) {
-			return GetRuleContext<Param_declContext>(i);
-		}
-		public ITerminalNode[] COMMA() { return GetTokens(JSONParser.COMMA); }
-		public ITerminalNode COMMA(int i) {
-			return GetToken(JSONParser.COMMA, i);
-		}
-		public Param_decl_listContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_param_decl_list; } }
-		public override void EnterRule(IParseTreeListener listener) {
-			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.EnterParam_decl_list(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.ExitParam_decl_list(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Param_decl_listContext param_decl_list() {
-		Param_decl_listContext _localctx = new Param_decl_listContext(Context, State);
-		EnterRule(_localctx, 16, RULE_param_decl_list);
-		try {
-			int _alt;
-			State = 130;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,12,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 123;
-				ErrorHandler.Sync(this);
-				_alt = 1;
-				do {
-					switch (_alt) {
-					case 1:
-						{
-						{
-						State = 120; param_decl();
-						State = 121; Match(COMMA);
-						}
-						}
-						break;
-					default:
-						throw new NoViableAltException(this);
-					}
-					State = 125;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,11,Context);
-				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
-				State = 127; param_decl();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 129; param_decl();
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Param_declContext : ParserRuleContext {
-		public IToken param_type;
-		public IToken param_identifier;
-		public ITerminalNode[] STRING() { return GetTokens(JSONParser.STRING); }
-		public ITerminalNode STRING(int i) {
-			return GetToken(JSONParser.STRING, i);
-		}
-		public Param_declContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_param_decl; } }
-		public override void EnterRule(IParseTreeListener listener) {
-			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.EnterParam_decl(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.ExitParam_decl(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Param_declContext param_decl() {
-		Param_declContext _localctx = new Param_declContext(Context, State);
-		EnterRule(_localctx, 18, RULE_param_decl);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 132; _localctx.param_type = Match(STRING);
-			State = 133; _localctx.param_identifier = Match(STRING);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Param_idContext : ParserRuleContext {
-		public ITerminalNode STRING() { return GetToken(JSONParser.STRING, 0); }
-		public ITerminalNode INT() { return GetToken(JSONParser.INT, 0); }
-		public Param_idContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_param_id; } }
-		public override void EnterRule(IParseTreeListener listener) {
-			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.EnterParam_id(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IJSONListener typedListener = listener as IJSONListener;
-			if (typedListener != null) typedListener.ExitParam_id(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Param_idContext param_id() {
-		Param_idContext _localctx = new Param_idContext(Context, State);
-		EnterRule(_localctx, 20, RULE_param_id);
-		int _la;
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 135;
-			_la = TokenStream.La(1);
-			if ( !(_la==INT || _la==STRING) ) {
+			if ( !(_la==PLUSPLUS || _la==MINUSMINUS) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
 			    Consume();
 			}
+			State = 80; Match(RIGHTPAR);
+			 compiler.FunctionManager.addForCycle((_localctx.val_dec!=null?_localctx.val_dec.Text:null), (_localctx.val_init!=null?_localctx.val_init.Text:null), (_localctx.val_use!=null?_localctx.val_use.Text:null), (_localctx.val_total!=null?_localctx.val_total.Text:null), (_localctx.val_inc!=null?_localctx.val_inc.Text:null)); 
+			State = 82; Match(LEFTSQ);
+			State = 86;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.La(1);
+			while (_la==STRING) {
+				{
+				{
+				State = 83; function_inside_function();
+				}
+				}
+				State = 88;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.La(1);
+			}
+			State = 89; Match(RIGHTSQ);
+			 compiler.FunctionManager.addForCycleCommandsToMaster(); 
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class For_cycle_inside_functionContext : ParserRuleContext {
+		public IToken val_dec;
+		public IToken val_init;
+		public IToken val_use;
+		public IToken val_total;
+		public IToken val_inc;
+		public ITerminalNode LEFTPAR() { return GetToken(JSONParser.LEFTPAR, 0); }
+		public ITerminalNode[] SEMICOLON() { return GetTokens(JSONParser.SEMICOLON); }
+		public ITerminalNode SEMICOLON(int i) {
+			return GetToken(JSONParser.SEMICOLON, i);
+		}
+		public ITerminalNode LESSERTHAN() { return GetToken(JSONParser.LESSERTHAN, 0); }
+		public ITerminalNode RIGHTPAR() { return GetToken(JSONParser.RIGHTPAR, 0); }
+		public ITerminalNode LEFTSQ() { return GetToken(JSONParser.LEFTSQ, 0); }
+		public ITerminalNode RIGHTSQ() { return GetToken(JSONParser.RIGHTSQ, 0); }
+		public ITerminalNode[] STRING() { return GetTokens(JSONParser.STRING); }
+		public ITerminalNode STRING(int i) {
+			return GetToken(JSONParser.STRING, i);
+		}
+		public ITerminalNode[] INT() { return GetTokens(JSONParser.INT); }
+		public ITerminalNode INT(int i) {
+			return GetToken(JSONParser.INT, i);
+		}
+		public ITerminalNode PLUSPLUS() { return GetToken(JSONParser.PLUSPLUS, 0); }
+		public ITerminalNode MINUSMINUS() { return GetToken(JSONParser.MINUSMINUS, 0); }
+		public Function_inside_functionContext[] function_inside_function() {
+			return GetRuleContexts<Function_inside_functionContext>();
+		}
+		public Function_inside_functionContext function_inside_function(int i) {
+			return GetRuleContext<Function_inside_functionContext>(i);
+		}
+		public For_cycle_inside_functionContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_for_cycle_inside_function; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IJSONListener typedListener = listener as IJSONListener;
+			if (typedListener != null) typedListener.EnterFor_cycle_inside_function(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IJSONListener typedListener = listener as IJSONListener;
+			if (typedListener != null) typedListener.ExitFor_cycle_inside_function(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public For_cycle_inside_functionContext for_cycle_inside_function() {
+		For_cycle_inside_functionContext _localctx = new For_cycle_inside_functionContext(Context, State);
+		EnterRule(_localctx, 14, RULE_for_cycle_inside_function);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 92; Match(T__0);
+			State = 93; Match(LEFTPAR);
+			State = 94; Match(T__1);
+			State = 95; _localctx.val_dec = Match(STRING);
+			State = 96; Match(T__2);
+			State = 97; _localctx.val_init = Match(INT);
+			State = 98; Match(SEMICOLON);
+			State = 99; _localctx.val_use = Match(STRING);
+			State = 100; Match(LESSERTHAN);
+			State = 101; _localctx.val_total = Match(INT);
+			State = 102; Match(SEMICOLON);
+			State = 103; _localctx.val_inc = Match(STRING);
+			State = 104;
+			_la = TokenStream.La(1);
+			if ( !(_la==PLUSPLUS || _la==MINUSMINUS) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+			    Consume();
+			}
+			State = 105; Match(RIGHTPAR);
+			 compiler.FunctionManager.addForCycle((_localctx.val_dec!=null?_localctx.val_dec.Text:null), (_localctx.val_init!=null?_localctx.val_init.Text:null), (_localctx.val_use!=null?_localctx.val_use.Text:null), (_localctx.val_total!=null?_localctx.val_total.Text:null), (_localctx.val_inc!=null?_localctx.val_inc.Text:null)); 
+			State = 107; Match(LEFTSQ);
+			State = 111;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.La(1);
+			while (_la==STRING) {
+				{
+				{
+				State = 108; function_inside_function();
+				}
+				}
+				State = 113;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.La(1);
+			}
+			State = 114; Match(RIGHTSQ);
+			 compiler.FunctionManager.addForCycleCommandsToCurrentFunction(); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -870,8 +690,8 @@ public partial class JSONParser : Parser {
 		int _parentState = State;
 		Statement_listContext _localctx = new Statement_listContext(Context, _parentState);
 		Statement_listContext _prevctx = _localctx;
-		int _startState = 22;
-		EnterRecursionRule(_localctx, 22, RULE_statement_list, _p);
+		int _startState = 16;
+		EnterRecursionRule(_localctx, 16, RULE_statement_list, _p);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
@@ -879,9 +699,9 @@ public partial class JSONParser : Parser {
 			{
 			}
 			Context.Stop = TokenStream.Lt(-1);
-			State = 142;
+			State = 122;
 			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,13,Context);
+			_alt = Interpreter.AdaptivePredict(TokenStream,7,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
 				if ( _alt==1 ) {
 					if ( ParseListeners!=null )
@@ -891,15 +711,15 @@ public partial class JSONParser : Parser {
 					{
 					_localctx = new Statement_listContext(_parentctx, _parentState);
 					PushNewRecursionContext(_localctx, _startState, RULE_statement_list);
-					State = 138;
+					State = 118;
 					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-					State = 139; statement();
+					State = 119; statement();
 					}
 					} 
 				}
-				State = 144;
+				State = 124;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,13,Context);
+				_alt = Interpreter.AdaptivePredict(TokenStream,7,Context);
 			}
 			}
 		}
@@ -936,11 +756,11 @@ public partial class JSONParser : Parser {
 	[RuleVersion(0)]
 	public StatementContext statement() {
 		StatementContext _localctx = new StatementContext(Context, State);
-		EnterRule(_localctx, 24, RULE_statement);
+		EnterRule(_localctx, 18, RULE_statement);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 145; function_use();
+			State = 125; function_use();
 			}
 		}
 		catch (RecognitionException re) {
@@ -956,7 +776,7 @@ public partial class JSONParser : Parser {
 
 	public override bool Sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 11: return statement_list_sempred((Statement_listContext)_localctx, predIndex);
+		case 8: return statement_list_sempred((Statement_listContext)_localctx, predIndex);
 		}
 		return true;
 	}
@@ -972,61 +792,51 @@ public partial class JSONParser : Parser {
 	{
 	    StringBuilder sb = new StringBuilder();
 	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\x12");
-		sb.Append("\x96\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6");
-		sb.Append("\x4\a\t\a\x4\b\t\b\x4\t\t\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r");
-		sb.Append("\t\r\x4\xE\t\xE\x3\x2\x3\x2\x3\x2\x3\x3\x6\x3!\n\x3\r\x3\xE");
-		sb.Append("\x3\"\x3\x3\x3\x3\x3\x3\x5\x3(\n\x3\x3\x4\x3\x4\x3\x4\x5\x4");
-		sb.Append("-\n\x4\x3\x5\x3\x5\x3\x5\x5\x5\x32\n\x5\x3\x5\x3\x5\x3\x5\x3");
-		sb.Append("\x5\x3\x5\x3\x6\x3\x6\x3\x6\x5\x6<\n\x6\x3\x6\x3\x6\x3\x6\x3");
-		sb.Append("\x6\x3\x6\x3\a\x3\a\x3\a\x3\a\x3\a\x5\aH\n\a\x3\a\x3\a\x3\a");
-		sb.Append("\x3\a\a\aN\n\a\f\a\xE\aQ\v\a\x3\a\x3\a\x3\b\x3\b\x3\b\x3\b\x3");
-		sb.Append("\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3");
-		sb.Append("\b\x3\b\a\bg\n\b\f\b\xE\bj\v\b\x3\b\x3\b\x3\b\x3\t\x3\t\x3\t");
-		sb.Append("\x6\tr\n\t\r\t\xE\ts\x3\t\x3\t\x3\t\x5\ty\n\t\x3\n\x3\n\x3\n");
-		sb.Append("\x6\n~\n\n\r\n\xE\n\x7F\x3\n\x3\n\x3\n\x5\n\x85\n\n\x3\v\x3");
-		sb.Append("\v\x3\v\x3\f\x3\f\x3\r\x3\r\x3\r\a\r\x8F\n\r\f\r\xE\r\x92\v");
-		sb.Append("\r\x3\xE\x3\xE\x3\xE\x2\x3\x18\xF\x2\x4\x6\b\n\f\xE\x10\x12");
-		sb.Append("\x14\x16\x18\x1A\x2\x3\x3\x2\x6\a\x97\x2\x1C\x3\x2\x2\x2\x4");
-		sb.Append("\'\x3\x2\x2\x2\x6,\x3\x2\x2\x2\b.\x3\x2\x2\x2\n\x38\x3\x2\x2");
-		sb.Append("\x2\f\x42\x3\x2\x2\x2\xET\x3\x2\x2\x2\x10x\x3\x2\x2\x2\x12\x84");
-		sb.Append("\x3\x2\x2\x2\x14\x86\x3\x2\x2\x2\x16\x89\x3\x2\x2\x2\x18\x8B");
-		sb.Append("\x3\x2\x2\x2\x1A\x93\x3\x2\x2\x2\x1C\x1D\x5\x4\x3\x2\x1D\x1E");
-		sb.Append("\a\x2\x2\x3\x1E\x3\x3\x2\x2\x2\x1F!\x5\x6\x4\x2 \x1F\x3\x2\x2");
-		sb.Append("\x2!\"\x3\x2\x2\x2\" \x3\x2\x2\x2\"#\x3\x2\x2\x2#$\x3\x2\x2");
-		sb.Append("\x2$%\x5\x6\x4\x2%(\x3\x2\x2\x2&(\x5\x6\x4\x2\' \x3\x2\x2\x2");
-		sb.Append("\'&\x3\x2\x2\x2(\x5\x3\x2\x2\x2)-\x5\b\x5\x2*-\x5\f\a\x2+-\x5");
-		sb.Append("\xE\b\x2,)\x3\x2\x2\x2,*\x3\x2\x2\x2,+\x3\x2\x2\x2-\a\x3\x2");
-		sb.Append("\x2\x2./\a\a\x2\x2/\x31\a\b\x2\x2\x30\x32\x5\x10\t\x2\x31\x30");
-		sb.Append("\x3\x2\x2\x2\x31\x32\x3\x2\x2\x2\x32\x33\x3\x2\x2\x2\x33\x34");
-		sb.Append("\a\t\x2\x2\x34\x35\b\x5\x1\x2\x35\x36\a\f\x2\x2\x36\x37\b\x5");
-		sb.Append("\x1\x2\x37\t\x3\x2\x2\x2\x38\x39\a\a\x2\x2\x39;\a\b\x2\x2:<");
-		sb.Append("\x5\x10\t\x2;:\x3\x2\x2\x2;<\x3\x2\x2\x2<=\x3\x2\x2\x2=>\a\t");
-		sb.Append("\x2\x2>?\b\x6\x1\x2?@\a\f\x2\x2@\x41\b\x6\x1\x2\x41\v\x3\x2");
-		sb.Append("\x2\x2\x42\x43\a\a\x2\x2\x43\x44\a\a\x2\x2\x44\x45\b\a\x1\x2");
-		sb.Append("\x45G\a\b\x2\x2\x46H\x5\x12\n\x2G\x46\x3\x2\x2\x2GH\x3\x2\x2");
-		sb.Append("\x2HI\x3\x2\x2\x2IJ\a\t\x2\x2JO\a\n\x2\x2KN\x5\n\x6\x2LN\x5");
-		sb.Append("\xE\b\x2MK\x3\x2\x2\x2ML\x3\x2\x2\x2NQ\x3\x2\x2\x2OM\x3\x2\x2");
-		sb.Append("\x2OP\x3\x2\x2\x2PR\x3\x2\x2\x2QO\x3\x2\x2\x2RS\a\v\x2\x2S\r");
-		sb.Append("\x3\x2\x2\x2TU\a\x3\x2\x2UV\a\b\x2\x2VW\a\x4\x2\x2WX\a\a\x2");
-		sb.Append("\x2XY\a\x5\x2\x2YZ\a\x6\x2\x2Z[\a\f\x2\x2[\\\a\a\x2\x2\\]\a");
-		sb.Append("\xE\x2\x2]^\a\x6\x2\x2^_\a\f\x2\x2_`\a\a\x2\x2`\x61\a\x10\x2");
-		sb.Append("\x2\x61\x62\a\x10\x2\x2\x62\x63\a\t\x2\x2\x63\x64\b\b\x1\x2");
-		sb.Append("\x64h\a\n\x2\x2\x65g\x5\n\x6\x2\x66\x65\x3\x2\x2\x2gj\x3\x2");
-		sb.Append("\x2\x2h\x66\x3\x2\x2\x2hi\x3\x2\x2\x2ik\x3\x2\x2\x2jh\x3\x2");
-		sb.Append("\x2\x2kl\a\v\x2\x2lm\b\b\x1\x2m\xF\x3\x2\x2\x2no\x5\x16\f\x2");
-		sb.Append("op\a\r\x2\x2pr\x3\x2\x2\x2qn\x3\x2\x2\x2rs\x3\x2\x2\x2sq\x3");
-		sb.Append("\x2\x2\x2st\x3\x2\x2\x2tu\x3\x2\x2\x2uv\x5\x16\f\x2vy\x3\x2");
-		sb.Append("\x2\x2wy\x5\x16\f\x2xq\x3\x2\x2\x2xw\x3\x2\x2\x2y\x11\x3\x2");
-		sb.Append("\x2\x2z{\x5\x14\v\x2{|\a\r\x2\x2|~\x3\x2\x2\x2}z\x3\x2\x2\x2");
-		sb.Append("~\x7F\x3\x2\x2\x2\x7F}\x3\x2\x2\x2\x7F\x80\x3\x2\x2\x2\x80\x81");
-		sb.Append("\x3\x2\x2\x2\x81\x82\x5\x14\v\x2\x82\x85\x3\x2\x2\x2\x83\x85");
-		sb.Append("\x5\x14\v\x2\x84}\x3\x2\x2\x2\x84\x83\x3\x2\x2\x2\x85\x13\x3");
-		sb.Append("\x2\x2\x2\x86\x87\a\a\x2\x2\x87\x88\a\a\x2\x2\x88\x15\x3\x2");
-		sb.Append("\x2\x2\x89\x8A\t\x2\x2\x2\x8A\x17\x3\x2\x2\x2\x8B\x90\b\r\x1");
-		sb.Append("\x2\x8C\x8D\f\x4\x2\x2\x8D\x8F\x5\x1A\xE\x2\x8E\x8C\x3\x2\x2");
-		sb.Append("\x2\x8F\x92\x3\x2\x2\x2\x90\x8E\x3\x2\x2\x2\x90\x91\x3\x2\x2");
-		sb.Append("\x2\x91\x19\x3\x2\x2\x2\x92\x90\x3\x2\x2\x2\x93\x94\x5\b\x5");
-		sb.Append("\x2\x94\x1B\x3\x2\x2\x2\x10\"\',\x31;GMOhsx\x7F\x84\x90");
+		sb.Append("\x82\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6");
+		sb.Append("\x4\a\t\a\x4\b\t\b\x4\t\t\t\x4\n\t\n\x4\v\t\v\x3\x2\x3\x2\x3");
+		sb.Append("\x2\x3\x3\x6\x3\x1B\n\x3\r\x3\xE\x3\x1C\x3\x3\x3\x3\x3\x3\x5");
+		sb.Append("\x3\"\n\x3\x3\x4\x3\x4\x3\x4\x5\x4\'\n\x4\x3\x5\x3\x5\x3\x5");
+		sb.Append("\x3\x5\x3\x5\x3\x5\x3\x5\x3\x6\x3\x6\x3\x6\x3\x6\x3\x6\x3\x6");
+		sb.Append("\x3\x6\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\a\a?\n\a\f\a");
+		sb.Append("\xE\a\x42\v\a\x3\a\x3\a\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3");
+		sb.Append("\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\x3\b\a\bW\n\b\f\b");
+		sb.Append("\xE\bZ\v\b\x3\b\x3\b\x3\b\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t");
+		sb.Append("\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\a\tp\n\t");
+		sb.Append("\f\t\xE\ts\v\t\x3\t\x3\t\x3\t\x3\n\x3\n\x3\n\a\n{\n\n\f\n\xE");
+		sb.Append("\n~\v\n\x3\v\x3\v\x3\v\x2\x3\x12\f\x2\x4\x6\b\n\f\xE\x10\x12");
+		sb.Append("\x14\x2\x3\x3\x2\x10\x11\x80\x2\x16\x3\x2\x2\x2\x4!\x3\x2\x2");
+		sb.Append("\x2\x6&\x3\x2\x2\x2\b(\x3\x2\x2\x2\n/\x3\x2\x2\x2\f\x36\x3\x2");
+		sb.Append("\x2\x2\xE\x45\x3\x2\x2\x2\x10^\x3\x2\x2\x2\x12w\x3\x2\x2\x2");
+		sb.Append("\x14\x7F\x3\x2\x2\x2\x16\x17\x5\x4\x3\x2\x17\x18\a\x2\x2\x3");
+		sb.Append("\x18\x3\x3\x2\x2\x2\x19\x1B\x5\x6\x4\x2\x1A\x19\x3\x2\x2\x2");
+		sb.Append("\x1B\x1C\x3\x2\x2\x2\x1C\x1A\x3\x2\x2\x2\x1C\x1D\x3\x2\x2\x2");
+		sb.Append("\x1D\x1E\x3\x2\x2\x2\x1E\x1F\x5\x6\x4\x2\x1F\"\x3\x2\x2\x2 ");
+		sb.Append("\"\x5\x6\x4\x2!\x1A\x3\x2\x2\x2! \x3\x2\x2\x2\"\x5\x3\x2\x2");
+		sb.Append("\x2#\'\x5\b\x5\x2$\'\x5\f\a\x2%\'\x5\xE\b\x2&#\x3\x2\x2\x2&");
+		sb.Append("$\x3\x2\x2\x2&%\x3\x2\x2\x2\'\a\x3\x2\x2\x2()\a\a\x2\x2)*\a");
+		sb.Append("\b\x2\x2*+\a\t\x2\x2+,\b\x5\x1\x2,-\a\f\x2\x2-.\b\x5\x1\x2.");
+		sb.Append("\t\x3\x2\x2\x2/\x30\a\a\x2\x2\x30\x31\a\b\x2\x2\x31\x32\a\t");
+		sb.Append("\x2\x2\x32\x33\b\x6\x1\x2\x33\x34\a\f\x2\x2\x34\x35\b\x6\x1");
+		sb.Append("\x2\x35\v\x3\x2\x2\x2\x36\x37\a\a\x2\x2\x37\x38\a\a\x2\x2\x38");
+		sb.Append("\x39\b\a\x1\x2\x39:\a\b\x2\x2:;\a\t\x2\x2;@\a\n\x2\x2<?\x5\n");
+		sb.Append("\x6\x2=?\x5\x10\t\x2><\x3\x2\x2\x2>=\x3\x2\x2\x2?\x42\x3\x2");
+		sb.Append("\x2\x2@>\x3\x2\x2\x2@\x41\x3\x2\x2\x2\x41\x43\x3\x2\x2\x2\x42");
+		sb.Append("@\x3\x2\x2\x2\x43\x44\a\v\x2\x2\x44\r\x3\x2\x2\x2\x45\x46\a");
+		sb.Append("\x3\x2\x2\x46G\a\b\x2\x2GH\a\x4\x2\x2HI\a\a\x2\x2IJ\a\x5\x2");
+		sb.Append("\x2JK\a\x6\x2\x2KL\a\f\x2\x2LM\a\a\x2\x2MN\a\xE\x2\x2NO\a\x6");
+		sb.Append("\x2\x2OP\a\f\x2\x2PQ\a\a\x2\x2QR\t\x2\x2\x2RS\a\t\x2\x2ST\b");
+		sb.Append("\b\x1\x2TX\a\n\x2\x2UW\x5\n\x6\x2VU\x3\x2\x2\x2WZ\x3\x2\x2\x2");
+		sb.Append("XV\x3\x2\x2\x2XY\x3\x2\x2\x2Y[\x3\x2\x2\x2ZX\x3\x2\x2\x2[\\");
+		sb.Append("\a\v\x2\x2\\]\b\b\x1\x2]\xF\x3\x2\x2\x2^_\a\x3\x2\x2_`\a\b\x2");
+		sb.Append("\x2`\x61\a\x4\x2\x2\x61\x62\a\a\x2\x2\x62\x63\a\x5\x2\x2\x63");
+		sb.Append("\x64\a\x6\x2\x2\x64\x65\a\f\x2\x2\x65\x66\a\a\x2\x2\x66g\a\xE");
+		sb.Append("\x2\x2gh\a\x6\x2\x2hi\a\f\x2\x2ij\a\a\x2\x2jk\t\x2\x2\x2kl\a");
+		sb.Append("\t\x2\x2lm\b\t\x1\x2mq\a\n\x2\x2np\x5\n\x6\x2on\x3\x2\x2\x2");
+		sb.Append("ps\x3\x2\x2\x2qo\x3\x2\x2\x2qr\x3\x2\x2\x2rt\x3\x2\x2\x2sq\x3");
+		sb.Append("\x2\x2\x2tu\a\v\x2\x2uv\b\t\x1\x2v\x11\x3\x2\x2\x2w|\b\n\x1");
+		sb.Append("\x2xy\f\x4\x2\x2y{\x5\x14\v\x2zx\x3\x2\x2\x2{~\x3\x2\x2\x2|");
+		sb.Append("z\x3\x2\x2\x2|}\x3\x2\x2\x2}\x13\x3\x2\x2\x2~|\x3\x2\x2\x2\x7F");
+		sb.Append("\x80\x5\b\x5\x2\x80\x15\x3\x2\x2\x2\n\x1C!&>@Xq|");
 	    return sb.ToString();
 	}
 

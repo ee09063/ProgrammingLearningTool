@@ -107,65 +107,29 @@ public partial class JSONBaseListener : IJSONListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFunction_declaration([NotNull] JSONParser.Function_declarationContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.for_cycle"/>.
+	/// Enter a parse tree produced by <see cref="JSONParser.for_cycle_use"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFor_cycle([NotNull] JSONParser.For_cycleContext context) { }
+	public virtual void EnterFor_cycle_use([NotNull] JSONParser.For_cycle_useContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.for_cycle"/>.
+	/// Exit a parse tree produced by <see cref="JSONParser.for_cycle_use"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFor_cycle([NotNull] JSONParser.For_cycleContext context) { }
+	public virtual void ExitFor_cycle_use([NotNull] JSONParser.For_cycle_useContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.param_id_list"/>.
+	/// Enter a parse tree produced by <see cref="JSONParser.for_cycle_inside_function"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterParam_id_list([NotNull] JSONParser.Param_id_listContext context) { }
+	public virtual void EnterFor_cycle_inside_function([NotNull] JSONParser.For_cycle_inside_functionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.param_id_list"/>.
+	/// Exit a parse tree produced by <see cref="JSONParser.for_cycle_inside_function"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitParam_id_list([NotNull] JSONParser.Param_id_listContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.param_decl_list"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterParam_decl_list([NotNull] JSONParser.Param_decl_listContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.param_decl_list"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitParam_decl_list([NotNull] JSONParser.Param_decl_listContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.param_decl"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterParam_decl([NotNull] JSONParser.Param_declContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.param_decl"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitParam_decl([NotNull] JSONParser.Param_declContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.param_id"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterParam_id([NotNull] JSONParser.Param_idContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.param_id"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitParam_id([NotNull] JSONParser.Param_idContext context) { }
+	public virtual void ExitFor_cycle_inside_function([NotNull] JSONParser.For_cycle_inside_functionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="JSONParser.statement_list"/>.
 	/// <para>The default implementation does nothing.</para>

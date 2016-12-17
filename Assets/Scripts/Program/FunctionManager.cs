@@ -10,13 +10,12 @@ using MoveDirection = MoveCommand.Direction;
 
 public class FunctionManager
 {
-    private List<string> _calledFunctions;
     private List<string> _declaredFunctions;
     private List<Function> _functions;
     private List<Command> _commands;
     private ErrorManager _errorManager;
     private Function _currentFunction;
- 
+
     private enum ReservedCommands
     {
         MOVE_FWD,
@@ -30,14 +29,6 @@ public class FunctionManager
         get
         {
             return _commands;
-        }
-    }
-
-    public List<string> CalledFunctions
-    {
-        get
-        {
-            return _calledFunctions;
         }
     }
 
@@ -60,14 +51,20 @@ public class FunctionManager
     public FunctionManager()
     {
         _commands = new List<Command>();
-        _calledFunctions = new List<string>();
         _declaredFunctions = new List<string>();
         _functions = new List<Function>();
         _errorManager = new ErrorManager();
         addReservedFunctions();
     }
 
-    public void addFunctionUse(string identifier, string args) //use a predefined or previously declared function
+    /***********************************************************************************/
+    /******************************      FUNCTIONS      ********************************/
+    /***********************************************************************************/
+
+    /*
+    *  Adds the commands of a function to the master function 
+    */
+    public void addFunctionToMaster(string identifier)
     {
         if (identifier == null)
         {
@@ -93,9 +90,12 @@ public class FunctionManager
         }
     }
 
-    public void addDeclaredFunction(string type, string identifier) // add a new function
+    /*
+     *  Adds a new declared function 
+     */
+    public void addDeclaredFunction(string identifier) // add a new function
     {
-        if (identifier == null || type == null)
+        if (identifier == null)
         {
             return;
         }
@@ -109,11 +109,14 @@ public class FunctionManager
         Debug.Log("ADDING NEW DECLARED FUNCTION " + identifier);
 
         _declaredFunctions.Add(identifier.Trim());
-        _currentFunction = new Function(type.Trim(), identifier.Trim());
+        _currentFunction = new Function("void", identifier.Trim());
         _functions.Add(_currentFunction);
     }
         
-    public void addFunctionToCurrent(string identifier, string args)
+    /*
+     * Adds the commands of a function to the current function
+     */
+    public void addFunctionToCurrentFunction(string identifier)
     {
         Debug.Log("Adding " + identifier + " to current");
         List<Command> cmds = getFunctionCommands(identifier.Trim());
@@ -124,13 +127,17 @@ public class FunctionManager
         }
     }
 
+    /****************** FOR CYCLE ********************************/
+
+    /*
+     * Adds for cycle to the _for_functions List
+     */
     public void addForCycle(string varDec, string varInit, string varUse, string varTotal, string varInc)
     {
         Debug.Log("Adding For Cycle");
         int varInitialValue = int.Parse(varInit);
         int varLastValue = int.Parse(varTotal);
 
-        //check if the name of the variables matches
         if (!varDec.Equals(varUse) || !varDec.Equals(varInc) || !varUse.Equals(varInc))
         {
             Debug.Log("Variables have different names");
@@ -143,8 +150,12 @@ public class FunctionManager
         _functions.Add(forCycle);
     }
 
-    public void addForCycleCommands()
+    /*
+     * Adds the commands of a for cycle to the master function
+     */
+    public void addForCycleCommandsToMaster()
     {
+        Debug.Log("Adding for cycle commands to master commands list");
         List<Command> forCommands = _functions[_functions.Count - 1].getCommands();
 
         if (forCommands == null)
@@ -158,6 +169,46 @@ public class FunctionManager
             _commands.Add(cmd);
         }
     }
+        
+    /*
+     * Adds the commands of a for cycle to the current function
+     */
+    public void addForCycleCommandsToCurrentFunction()
+    {
+        Function forCycle = _functions[_functions.Count - 1];
+        Function target = null;
+
+        for (int i = 0; i < _functions.Count; i++)
+        {
+            Debug.Log(_functions[i].getIdentifier());
+        }
+
+        for (int i = _functions.Count - 1; i >= 0; i--)
+        {
+            Function fun = _functions[i];
+            if (!fun.getIdentifier().Equals("for_cycle"))
+            {
+                target = fun;
+                break;
+            }
+        }
+
+        if (target == null)
+        {
+            Debug.LogError("Target function is null");
+        }
+
+        Debug.Log("Adding for cycle commands to function " + target.getIdentifier());
+
+        foreach (Command cmd in forCycle.getCommands())
+        {
+            target.addCommand(cmd);
+        }
+    }
+
+    /***********************************************************************************/
+    /******************************      COMMANDS      *********************************/
+    /***********************************************************************************/
 
     private void addMoveCommand(string args)
     {
@@ -214,7 +265,7 @@ public class FunctionManager
 
     private List<Command> getFunctionCommands(string identifier)
     {
-        foreach(Function function in _functions)
+        foreach (Function function in _functions)
         {
             if (function.getIdentifier().Equals(identifier))
             {

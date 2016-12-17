@@ -5,3 +5,5 @@ void foo()
 		move_fwd();
 	}
 }
+
+foo();
