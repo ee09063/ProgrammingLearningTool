@@ -49,7 +49,7 @@ public class Marker : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+    protected virtual void OnMouseDown()
     {
         _active = !_active;
         ToggleColor(_active);

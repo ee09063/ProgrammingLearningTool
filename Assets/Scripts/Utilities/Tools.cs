@@ -13,33 +13,79 @@
             Left
         }
 
-        public static void GetAnchorsForWindowPosition(WindowPositions targetPosition, out Vector2 anchorMin, out Vector2 anchorMax)
+        public enum PanelType
+        {
+            BuildMode,
+            Instruction
+        }
+
+        public static void GetAnchorsForWindowPosition(WindowPositions targetPosition, out Vector2 anchorMin, out Vector2 anchorMax, PanelType type)
         {
             switch (targetPosition)
             {
                 case WindowPositions.Right:
-                    anchorMin = Vector2.right;
-                    anchorMax = new Vector2(1.2f, 1);
+                    if (type == PanelType.Instruction)
+                    {
+                        anchorMin = new Vector2(1, 0.25f);
+                        anchorMax = new Vector2(1.45f, 0.8f);
+                    }
+                    else
+                    {
+                        anchorMin = Vector2.right;
+                        anchorMax = new Vector2(1.2f, 1);
+                    }
                     break;
 
                 case WindowPositions.Up:
-                    anchorMin = Vector2.up;
-                    anchorMax = new Vector2(1, 2);
+                    if (type == PanelType.Instruction)
+                    {
+                        anchorMin = Vector2.up;
+                        anchorMax = new Vector2(1, 2);
+                    }
+                    else
+                    {
+                        anchorMin = Vector2.up;
+                        anchorMax = new Vector2(1, 2);
+                    }
                     break;
 
                 case WindowPositions.Down:
-                    anchorMin = new Vector2(0, -1);
-                    anchorMax = Vector2.right;
+                    if (type == PanelType.Instruction)
+                    {
+                        anchorMin = new Vector2(0, -1);
+                        anchorMax = Vector2.right;
+                    }
+                    else
+                    {
+                        anchorMin = new Vector2(0, -1);
+                        anchorMax = Vector2.right;
+                    }
                     break;
 
                 case WindowPositions.Left:
-                    anchorMin = new Vector2(-0.2f, 0.86f);
-                    anchorMax = new Vector2(0, 1);
+                    if (type == PanelType.Instruction)
+                    {
+                        anchorMin = new Vector2(-0.2f, 0.86f);
+                        anchorMax = new Vector2(0, 1);
+                    }
+                    else
+                    {
+                        anchorMin = new Vector2(-0.2f, 0.86f);
+                        anchorMax = new Vector2(0, 1);
+                    }
                     break;
 
-                default:
-                    anchorMin = new Vector2(0, 0.86f);
-                    anchorMax = new Vector2(0.2f, 1);
+                default: // CENTER
+                    if (type == PanelType.Instruction)
+                    {
+                        anchorMin = new Vector2(0.35f, 0.25f);
+                        anchorMax = new Vector2(0.8f, 0.8f);
+                    }
+                    else
+                    {
+                        anchorMin = new Vector2(0, 0.86f);
+                        anchorMax = new Vector2(0.2f, 1);
+                    }
                     break;
             }
         }

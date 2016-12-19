@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class SaveLoad : MonoBehaviour
 {
-    private static string _savePath = "Savegame";
+    private static string _levelSavePath = "Savegame/Levels";
+    private static string _scriptSavePath = "Savegame/Scripts";
     private static string _currentLevel;
     private static InputField _codeEditor;
     private static GameObject _player;
@@ -16,7 +17,7 @@ public class SaveLoad : MonoBehaviour
 
     public void Start()
     {
-        _currentLevel = _savePath + "/Levels/level_0.txt";
+        _currentLevel = _levelSavePath + "level_0.txt";
         _codeEditor = GameObject.FindGameObjectWithTag("CodeEditor").GetComponent<InputField>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _walls = GameObject.FindGameObjectsWithTag("Wall");
@@ -24,7 +25,7 @@ public class SaveLoad : MonoBehaviour
 
     public static void SaveLevel()
     {
-        string path = EditorUtility.SaveFilePanel("Save Script", _savePath + "Levels", "level.txt", "txt");
+        string path = EditorUtility.SaveFilePanel("Save Script", _levelSavePath, "level.txt", "txt");
 
         if (path.Length == 0)
         {
@@ -49,7 +50,7 @@ public class SaveLoad : MonoBehaviour
 
     public static void LoadLevel()
     {
-        string path = EditorUtility.OpenFilePanel("Load Level", _savePath + "/Levels", "txt");
+        string path = EditorUtility.OpenFilePanel("Load Level", _levelSavePath, "txt");
 
         if (path.Length == 0)
         {
@@ -134,7 +135,7 @@ public class SaveLoad : MonoBehaviour
 
     public static void SaveScript()
     {
-        string path = EditorUtility.SaveFilePanel("Save Script", "Assets/SaveLoadFiles/Scripts", "script.txt", "txt");
+        string path = EditorUtility.SaveFilePanel("Save Script", _scriptSavePath, "script.txt", "txt");
         if (path.Length == 0)
         {
             return;
@@ -150,7 +151,7 @@ public class SaveLoad : MonoBehaviour
 
     public static void LoadScript()
     {
-        string path = EditorUtility.OpenFilePanel("Load Script", "Assets/SaveLoadFiles/Scripts", "txt");
+        string path = EditorUtility.OpenFilePanel("Load Script", _scriptSavePath, "txt");
         if (path.Length == 0)
         {
             return;

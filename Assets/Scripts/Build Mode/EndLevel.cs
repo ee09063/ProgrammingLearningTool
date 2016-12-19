@@ -10,6 +10,19 @@ public class EndLevel : Marker
         base.Start();
     }
 
+    protected override void OnMouseDown()
+    {
+        GameObject[] checkpoints = GameObject.FindGameObjectsWithTag("EndCheckpoint");
+        foreach (GameObject mrk in checkpoints)
+        {
+            mrk.GetComponent<Marker>().Active = false;
+            mrk.GetComponent<Marker>().ToggleColor(false);
+        }
+
+        Active = true;
+        ToggleColor(true);
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

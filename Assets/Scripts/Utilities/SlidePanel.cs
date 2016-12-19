@@ -5,6 +5,7 @@ using Utilities;
 public class SlidePanel : MonoBehaviour
 {
     public PanelHelper.WindowPositions HidePosition, ShowPosition;
+    public PanelHelper.PanelType Type;
     public RectTransform Container;
     public float Duration = 1f;
 
@@ -31,7 +32,7 @@ public class SlidePanel : MonoBehaviour
         var invDuration = 1f / Duration;
         Vector2 targetMin, targetMax;
 
-        PanelHelper.GetAnchorsForWindowPosition(Visible ? ShowPosition : HidePosition, out targetMin, out targetMax);
+        PanelHelper.GetAnchorsForWindowPosition(Visible ? ShowPosition : HidePosition, out targetMin, out targetMax, Type);
 
         while (timePassed <= 1f)
         {
