@@ -19,6 +19,8 @@ public class Program
 
     public IEnumerator Run(GameObject gameObj)
     {
+        MessageListController.DeleteMessages();
+
         while (_commandCount < _commands.Count)
         {
             yield return new WaitForSeconds(EXECUTION_DELAY);

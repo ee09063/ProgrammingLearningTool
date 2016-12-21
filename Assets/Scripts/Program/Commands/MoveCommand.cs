@@ -30,6 +30,8 @@ public class MoveCommand : Command
 
 		Vector3 curr = gameObj.transform.position;
 
+        MessageListController.AddMessageToList(new Message("Information", forward ? "Moving Forward" : "Moving Backwards"));
+
 		if (!_obsChecker.checkWall (curr, gameObj.transform.forward))
 		{
             gameObj.GetComponent<CubeBehaviour>().moveCube(forward);

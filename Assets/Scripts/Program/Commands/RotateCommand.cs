@@ -13,8 +13,8 @@ public class RotateCommand : Command {
 
 	public IEnumerator Execute(GameObject gameObj)
 	{
-		//gameObj.transform.Rotate(new Vector3(0, _angle, 0));
-		gameObj.GetComponent<CubeBehaviour>().rotateCube(_angle);
+        MessageListController.AddMessageToList(new Message("Information", _angle < 0 ? "Turning Left" : "Turning Right"));
+        gameObj.GetComponent<CubeBehaviour>().rotateCube(_angle);
 		return null;
 	}
 
