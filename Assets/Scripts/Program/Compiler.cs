@@ -6,19 +6,11 @@ using System.Collections.Generic;
 
 public class Compiler
 {
-    private FunctionManager _functionManager;
-
-    public FunctionManager FunctionManager
-    {
-        get
-        {
-            return _functionManager;
-        }
-    }
+    public FunctionManager functionManager;
 
     public Compiler()
     {
-        _functionManager = new FunctionManager();
+        functionManager = new FunctionManager();
     }
 
     public Program Compile(string source)
@@ -31,7 +23,12 @@ public class Compiler
         parser.prog();
         Compiler compiler = parser.compiler;
         		
-        Program program = new Program(compiler.FunctionManager.Commands);
+        Program program = new Program(compiler.functionManager.Commands);
+
+        if (compiler.functionManager.errorManager.hasErrors())
+        {
+            return null;
+        }
 
         return program;
     }

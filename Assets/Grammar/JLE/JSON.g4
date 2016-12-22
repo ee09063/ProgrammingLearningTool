@@ -19,7 +19,7 @@ PLUSPLUS: '++' ;
 MINUSMINUS: '--' ;
 
 WS : [ \t\r]+ -> skip ;
-NEWLINE: [\n]+ { compiler.FunctionManager.addNewLine(); } -> skip;
+NEWLINE: [\n]+ { compiler.functionManager.addNewLine(); } -> skip;
 
 
 start
@@ -40,20 +40,20 @@ function
 function_use
     : identifier=STRING
       LEFTPAR
-      RIGHTPAR {compiler.FunctionManager.addFunctionToMaster($identifier.text); }
-      SEMICOLON { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); }
+      RIGHTPAR {compiler.functionManager.addFunctionToMaster($identifier.text); }
+      SEMICOLON { compiler.functionManager.errorManager.checkLineEnding($SEMICOLON.text, compiler.functionManager.getCurrentLine()); }
     ;
 
 function_inside_function
 	: identifier=STRING
       LEFTPAR
-      RIGHTPAR {compiler.FunctionManager.addFunctionToCurrentFunction($identifier.text); }
-      SEMICOLON { compiler.FunctionManager.ErrorManager.checkLineEnding($SEMICOLON.text); }
+      RIGHTPAR {compiler.functionManager.addFunctionToCurrentFunction($identifier.text); }
+      SEMICOLON? { compiler.functionManager.errorManager.checkLineEnding($SEMICOLON.text, compiler.functionManager.getCurrentLine()); }
     ;
 
 function_declaration
     : function_type=STRING
-      identifier=STRING {compiler.FunctionManager.addDeclaredFunction($identifier.text); }
+      identifier=STRING {compiler.functionManager.addDeclaredFunction($identifier.text); }
 	  LEFTPAR
 	  RIGHTPAR
 	  LEFTSQ
@@ -67,10 +67,10 @@ for_cycle_use
 	   'int' val_dec=STRING '=' val_init=INT SEMICOLON
 	   val_use=STRING LESSERTHAN val_total=INT SEMICOLON
 	   val_inc=STRING (PLUSPLUS | MINUSMINUS)
- 	   RIGHTPAR { compiler.FunctionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
+ 	   RIGHTPAR { compiler.functionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
 	   LEFTSQ
 	   function_inside_function*
-	   RIGHTSQ { compiler.FunctionManager.addForCycleCommandsToMaster(); }
+	   RIGHTSQ { compiler.functionManager.addForCycleCommandsToMaster(); }
 	;
 
 for_cycle_inside_function
@@ -79,10 +79,10 @@ for_cycle_inside_function
 	   'int' val_dec=STRING '=' val_init=INT SEMICOLON
 	   val_use=STRING LESSERTHAN val_total=INT SEMICOLON
 	   val_inc=STRING (PLUSPLUS | MINUSMINUS)
-	   RIGHTPAR { compiler.FunctionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
+	   RIGHTPAR { compiler.functionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
 	   LEFTSQ
 	   function_inside_function*
-	   RIGHTSQ { compiler.FunctionManager.addForCycleCommandsToCurrentFunction(); }
+	   RIGHTSQ { compiler.functionManager.addForCycleCommandsToCurrentFunction(); }
 	;
 
 statement_list

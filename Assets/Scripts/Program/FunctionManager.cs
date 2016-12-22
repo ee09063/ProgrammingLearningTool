@@ -13,9 +13,7 @@ public class FunctionManager
     private List<string> _declaredFunctions;
     private List<Function> _functions;
     private List<Command> _commands;
-    private ErrorManager _errorManager;
     private Function _currentFunction;
-
     private int _currentLine;
 
     private enum ReservedCommands
@@ -25,6 +23,8 @@ public class FunctionManager
         TURN_RIGHT,
         TURN_LEFT
     }
+
+    public ErrorManager errorManager;
 
     public List<Command> Commands
     {
@@ -42,12 +42,9 @@ public class FunctionManager
         }
     }
 
-    public ErrorManager ErrorManager
+    public int getCurrentLine()
     {
-        get
-        {
-            return _errorManager;
-        }
+        return _currentLine;
     }
 
     public FunctionManager()
@@ -55,7 +52,7 @@ public class FunctionManager
         _commands = new List<Command>();
         _declaredFunctions = new List<string>();
         _functions = new List<Function>();
-        _errorManager = new ErrorManager();
+        errorManager = new ErrorManager();
         _currentLine = 0;
         addReservedFunctions();
     }
@@ -82,7 +79,7 @@ public class FunctionManager
 		
         if (!functionAlreadyDeclared(identifier.Trim()))
         {
-            ErrorManager.addError("Function " + identifier + "was not previously declared");
+            errorManager.addError("Function " + identifier + "was not previously declared", _currentLine);
             return;
         }
 
@@ -111,7 +108,7 @@ public class FunctionManager
 
         if (functionAlreadyDeclared(identifier.Trim()))
         {
-            ErrorManager.addError("Function " + identifier + " has already been declared");
+            errorManager.addError("Function " + identifier + " has already been declared", _currentLine);
             return;
         }
 
@@ -221,12 +218,6 @@ public class FunctionManager
 
     private void addMoveCommand(string args)
     {
-        if (!MoveCommand.validateArgs(args))
-        {
-            ErrorManager.addError(MoveCommand.getArgsError());
-            return;
-        }
-
         string direction = args; 
         string fwdString = Enum.GetName(typeof(MoveDirection), MoveDirection.FWD);
         string identifier = direction.ToUpper().Equals(fwdString) ? "move_forward" : "move_backwards";

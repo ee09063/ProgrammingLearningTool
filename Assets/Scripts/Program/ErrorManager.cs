@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class ErrorManager
 {
 
-    private List<string> _errors;
+    private List<Error> _errors;
 
-    public List<string> Errors
+    public List<Error> Errors
     {
         get
         {
@@ -17,42 +17,37 @@ public class ErrorManager
 
     public ErrorManager()
     {
-        _errors = new List<string>();
+        _errors = new List<Error>();
+    }
+        
+    public void addError(string content, int line)
+    {
+        Error error = new Error(content, line);
+        _errors.Add(error);
+        MessageListController.AddMessageToList(error);
     }
 
-    public void addError(string message)
+    public void checkLineEnding(string lineEnding, int line)
     {
-        Debug.Log("ADDING A NEW ERROR:" + message);
-        _errors.Add(message);
-    }
-
-    public void checkLineEnding(string lineEnding)
-    {
-        Debug.Log("[ERROR MANAGER] Checking Line Ending");
+        Debug.Log("[ERROR MANAGER] Checking Line Ending  ." + lineEnding + ".");
+        Error missingSemicolon = new Error("Missing semicolon at the end of line", line);
         if (lineEnding == null)
         {
-            addError("[ERROR MANAGER] Adding a missing Line Ending Error");
+            _errors.Add(missingSemicolon);
+            Debug.Log(_errors.Count);
+            MessageListController.AddMessageToList(missingSemicolon);
         }
         else
         {
-            if (!lineEnding.Trim().Equals(";"))
+            if (!lineEnding.Trim().Equals(";") || lineEnding.Trim().Equals(""))
             {
-                addError("[ERROR MANAGER] Adding a missing Line Ending Error");
+                MessageListController.AddMessageToList(missingSemicolon);
             }
         }
     }
 
     public bool hasErrors()
     {
-        Debug.Log("[ERROR MANAGER] We have " + _errors.Count + " errors");
         return _errors.Count > 0;
-    }
-
-    public void printAllErrors()
-    {
-        foreach (string err in _errors)
-        {
-            Debug.Log(err);
-        }
     }
 }

@@ -88,7 +88,7 @@ public partial class JSONLexer : Lexer {
 	}
 	private void NEWLINE_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
-		case 0:  compiler.FunctionManager.addNewLine();  break;
+		case 0:  compiler.functionManager.addNewLine();  break;
 		}
 	}
 

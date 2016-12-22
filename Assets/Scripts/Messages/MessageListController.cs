@@ -14,6 +14,7 @@ public class MessageListController : MonoBehaviour
 
         Text messageText = msg.GetComponentInChildren<Text>();
         messageText.text = message.getContent();
+        messageText.color = message.getColor();
 
         msg.transform.SetParent(_container.transform);
 

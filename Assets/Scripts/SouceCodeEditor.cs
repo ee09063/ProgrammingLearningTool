@@ -9,9 +9,13 @@ public class SouceCodeEditor : MonoBehaviour {
 
 	public void OnCompileAndRun()
 	{
-		if (rSObj != null)
+        MessageListController.DeleteMessages();
+
+        if (rSObj == null)
 		{
-			rSObj.CompileAndRun (sourceCode.text);
+            return;
 		}
+
+        rSObj.CompileAndRun (sourceCode.text);
 	}
 }
