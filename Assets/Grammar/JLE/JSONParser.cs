@@ -35,7 +35,7 @@ public partial class JSONParser : Parser {
 	public const int
 		T__0=1, T__1=2, T__2=3, INT=4, STRING=5, LEFTPAR=6, RIGHTPAR=7, LEFTSQ=8, 
 		RIGHTSQ=9, SEMICOLON=10, COMMA=11, LESSERTHAN=12, GREATERTHAN=13, PLUSPLUS=14, 
-		MINUSMINUS=15, WS=16;
+		MINUSMINUS=15, WS=16, NEWLINE=17;
 	public const int
 		RULE_start = 0, RULE_prog = 1, RULE_function = 2, RULE_function_use = 3, 
 		RULE_function_inside_function = 4, RULE_function_declaration = 5, RULE_for_cycle_use = 6, 
@@ -53,7 +53,7 @@ public partial class JSONParser : Parser {
 	private static readonly string[] _SymbolicNames = {
 		null, null, null, null, "INT", "STRING", "LEFTPAR", "RIGHTPAR", "LEFTSQ", 
 		"RIGHTSQ", "SEMICOLON", "COMMA", "LESSERTHAN", "GREATERTHAN", "PLUSPLUS", 
-		"MINUSMINUS", "WS"
+		"MINUSMINUS", "WS", "NEWLINE"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -791,7 +791,7 @@ public partial class JSONParser : Parser {
 	private static string _serializeATN()
 	{
 	    StringBuilder sb = new StringBuilder();
-	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\x12");
+	    sb.Append("\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\x13");
 		sb.Append("\x82\x4\x2\t\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6");
 		sb.Append("\x4\a\t\a\x4\b\t\b\x4\t\t\t\x4\n\t\n\x4\v\t\v\x3\x2\x3\x2\x3");
 		sb.Append("\x2\x3\x3\x6\x3\x1B\n\x3\r\x3\xE\x3\x1C\x3\x3\x3\x3\x3\x3\x5");

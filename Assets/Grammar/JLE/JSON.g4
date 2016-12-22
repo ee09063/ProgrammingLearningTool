@@ -18,7 +18,9 @@ GREATERTHAN : '>' ;
 PLUSPLUS: '++' ;
 MINUSMINUS: '--' ;
 
-WS : [ \t\r\n]+ -> skip ;
+WS : [ \t\r]+ -> skip ;
+NEWLINE: [\n]+ { compiler.FunctionManager.addNewLine(); } -> skip;
+
 
 start
     : prog EOF

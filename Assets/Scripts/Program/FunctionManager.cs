@@ -16,6 +16,8 @@ public class FunctionManager
     private ErrorManager _errorManager;
     private Function _currentFunction;
 
+    private int _currentLine;
+
     private enum ReservedCommands
     {
         MOVE_FWD,
@@ -54,7 +56,14 @@ public class FunctionManager
         _declaredFunctions = new List<string>();
         _functions = new List<Function>();
         _errorManager = new ErrorManager();
+        _currentLine = 0;
         addReservedFunctions();
+    }
+
+    public void addNewLine()
+    {
+        Debug.Log("Adding new line");
+        _currentLine++;
     }
 
     /***********************************************************************************/

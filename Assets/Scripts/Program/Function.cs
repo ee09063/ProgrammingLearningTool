@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Function
 {
     private string _identifier;
-    private string _type;
+    private string _type;   private int _line;
     protected List<Command> _commands;
 
     public Function (string type, string identifier)
