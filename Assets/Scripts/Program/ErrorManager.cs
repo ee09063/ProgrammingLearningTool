@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class ErrorManager
 {
-
     private List<Error> _errors;
 
     public List<Error> Errors
@@ -19,7 +18,7 @@ public class ErrorManager
     {
         _errors = new List<Error>();
     }
-        
+
     public void addError(string content, int line)
     {
         Error error = new Error(content, line);
@@ -27,23 +26,23 @@ public class ErrorManager
         MessageListController.AddMessageToList(error);
     }
 
-    public void checkLineEnding(string lineEnding, int line)
+    public void checkLineEnding(string codeLine, int lineNumber)
     {
-        Debug.Log("[ERROR MANAGER] Checking Line Ending  ." + lineEnding + ".");
-        Error missingSemicolon = new Error("Missing semicolon at the end of line", line);
-        if (lineEnding == null)
+        if (codeLine.Length == 0)
         {
-            _errors.Add(missingSemicolon);
-            Debug.Log(_errors.Count);
-            MessageListController.AddMessageToList(missingSemicolon);
+            return;
         }
-        else
+
+        Debug.Log("[ERROR MANAGER] Checking Line Ending in line " + codeLine + " on line " + lineNumber);
+        Error missingSemicolon = new Error("Missing semicolon at the end of line " + lineNumber, lineNumber);
+
+        if (codeLine.Trim()[codeLine.Length - 1].Equals(';'))
         {
-            if (!lineEnding.Trim().Equals(";") || lineEnding.Trim().Equals(""))
-            {
-                MessageListController.AddMessageToList(missingSemicolon);
-            }
+           return;
         }
+
+        _errors.Add(missingSemicolon);
+        MessageListController.AddMessageToList(missingSemicolon);
     }
 
     public bool hasErrors()

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UI;
+using System.IO;
 
 #region Aliases
 using MoveDirection = MoveCommand.Direction;
@@ -14,7 +16,9 @@ public class FunctionManager
     private List<Function> _functions;
     private List<Command> _commands;
     private Function _currentFunction;
-    private int _currentLine;
+    private string _source;
+    private List<string> _sourceLines;
+    private LineCounter _lineCounter;
 
     private enum ReservedCommands
     {
@@ -41,26 +45,31 @@ public class FunctionManager
             return _declaredFunctions;
         }
     }
-
-    public int getCurrentLine()
-    {
-        return _currentLine;
-    }
-
+       
     public FunctionManager()
     {
         _commands = new List<Command>();
         _declaredFunctions = new List<string>();
         _functions = new List<Function>();
         errorManager = new ErrorManager();
-        _currentLine = 0;
         addReservedFunctions();
+        _source = GameObject.FindGameObjectWithTag("CodeEditor").GetComponent<InputField>().text;
+        _lineCounter = GameObject.FindGameObjectWithTag("LineCounter").GetComponent<LineCounter>();
+        _sourceLines = new List<string>();
+
+        using (StringReader sr = new StringReader(_source))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                _sourceLines.Add(line);
+            }
+        }
     }
 
     public void addNewLine()
     {
-        Debug.Log("Adding new line");
-        _currentLine++;
+        _lineCounter.addLine();
     }
 
     /***********************************************************************************/
@@ -72,6 +81,8 @@ public class FunctionManager
     */
     public void addFunctionToMaster(string identifier)
     {
+        int currentLine = _lineCounter.getLineCount();
+
         if (identifier == null)
         {
             return;
@@ -79,9 +90,11 @@ public class FunctionManager
 		
         if (!functionAlreadyDeclared(identifier.Trim()))
         {
-            errorManager.addError("Function " + identifier + "was not previously declared", _currentLine);
+            errorManager.addError("Function " + identifier + "was not previously declared", currentLine);
             return;
         }
+            
+        errorManager.checkLineEnding(_sourceLines[currentLine], currentLine);
 
         Debug.Log("USING FUNCTION " + identifier);
 
@@ -101,6 +114,8 @@ public class FunctionManager
      */
     public void addDeclaredFunction(string identifier) // add a new function
     {
+        int currentLine = _lineCounter.getLineCount();
+
         if (identifier == null)
         {
             return;
@@ -108,7 +123,7 @@ public class FunctionManager
 
         if (functionAlreadyDeclared(identifier.Trim()))
         {
-            errorManager.addError("Function " + identifier + " has already been declared", _currentLine);
+            errorManager.addError("Function " + identifier + " has already been declared", currentLine);
             return;
         }
 

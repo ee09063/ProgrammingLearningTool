@@ -41,14 +41,14 @@ function_use
     : identifier=STRING
       LEFTPAR
       RIGHTPAR {compiler.functionManager.addFunctionToMaster($identifier.text); }
-      SEMICOLON { compiler.functionManager.errorManager.checkLineEnding($SEMICOLON.text, compiler.functionManager.getCurrentLine()); }
+      SEMICOLON?
     ;
 
 function_inside_function
 	: identifier=STRING
       LEFTPAR
       RIGHTPAR {compiler.functionManager.addFunctionToCurrentFunction($identifier.text); }
-      SEMICOLON? { compiler.functionManager.errorManager.checkLineEnding($SEMICOLON.text, compiler.functionManager.getCurrentLine()); }
+      SEMICOLON?
     ;
 
 function_declaration

@@ -15,6 +15,8 @@ public class Compiler
 
     public Program Compile(string source)
     {
+        GameObject.FindGameObjectWithTag("LineCounter").GetComponent<LineCounter>().resetCount();
+
         AntlrInputStream antlrStream = new AntlrInputStream(source);
         JSONLexer lexer = new JSONLexer(antlrStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);

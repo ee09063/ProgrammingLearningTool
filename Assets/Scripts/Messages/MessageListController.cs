@@ -10,14 +10,12 @@ public class MessageListController : MonoBehaviour
 
     public static void AddMessageToList(Message message)
     {
-        GameObject msg = GameObject.Instantiate(Resources.Load("Message", typeof (GameObject))) as GameObject;
+        GameObject msg = GameObject.Instantiate(Resources.Load("Message", typeof(GameObject))) as GameObject;
+        MessageItemController msgController = msg.GetComponent <MessageItemController>();
 
-        Text messageText = msg.GetComponentInChildren<Text>();
-        messageText.text = message.getContent();
-        messageText.color = message.getColor();
-
+        msgController.setMessage(message);
         msg.transform.SetParent(_container.transform);
-
+       
         _messages.Add(msg);
     }
 
