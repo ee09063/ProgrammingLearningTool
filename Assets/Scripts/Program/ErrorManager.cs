@@ -6,6 +6,13 @@ public class ErrorManager
 {
     private List<Error> _errors;
 
+    public enum ErrorTypes
+    {
+        MISSING_TERMINATOR,
+        MULTIPLE_DECLARATION,
+        MISSING_DECLARATION
+    }
+
     public List<Error> Errors
     {
         get
@@ -19,9 +26,8 @@ public class ErrorManager
         _errors = new List<Error>();
     }
 
-    public void addError(string content, int line)
+    public void addError(Error error)
     {
-        Error error = new Error(content, line);
         _errors.Add(error);
         MessageListController.AddMessageToList(error);
     }
@@ -33,8 +39,7 @@ public class ErrorManager
             return;
         }
 
-        Debug.Log("[ERROR MANAGER] Checking Line Ending in line " + codeLine + " on line " + lineNumber);
-        Error missingSemicolon = new Error("Missing semicolon at the end of line " + lineNumber, lineNumber);
+        Error missingSemicolon = new Error(ErrorManager.ErrorTypes.MISSING_TERMINATOR, "Missing semicolon at the end of line " + lineNumber, lineNumber);
 
         if (codeLine.Trim()[codeLine.Length - 1].Equals(';'))
         {
@@ -48,5 +53,27 @@ public class ErrorManager
     public bool hasErrors()
     {
         return _errors.Count > 0;
+    }
+
+    public static void Fix(Error error, List<string> code)
+    {
+        if(error.getType() == ErrorManager.ErrorTypes.MISSING_TERMINATOR)
+        {
+            Debug.Log("FIXING MISSING TERMINATOR");
+            FixMissingTerminator(error.getLine(), code);
+        }
+        else if(error.getType() == ErrorManager.ErrorTypes.MISSING_DECLARATION)
+        {
+            Debug.Log("CANNOT FIX MISSING DECLARATION");
+        }
+        else if(error.getType() == ErrorManager.ErrorTypes.MULTIPLE_DECLARATION)
+        {
+            Debug.Log("CANNOT FIX MULTIPLE DECLARATION");
+        }
+    }
+
+    private static void FixMissingTerminator(int line, List<string> code)
+    {
+
     }
 }

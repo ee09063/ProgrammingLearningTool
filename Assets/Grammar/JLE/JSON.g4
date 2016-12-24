@@ -19,7 +19,7 @@ PLUSPLUS: '++' ;
 MINUSMINUS: '--' ;
 
 WS : [ \t\r]+ -> skip ;
-NEWLINE: [\n]+ { compiler.functionManager.addNewLine(); } -> skip;
+NEWLINE: [\n] ;
 
 
 start
@@ -42,6 +42,7 @@ function_use
       LEFTPAR
       RIGHTPAR {compiler.functionManager.addFunctionToMaster($identifier.text); }
       SEMICOLON?
+	  (NEWLINE { compiler.functionManager.addNewLine(); })*
     ;
 
 function_inside_function
@@ -49,6 +50,7 @@ function_inside_function
       LEFTPAR
       RIGHTPAR {compiler.functionManager.addFunctionToCurrentFunction($identifier.text); }
       SEMICOLON?
+	  (NEWLINE { compiler.functionManager.addNewLine(); })*
     ;
 
 function_declaration
@@ -56,9 +58,12 @@ function_declaration
       identifier=STRING {compiler.functionManager.addDeclaredFunction($identifier.text); }
 	  LEFTPAR
 	  RIGHTPAR
+	  NEWLINE { compiler.functionManager.addNewLine(); }
 	  LEFTSQ
-	  (function_inside_function | for_cycle_inside_function)*
+	  NEWLINE { compiler.functionManager.addNewLine(); }
+	  (function_inside_function | for_cycle_inside_function | NEWLINE {compiler.functionManager.addNewLine(); } )*
 	  RIGHTSQ
+	  (NEWLINE { compiler.functionManager.addNewLine(); })* 
 	;
 
 for_cycle_use
@@ -84,12 +89,3 @@ for_cycle_inside_function
 	   function_inside_function*
 	   RIGHTSQ { compiler.functionManager.addForCycleCommandsToCurrentFunction(); }
 	;
-
-statement_list
-    : statement_list statement
-    |
-    ;
-
-statement
-    : function_use
-    ;

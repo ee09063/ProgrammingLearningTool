@@ -130,30 +130,6 @@ public partial class JSONBaseListener : IJSONListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFor_cycle_inside_function([NotNull] JSONParser.For_cycle_inside_functionContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.statement_list"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterStatement_list([NotNull] JSONParser.Statement_listContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.statement_list"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitStatement_list([NotNull] JSONParser.Statement_listContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.statement"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterStatement([NotNull] JSONParser.StatementContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.statement"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitStatement([NotNull] JSONParser.StatementContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

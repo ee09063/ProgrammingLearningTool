@@ -69,6 +69,10 @@ public class MessageItemController : MonoBehaviour
 
     public void OnClick()
     {
-       
+        ErrorManager.Fix(_message as Error, _code);
+        for (int i = 0; i < _code.Count; i++)
+        {
+            Debug.Log(i + " -- " + _code[i]);
+        }
     }
 }

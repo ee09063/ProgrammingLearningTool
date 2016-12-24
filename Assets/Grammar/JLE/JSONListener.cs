@@ -110,24 +110,4 @@ public interface IJSONListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitFor_cycle_inside_function([NotNull] JSONParser.For_cycle_inside_functionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.statement_list"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterStatement_list([NotNull] JSONParser.Statement_listContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.statement_list"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitStatement_list([NotNull] JSONParser.Statement_listContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="JSONParser.statement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterStatement([NotNull] JSONParser.StatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="JSONParser.statement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitStatement([NotNull] JSONParser.StatementContext context);
 }

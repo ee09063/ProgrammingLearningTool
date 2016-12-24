@@ -45,7 +45,7 @@ public class FunctionManager
             return _declaredFunctions;
         }
     }
-       
+
     public FunctionManager()
     {
         _commands = new List<Command>();
@@ -82,6 +82,7 @@ public class FunctionManager
     public void addFunctionToMaster(string identifier)
     {
         int currentLine = _lineCounter.getLineCount();
+        Debug.Log("ADDING FUNCTION " + identifier + " TO MASTER ON LINE " + currentLine); 
 
         if (identifier == null)
         {
@@ -90,13 +91,12 @@ public class FunctionManager
 		
         if (!functionAlreadyDeclared(identifier.Trim()))
         {
-            errorManager.addError("Function " + identifier + "was not previously declared", currentLine);
+            Error err = new Error(ErrorManager.ErrorTypes.MULTIPLE_DECLARATION, "Function " + identifier + " was not previously declared in line " + currentLine, currentLine);
+            errorManager.addError(err);
             return;
         }
             
         errorManager.checkLineEnding(_sourceLines[currentLine], currentLine);
-
-        Debug.Log("USING FUNCTION " + identifier);
 
         List<Command> functionCommands = getFunctionCommands(identifier);
 
@@ -115,6 +115,7 @@ public class FunctionManager
     public void addDeclaredFunction(string identifier) // add a new function
     {
         int currentLine = _lineCounter.getLineCount();
+        Debug.Log("DECLARING FUNCTION " + identifier + " ON LINE" + currentLine);
 
         if (identifier == null)
         {
@@ -123,11 +124,10 @@ public class FunctionManager
 
         if (functionAlreadyDeclared(identifier.Trim()))
         {
-            errorManager.addError("Function " + identifier + " has already been declared", currentLine);
+            Error err = new Error(ErrorManager.ErrorTypes.MULTIPLE_DECLARATION, "Function " + identifier + " has already been declared in line " + currentLine, currentLine);
+            errorManager.addError(err);
             return;
         }
-
-        Debug.Log("ADDING NEW DECLARED FUNCTION " + identifier);
 
         _declaredFunctions.Add(identifier.Trim());
         _currentFunction = new Function("void", identifier.Trim());
@@ -139,7 +139,16 @@ public class FunctionManager
      */
     public void addFunctionToCurrentFunction(string identifier)
     {
-        Debug.Log("Adding " + identifier + " to current");
+        int currentLine = _lineCounter.getLineCount();
+        Debug.Log("ADDING FUNCTION " + identifier + " TO CURRENT FUNCTION ON LINE " + currentLine);
+
+        if (!functionAlreadyDeclared(identifier.Trim()))
+        {
+            Error err = new Error(ErrorManager.ErrorTypes.MULTIPLE_DECLARATION, "Function " + identifier + " was not previously declared in line " + currentLine, currentLine);
+            errorManager.addError(err);
+            return;
+        }
+
         List<Command> cmds = getFunctionCommands(identifier.Trim());
 
         foreach (Command cmd in cmds)
