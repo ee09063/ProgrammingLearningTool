@@ -41,7 +41,7 @@ public class ErrorManager
 
         Error missingSemicolon = new Error(ErrorManager.ErrorTypes.MISSING_TERMINATOR, "Missing semicolon at the end of line " + lineNumber, lineNumber);
 
-        if (codeLine.Trim()[codeLine.Length - 1].Equals(';'))
+        if (codeLine.Trim()[codeLine.Trim().Length - 1].Equals(';'))
         {
            return;
         }

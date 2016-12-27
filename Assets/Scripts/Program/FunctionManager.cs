@@ -149,6 +149,8 @@ public class FunctionManager
             return;
         }
 
+        errorManager.checkLineEnding(_sourceLines[currentLine], currentLine);
+
         List<Command> cmds = getFunctionCommands(identifier.Trim());
 
         foreach (Command cmd in cmds)
@@ -164,13 +166,17 @@ public class FunctionManager
      */
     public void addForCycle(string varDec, string varInit, string varUse, string varTotal, string varInc)
     {
+        int currentLine = _lineCounter.getLineCount();
+
         Debug.Log("Adding For Cycle");
         int varInitialValue = int.Parse(varInit);
         int varLastValue = int.Parse(varTotal);
 
         if (!varDec.Equals(varUse) || !varDec.Equals(varInc) || !varUse.Equals(varInc))
         {
-            Debug.Log("Variables have different names");
+            Error err = new Error(ErrorManager.ErrorTypes.MULTIPLE_DECLARATION, "Variables have different names in line " + currentLine, currentLine);
+            errorManager.addError(err);
+            return;
         }
 
         int cycles = varLastValue - varInitialValue;

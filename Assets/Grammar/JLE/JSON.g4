@@ -73,19 +73,23 @@ for_cycle_use
 	   val_use=STRING LESSERTHAN val_total=INT SEMICOLON
 	   val_inc=STRING (PLUSPLUS | MINUSMINUS)
  	   RIGHTPAR { compiler.functionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
+	   NEWLINE { compiler.functionManager.addNewLine(); }
 	   LEFTSQ
-	   function_inside_function*
+	   (function_inside_function | NEWLINE {compiler.functionManager.addNewLine(); } )*
 	   RIGHTSQ { compiler.functionManager.addForCycleCommandsToMaster(); }
+	   (NEWLINE { compiler.functionManager.addNewLine(); })* 
 	;
 
 for_cycle_inside_function
 	: 'for'
 	   LEFTPAR
 	   'int' val_dec=STRING '=' val_init=INT SEMICOLON
-	   val_use=STRING LESSERTHAN val_total=INT SEMICOLON
-	   val_inc=STRING (PLUSPLUS | MINUSMINUS)
+	   val_use=STRING ( LESSERTHAN | GREATERTHAN ) val_total=INT SEMICOLON
+	   val_inc=STRING ( PLUSPLUS | MINUSMINUS )
 	   RIGHTPAR { compiler.functionManager.addForCycle($val_dec.text, $val_init.text, $val_use.text, $val_total.text, $val_inc.text); }
+	   NEWLINE { compiler.functionManager.addNewLine(); }
 	   LEFTSQ
-	   function_inside_function*
+	   (function_inside_function | NEWLINE {compiler.functionManager.addNewLine(); } )*
 	   RIGHTSQ { compiler.functionManager.addForCycleCommandsToCurrentFunction(); }
+	   (NEWLINE { compiler.functionManager.addNewLine(); })* 
 	;
