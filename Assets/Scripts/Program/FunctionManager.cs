@@ -91,7 +91,7 @@ public class FunctionManager
 		
         if (!functionAlreadyDeclared(identifier.Trim()))
         {
-            Error err = new Error(ErrorManager.ErrorTypes.MULTIPLE_DECLARATION, "Function " + identifier + " was not previously declared in line " + currentLine, currentLine);
+            Error err = new Error("MISSING_DECLARATION", "Function " + identifier + " was not previously declared in line " + currentLine, currentLine);
             errorManager.addError(err);
             return;
         }
@@ -124,7 +124,7 @@ public class FunctionManager
 
         if (functionAlreadyDeclared(identifier.Trim()))
         {
-            Error err = new Error(ErrorManager.ErrorTypes.MULTIPLE_DECLARATION, "Function " + identifier + " has already been declared in line " + currentLine, currentLine);
+            Error err = new Error("MULTIPLE_DECLARATION", "Function " + identifier + " has already been declared in line " + currentLine, currentLine);
             errorManager.addError(err);
             return;
         }
@@ -144,7 +144,7 @@ public class FunctionManager
 
         if (!functionAlreadyDeclared(identifier.Trim()))
         {
-            Error err = new Error(ErrorManager.ErrorTypes.MULTIPLE_DECLARATION, "Function " + identifier + " was not previously declared in line " + currentLine, currentLine);
+            Error err = new Error("MULTIPLE_DECLARATION", "Function " + identifier + " was not previously declared in line " + currentLine, currentLine);
             errorManager.addError(err);
             return;
         }
@@ -174,7 +174,7 @@ public class FunctionManager
 
         if (!varDec.Equals(varUse) || !varDec.Equals(varInc) || !varUse.Equals(varInc))
         {
-            Error err = new Error(ErrorManager.ErrorTypes.MULTIPLE_DECLARATION, "Variables have different names in line " + currentLine, currentLine);
+            Error err = new Error("MULTIPLE_DECLARATION", "Variables have different names in line " + currentLine, currentLine);
             errorManager.addError(err);
             return;
         }

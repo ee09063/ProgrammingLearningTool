@@ -4,11 +4,12 @@ using System.Collections;
 public class Error : Message {
 
     private int _line;
-    private ErrorManager.ErrorTypes _type;
+    private string _type;
+    private bool _fixed;
 
-    public Error(ErrorManager.ErrorTypes type, string content, int line) : base("Error", content)
+    public Error(string type, string content, int line) : base("Error", content)
     {
-        _type = _type;
+        _type = type;
         _line = line;
     }
 
@@ -17,8 +18,18 @@ public class Error : Message {
         return _line;
     }
 
-    public ErrorManager.ErrorTypes getType()
+    public string getType()
     {
         return _type;
+    }
+
+    public void setFixed(bool fix)
+    {
+        _fixed = fix;
+    }
+
+    public bool isFixed()
+    {
+        return _fixed;
     }
 }

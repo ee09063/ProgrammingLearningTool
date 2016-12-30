@@ -14,6 +14,7 @@ public class MessageItemController : MonoBehaviour
     private Message _message;
     private List<string> _code;
     private int _line;
+    private string _originalLine;
 
     void Awake()
     {
@@ -29,8 +30,11 @@ public class MessageItemController : MonoBehaviour
         Text messageText = GetComponentInChildren<Text>();
         messageText.text = message.getContent();
         messageText.color = message.getColor();
+    }
 
-        if(message.getType().Equals("Error"))
+    public void OnHover()
+    {
+        if(_message.getType().Equals("Error"))
         {
             _code = new List<string>();
             string fullCode = _inputField.GetComponentInChildren<Text>().text;
@@ -44,17 +48,17 @@ public class MessageItemController : MonoBehaviour
                 }
             }
 
-            Error err = message as Error;
+            Error err = _message as Error;
             _line = err.getLine();
-            _code[_line] = "<color=#ff0000ff>" + _code[_line] + "</color>";
+            _originalLine = _code[_line];
         }
-    }
 
-    public void OnHover()
-    {
         _codeMask.transform.SetParent(_inputField.transform);
+
         Text mask = _codeMask.GetComponentInChildren<Text>();
         mask.text = "";
+        _code[_line] = "<color=#ff0000ff>" + _originalLine + "</color>";
+
         foreach(string str in _code)
         {
             mask.text += str + "\n";
@@ -69,10 +73,31 @@ public class MessageItemController : MonoBehaviour
 
     public void OnClick()
     {
-        ErrorManager.Fix(_message as Error, _code);
-        for (int i = 0; i < _code.Count; i++)
+        Error error = _message as Error;
+
+        if (error.isFixed())
         {
-            Debug.Log(i + " -- " + _code[i]);
+            return;
+        }
+
+        Debug.Log(error.getType());
+
+        if(error.getType().Equals("MISSING_TERMINATOR"))
+        {
+            Debug.Log("FIXING MISSING TERMINATOR");
+            _originalLine += ";";
+            _code[_line] = _originalLine;
+            _inputField.GetComponent<InputField>().text = "";
+            foreach (string str in _code)
+            {
+                _inputField.GetComponent<InputField>().text += str + "\n";
+            }
+            error.setFixed(true);
+            OnHover();
+        }
+        else if(error.getType().Equals("MISSING_DECLARATION"))
+        {
+            Debug.Log("CANNOT FIX MISSING DECLARATION");
         }
     }
 }
