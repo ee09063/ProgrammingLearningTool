@@ -34,25 +34,27 @@ public class MessageItemController : MonoBehaviour
 
     public void OnHover()
     {
-        if(_message.getType().Equals("Error"))
+        if (!_message.getType().Equals("Error"))
         {
-            _code = new List<string>();
-            string fullCode = _inputField.GetComponentInChildren<Text>().text;
+            return;
+        }
+           
+        _code = new List<string>();
+        string fullCode = _inputField.GetComponentInChildren<Text>().text;
 
-            using (StringReader sr = new StringReader(fullCode))
+        using (StringReader sr = new StringReader(fullCode))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    _code.Add(line);
-                }
+                _code.Add(line);
             }
-
-            Error err = _message as Error;
-            _line = err.getLine();
-            _originalLine = _code[_line];
         }
 
+        Error err = _message as Error;
+        _line = err.getLine();
+        _originalLine = _code[_line];
+    
         _codeMask.transform.SetParent(_inputField.transform);
 
         Text mask = _codeMask.GetComponentInChildren<Text>();
@@ -73,6 +75,11 @@ public class MessageItemController : MonoBehaviour
 
     public void OnClick()
     {
+        if (!_message.getType().Equals("Error"))
+        {
+            return;
+        }
+
         Error error = _message as Error;
 
         if (error.isFixed())
