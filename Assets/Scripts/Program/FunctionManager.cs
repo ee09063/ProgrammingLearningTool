@@ -164,7 +164,7 @@ public class FunctionManager
     /*
      * Adds for cycle to the _for_functions List
      */
-    public void addForCycle(string varDec, string varInit, string varUse, string varTotal, string varInc)
+    public void addForCycle(string varDec, string varInit, string varUse, string varTotal, string varInc, string valIncSymb)
     {
         int currentLine = _lineCounter.getLineCount();
 
@@ -174,12 +174,28 @@ public class FunctionManager
 
         if (!varDec.Equals(varUse) || !varDec.Equals(varInc) || !varUse.Equals(varInc))
         {
-            Error err = new Error("MULTIPLE_DECLARATION", "Variables have different names in line " + currentLine, currentLine);
+            Error err = new Error("FOR_DIF_NAMES", "Variables have different names in line " + currentLine, currentLine);
             errorManager.addError(err);
             return;
         }
 
-        int cycles = varLastValue - varInitialValue;
+        if((varLastValue > varInitialValue && valIncSymb.Equals("--")) || (varLastValue < varInitialValue && valIncSymb.Equals("++")))
+        {
+            Error err = new Error("FOR_INF_CYCLE", "For will have infinite cycle in line " + currentLine, currentLine);
+            errorManager.addError(err);
+            return;
+        }
+            
+        int cycles = 0;
+
+        if(valIncSymb.Equals("++"))
+        {
+            cycles = varLastValue - varInitialValue;
+        }
+        else if(valIncSymb.Equals("--"))
+        {
+            cycles = Mathf.Abs(varLastValue - varInitialValue);
+        }
 
         ForCycle forCycle = new ForCycle(cycles);
 

@@ -532,6 +532,7 @@ public partial class JSONParser : Parser {
 		public IToken val_use;
 		public IToken val_total;
 		public IToken val_inc;
+		public IToken val_inc_symb;
 		public ITerminalNode LEFTPAR() { return GetToken(JSONParser.LEFTPAR, 0); }
 		public ITerminalNode[] SEMICOLON() { return GetTokens(JSONParser.SEMICOLON); }
 		public ITerminalNode SEMICOLON(int i) {
@@ -597,15 +598,16 @@ public partial class JSONParser : Parser {
 			State = 99; Match(SEMICOLON);
 			State = 100; _localctx.val_inc = Match(STRING);
 			State = 101;
+			_localctx.val_inc_symb = TokenStream.Lt(1);
 			_la = TokenStream.La(1);
 			if ( !(_la==PLUSPLUS || _la==MINUSMINUS) ) {
-			ErrorHandler.RecoverInline(this);
+				_localctx.val_inc_symb = ErrorHandler.RecoverInline(this);
 			}
 			else {
 			    Consume();
 			}
 			State = 102; Match(RIGHTPAR);
-			 compiler.functionManager.addForCycle((_localctx.val_dec!=null?_localctx.val_dec.Text:null), (_localctx.val_init!=null?_localctx.val_init.Text:null), (_localctx.val_use!=null?_localctx.val_use.Text:null), (_localctx.val_total!=null?_localctx.val_total.Text:null), (_localctx.val_inc!=null?_localctx.val_inc.Text:null)); 
+			 compiler.functionManager.addForCycle((_localctx.val_dec!=null?_localctx.val_dec.Text:null), (_localctx.val_init!=null?_localctx.val_init.Text:null), (_localctx.val_use!=null?_localctx.val_use.Text:null), (_localctx.val_total!=null?_localctx.val_total.Text:null), (_localctx.val_inc!=null?_localctx.val_inc.Text:null), (_localctx.val_inc_symb!=null?_localctx.val_inc_symb.Text:null)); 
 			State = 104; Match(NEWLINE);
 			 compiler.functionManager.addNewLine(); 
 			State = 106; Match(LEFTSQ);
@@ -670,6 +672,7 @@ public partial class JSONParser : Parser {
 		public IToken val_use;
 		public IToken val_total;
 		public IToken val_inc;
+		public IToken val_inc_symb;
 		public ITerminalNode LEFTPAR() { return GetToken(JSONParser.LEFTPAR, 0); }
 		public ITerminalNode[] SEMICOLON() { return GetTokens(JSONParser.SEMICOLON); }
 		public ITerminalNode SEMICOLON(int i) {
@@ -744,15 +747,16 @@ public partial class JSONParser : Parser {
 			State = 134; Match(SEMICOLON);
 			State = 135; _localctx.val_inc = Match(STRING);
 			State = 136;
+			_localctx.val_inc_symb = TokenStream.Lt(1);
 			_la = TokenStream.La(1);
 			if ( !(_la==PLUSPLUS || _la==MINUSMINUS) ) {
-			ErrorHandler.RecoverInline(this);
+				_localctx.val_inc_symb = ErrorHandler.RecoverInline(this);
 			}
 			else {
 			    Consume();
 			}
 			State = 137; Match(RIGHTPAR);
-			 compiler.functionManager.addForCycle((_localctx.val_dec!=null?_localctx.val_dec.Text:null), (_localctx.val_init!=null?_localctx.val_init.Text:null), (_localctx.val_use!=null?_localctx.val_use.Text:null), (_localctx.val_total!=null?_localctx.val_total.Text:null), (_localctx.val_inc!=null?_localctx.val_inc.Text:null)); 
+			 compiler.functionManager.addForCycle((_localctx.val_dec!=null?_localctx.val_dec.Text:null), (_localctx.val_init!=null?_localctx.val_init.Text:null), (_localctx.val_use!=null?_localctx.val_use.Text:null), (_localctx.val_total!=null?_localctx.val_total.Text:null), (_localctx.val_inc!=null?_localctx.val_inc.Text:null),  (_localctx.val_inc_symb!=null?_localctx.val_inc_symb.Text:null)); 
 			State = 139; Match(NEWLINE);
 			 compiler.functionManager.addNewLine(); 
 			State = 141; Match(LEFTSQ);

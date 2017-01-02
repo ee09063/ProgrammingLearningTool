@@ -7,20 +7,11 @@ public class CubeBehaviour : MonoBehaviour
     private float _time = 0.015f;
     private float _rotAngle = 90f;
 
-    enum Facing
-    {
-        UP,
-        DOWN
-    }
-
     public void moveCube(bool forward)
     {
-        if (canMove(forward))
-        {
-            StartCoroutine(moveRoutine(forward));
-        }
+        StartCoroutine(moveRoutine(forward));
     }
-   
+
     private IEnumerator moveRoutine(bool isForward)
     {
         Debug.Log("MOVE ROUTINE");
@@ -28,15 +19,35 @@ public class CubeBehaviour : MonoBehaviour
         Vector3 fwd = transform.forward;
         Vector3 pivot;
 
-        for (int i = 0; i < 2; i++)
+        if (isForward && (fwd.x < -0.1f || fwd.z < -0.1f))
+        {
+            isForward = false;
+        }
+        else if (!isForward && (fwd.x < -0.1f || fwd.z < -0.1f))
+        {
+            isForward = true;
+        }
+
+        if (!canMove(isForward))
+        {
+            Program.currentCommandOver = true;
+            return true;
+        }
+
+        for (int i = 0; i < 1; i++)
         {
             angle = 0;
             pivot = getPivotPoint(transform.position, fwd, isForward);
             transform.forward = fwd;
 			
-            Vector3 axis = isFwdVector(fwd) ? Vector3.left : Vector3.forward;
+            Debug.Log("Pivot  "  + pivot);
+            Debug.Log("Forward  " + fwd);
+
+            Vector3 axis = fwd.z < -0.1f || fwd.z > 0.1f ? Vector3.left : Vector3.forward;
             float rotAngle = isForward ? -_fixedAngle : _fixedAngle;
 			
+            Debug.Log("Axis: " + axis);
+
             while (angle < _rotAngle)
             {
                 angle += _fixedAngle;
@@ -84,8 +95,8 @@ public class CubeBehaviour : MonoBehaviour
     private Vector3 getPivotPoint(Vector3 pos, Vector3 fwd, bool isForward)
     {
         float increment = isForward ? 0.25f : -0.25f;
-        float newX = isApproximateTo(fwd.x, 0.0f, 0.005f) ? pos.x : (pos.x + increment) * fwd.x;
-        float newZ = isApproximateTo(fwd.z, 0.0f, 0.005f) ? pos.z : (pos.z + increment) * fwd.z;
+        float newX = isApproximateTo(fwd.x, 0.0f, 0.005f) ? pos.x : (pos.x + increment) * Mathf.Abs(fwd.x);
+        float newZ = isApproximateTo(fwd.z, 0.0f, 0.005f) ? pos.z : (pos.z + increment) * Mathf.Abs(fwd.z);
         return new Vector3(newX, 0.0f, newZ);
     }
 
@@ -115,12 +126,5 @@ public class CubeBehaviour : MonoBehaviour
     private bool isApproximateTo(float f1, float f2, float tolerance)
     {
         return f1 < f2 + 0.005f && f1 > f2 - 0.005f; 
-    }
-
-    private bool isFwdVector(Vector3 vec)
-    {
-        return isApproximateTo(vec.x, Vector3.forward.x, 0.005f)
-        && isApproximateTo(vec.y, Vector3.forward.y, 0.005f)
-        && isApproximateTo(vec.z, Vector3.forward.z, 0.005f);
     }
 }

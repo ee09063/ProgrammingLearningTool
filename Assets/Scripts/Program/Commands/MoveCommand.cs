@@ -22,38 +22,23 @@ public class MoveCommand : Command
 	}
 
 	public IEnumerator Execute (GameObject gameObj)
-	{
-		bool forward = false;
+    {
+        bool forward = false;
 
-		if (_direction.Equals (Direction.FWD))
-			forward = true;
+        if (_direction.Equals(Direction.FWD))
+            forward = true;
 
-		Vector3 curr = gameObj.transform.position;
+        Vector3 curr = gameObj.transform.position;
 
         MessageListController.AddMessageToList(new Message("Information", forward ? "Moving Forward" : "Moving Backwards"));
 
-		if (!_obsChecker.checkWall (curr, gameObj.transform.forward))
-		{
+        if (!_obsChecker.checkWall(curr, gameObj.transform.forward))
+        {
             gameObj.GetComponent<CubeBehaviour>().moveCube(forward);
-		}
+        }
 
-		return null;
-	}
-
-	public static bool validateArgs(string args)
-	{
-		if (args != null) {
-			string[] sArgs = args.Split (',');
-			return sArgs.Length == _numberOfArgs && isArgInEnum (args);
-		}
-
-		return false;
-	}
-
-	public static string getArgsError()
-	{
-		return "The move function takes 1 of 2 arguments -> move("+Direction.FWD.ToString()+") or move("+Direction.BWD.ToString()+")";
-	}
+        return null;
+    }
 
 	private static bool isArgInEnum(string arg)
 	{

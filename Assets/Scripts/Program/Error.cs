@@ -18,7 +18,7 @@ public class Error : Message {
         return _line;
     }
 
-    public string getType()
+    new public string getType()
     {
         return _type;
     }

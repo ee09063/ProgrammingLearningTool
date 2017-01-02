@@ -5,7 +5,7 @@ using System.Collections;
 public class EndLevel : Marker
 {
 
-    void Start()
+    new void Start()
     {
         base.Start();
     }

@@ -17,7 +17,7 @@ public class SaveLoad : MonoBehaviour
 
     public void Start()
     {
-        _currentLevel = _levelSavePath + "level_0.txt";
+        _currentLevel = _levelSavePath + "/level_0.txt";
         _codeEditor = GameObject.FindGameObjectWithTag("CodeEditor").GetComponent<InputField>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _walls = GameObject.FindGameObjectsWithTag("Wall");
