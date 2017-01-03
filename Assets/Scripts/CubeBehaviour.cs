@@ -34,7 +34,7 @@ public class CubeBehaviour : MonoBehaviour
             return true;
         }
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 2; i++)
         {
             angle = 0;
             pivot = getPivotPoint(transform.position, fwd, isForward);
