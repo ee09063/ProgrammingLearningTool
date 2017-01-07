@@ -12,31 +12,6 @@ public class MenuManager : MonoBehaviour
 
     public Button[] ButtonsToDeactivate;
 
-    public void OnLoadLevel()
-    {
-        SaveLoad.LoadLevel();
-    }
-
-    public void OnSaveLevel()
-    {
-        SaveLoad.SaveLevel();
-    }
-
-    public void OnLoadScript()
-    {
-        SaveLoad.LoadScript();
-    }
-
-    public void OnSaveScript()
-    {
-        SaveLoad.SaveScript();
-    }
-
-    public void OnRestartLevel()
-    {
-        SaveLoad.RestartLevel();
-    }
-
     public void OnQuit()
     {
         LevelManager.QuitGame();

@@ -16,7 +16,8 @@
         public enum PanelType
         {
             BuildMode,
-            Instruction
+            Instruction,
+            SaveLoad
         }
 
         public static void GetAnchorsForWindowPosition(WindowPositions targetPosition, out Vector2 anchorMin, out Vector2 anchorMax, PanelType type)
@@ -29,10 +30,15 @@
                         anchorMin = new Vector2(1, 0.25f);
                         anchorMax = new Vector2(1.45f, 0.8f);
                     }
-                    else
+                    else if (type == PanelType.BuildMode)
                     {
                         anchorMin = Vector2.right;
                         anchorMax = new Vector2(1.2f, 1);
+                    }
+                    else
+                    {
+                        anchorMin = new Vector2(1f, 0f);
+                        anchorMax = new Vector2(1f, 2f);
                     }
                     break;
 
@@ -42,9 +48,19 @@
                         anchorMin = Vector2.up;
                         anchorMax = new Vector2(1, 2);
                     }
-                    else
+                    else if (type == PanelType.BuildMode)
                     {
                         anchorMin = Vector2.up;
+                        anchorMax = new Vector2(1, 2);
+                    }
+                    else if (type == PanelType.SaveLoad)
+                    {
+                        anchorMin = new Vector2(0, 1);
+                        anchorMax = new Vector2(1, 2);
+                    }
+                    else
+                    {
+                        anchorMin = new Vector2(0, 1);
                         anchorMax = new Vector2(1, 2);
                     }
                     break;
@@ -55,10 +71,15 @@
                         anchorMin = new Vector2(0, -1);
                         anchorMax = Vector2.right;
                     }
-                    else
+                    else if (type == PanelType.SaveLoad)
                     {
                         anchorMin = new Vector2(0, -1);
                         anchorMax = Vector2.right;
+                    }
+                    else
+                    {
+                        anchorMin = new Vector2(0, -1);
+                        anchorMax = new Vector2(1, 0);
                     }
                     break;
 
@@ -68,9 +89,14 @@
                         anchorMin = new Vector2(-0.2f, 0.86f);
                         anchorMax = new Vector2(0, 1);
                     }
-                    else
+                    else if (type == PanelType.BuildMode)
                     {
                         anchorMin = new Vector2(-0.2f, 0.86f);
+                        anchorMax = new Vector2(0, 1);
+                    }
+                    else
+                    {
+                        anchorMin = new Vector2(-1, 0);
                         anchorMax = new Vector2(0, 1);
                     }
                     break;
@@ -81,10 +107,20 @@
                         anchorMin = new Vector2(0.35f, 0.25f);
                         anchorMax = new Vector2(0.8f, 0.8f);
                     }
-                    else
+                    else if (type == PanelType.BuildMode)
                     {
                         anchorMin = new Vector2(0, 0.86f);
                         anchorMax = new Vector2(0.2f, 1);
+                    }
+                    else if (type == PanelType.SaveLoad)
+                    {
+                        anchorMin = new Vector2(0, 0);
+                        anchorMax = new Vector2(1f, 1f);
+                    }
+                    else
+                    {
+                        anchorMin = new Vector2(0, 0);
+                        anchorMax = new Vector2(1f, 1f);
                     }
                     break;
             }

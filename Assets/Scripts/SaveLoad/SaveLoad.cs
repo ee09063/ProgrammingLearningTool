@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
@@ -7,13 +6,19 @@ using UnityEngine.UI;
 
 public class SaveLoad : MonoBehaviour
 {
-    private static string _levelSavePath = "Savegame/Levels";
-    private static string _scriptSavePath = "Savegame/Scripts";
-    private static string _currentLevel;
-    private static InputField _codeEditor;
-    private static GameObject _player;
-    private static string[] _level;
-    private static GameObject[] _walls;
+    private string _levelSavePath = "Savegame/Levels";
+    private string _scriptSavePath = "Savegame/Scripts";
+    private string _currentLevel;
+    private InputField _codeEditor;
+    private GameObject _player;
+    private string[] _level;
+    private GameObject[] _walls;
+    private bool _loadMode;
+    private bool _scriptMode;
+
+    public GameObject SaveLoadPanel;
+    public Button SaveLoadButton;
+ 
 
     public void Start()
     {
@@ -21,11 +26,63 @@ public class SaveLoad : MonoBehaviour
         _codeEditor = GameObject.FindGameObjectWithTag("CodeEditor").GetComponent<InputField>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _walls = GameObject.FindGameObjectsWithTag("Wall");
+        _player = GameObject.FindGameObjectWithTag("Player");
+        SaveLoadPanel = GameObject.FindGameObjectWithTag("SaveLoadPanel");
     }
 
-    public static void SaveLevel()
+    public void setLoadMode(bool loadMode)
     {
-        string path = EditorUtility.SaveFilePanel("Save Script", _levelSavePath, "level.txt", "txt");
+        _loadMode = loadMode;
+    }
+
+    public void setScriptMode(bool scriptMode)
+    {
+        _scriptMode = scriptMode;
+    }
+
+    public void OpenSaveLoadPanel()
+    {
+        string mode = _loadMode ? "Load" : "Save";
+        string type = _scriptMode ? "Script" : "Level";
+        string title = mode + " " + type;
+
+        SaveLoadButton.GetComponentInChildren<Text>().text = mode;
+        SaveLoadPanel.GetComponentInChildren<Text>().text = title;
+        SaveLoadPanel.GetComponentInChildren<InputField>().text = "";
+        SaveLoadPanel.GetComponentInChildren<InputField>().Select();
+        SaveLoadPanel.GetComponentInChildren<InputField>().ActivateInputField();
+        SaveLoadPanel.GetComponent<SlidePanel>().SetVisible(true);
+    }
+        
+    public void SaveOrLoad(Text text)
+    {
+        if (_loadMode)
+        {
+            if (_scriptMode)
+            {
+                LoadScript(text);
+            }
+            else
+            {
+                LoadLevel(text);    
+            }
+        }
+        else
+        {
+            if (_scriptMode)
+            {
+                SaveScript(text);
+            }
+            else
+            {
+                SaveLevel(text);    
+            }
+        }
+    }
+
+    public void SaveLevel(Text text)
+    {
+        string path = _levelSavePath + "/" + text.text + ".txt"; //= EditorUtility.SaveFilePanel("Save Script", _levelSavePath, "level.txt", "txt");
 
         if (path.Length == 0)
         {
@@ -48,9 +105,9 @@ public class SaveLoad : MonoBehaviour
         }
     }
 
-    public static void LoadLevel()
+    public void LoadLevel(Text text)
     {
-        string path = EditorUtility.OpenFilePanel("Load Level", _levelSavePath, "txt");
+        string path = _levelSavePath + "/" + text.text + ".txt";// = EditorUtility.OpenFilePanel("Load Level", _leve    lSavePath, "txt");
 
         if (path.Length == 0)
         {
@@ -66,7 +123,46 @@ public class SaveLoad : MonoBehaviour
         CreateLevel(path);
     }
 
-    public static void RestartLevel()
+    public void SaveScript(Text text)
+    {
+        string path = _scriptSavePath + "/" + text.text + "";// = EditorUtility.SaveFilePanel("Save Script", _scriptSavePath, "script.txt", "txt");
+
+        if (path.Length == 0)
+        {
+            return;
+        }
+
+        if (!Path.GetExtension(path).Equals(".txt"))
+        {
+            return;
+        }
+
+        File.WriteAllText(path, _codeEditor.text);
+    }
+
+    public void LoadScript(Text text)
+    {
+        string path = _scriptSavePath + "/" + text.text + ".txt"; // = EditorUtility.OpenFilePanel("Load Script", _scriptSavePath, "txt");
+       
+        if (path.Length == 0)
+        {
+            return;
+        }
+
+        if (!Path.GetExtension(path).Equals(".txt"))
+        {
+            return;
+        }
+
+        _codeEditor.text = "";
+
+        foreach (string str in File.ReadAllLines(path))
+        {
+            _codeEditor.text += str + "\n";
+        }
+    }
+
+    public void RestartLevel()
     {
         if (_currentLevel != null)
         {
@@ -78,7 +174,7 @@ public class SaveLoad : MonoBehaviour
         }
     }
 
-    private static void ClearLevel()
+    private void ClearLevel()
     {
         GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
 
@@ -99,7 +195,7 @@ public class SaveLoad : MonoBehaviour
         }
     }
 
-    private static void CreateLevel(string path)
+    private void CreateLevel(string path)
     {
         _level = File.ReadAllLines(path);
 
@@ -133,44 +229,7 @@ public class SaveLoad : MonoBehaviour
         }
     }
 
-    public static void SaveScript()
-    {
-        string path = EditorUtility.SaveFilePanel("Save Script", _scriptSavePath, "script.txt", "txt");
-        if (path.Length == 0)
-        {
-            return;
-        }
-
-        if (!Path.GetExtension(path).Equals(".txt"))
-        {
-            return;
-        }
-
-        File.WriteAllText(path, _codeEditor.text);
-    }
-
-    public static void LoadScript()
-    {
-        string path = EditorUtility.OpenFilePanel("Load Script", _scriptSavePath, "txt");
-        if (path.Length == 0)
-        {
-            return;
-        }
-
-        if (!Path.GetExtension(path).Equals(".txt"))
-        {
-            return;
-        }
-
-        _codeEditor.text = "";
-
-        foreach (string str in File.ReadAllLines(path))
-        {
-            _codeEditor.text += str + "\n";
-        }
-    }
-
-    public static bool AlmostEqual(Vector3 v1, Vector3 v2, float precision)
+    public bool AlmostEqual(Vector3 v1, Vector3 v2, float precision)
     {
         bool equal = true;
         if (Mathf.Abs (v1.x - v2.x) >= precision) equal = false;
@@ -179,7 +238,7 @@ public class SaveLoad : MonoBehaviour
         return equal;
     }
 
-    public static bool AlmostEqualF(float f1, float f2, float precision)
+    public bool AlmostEqualF(float f1, float f2, float precision)
     {
         bool equal = true;
         if (Mathf.Abs (f1 - f2) >= precision) equal = false;

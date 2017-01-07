@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 
 public class EndLevel : Marker
@@ -38,10 +37,10 @@ public class EndLevel : Marker
             yield return new WaitForSeconds(0.25f);
         }
 
-        if (EditorUtility.DisplayDialog("LEVEL COMPLETE", "Congratulations! You have completed the level!", "Restart", "Continue"))
+        /*if (EditorUtility.DisplayDialog("LEVEL COMPLETE", "Congratulations! You have completed the level!", "Restart", "Continue"))
         {   
             SaveLoad.RestartLevel();
-        }
+        }*/
 
         yield break;
     }
