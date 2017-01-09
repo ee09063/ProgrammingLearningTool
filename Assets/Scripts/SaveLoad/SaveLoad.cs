@@ -125,17 +125,20 @@ public class SaveLoad : MonoBehaviour
 
     public void SaveScript(Text text)
     {
-        string path = _scriptSavePath + "/" + text.text + "";// = EditorUtility.SaveFilePanel("Save Script", _scriptSavePath, "script.txt", "txt");
+        string path = _scriptSavePath + "/" + text.text + ".txt";// = EditorUtility.SaveFilePanel("Save Script", _scriptSavePath, "script.txt", "txt");
 
         if (path.Length == 0)
         {
             return;
         }
 
+       
         if (!Path.GetExtension(path).Equals(".txt"))
         {
             return;
         }
+            
+        print(_codeEditor.text);
 
         File.WriteAllText(path, _codeEditor.text);
     }
