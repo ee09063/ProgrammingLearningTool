@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Marker : MonoBehaviour
 {
-    private bool _active;
+    protected bool _active;
 
     public bool Active
     {
@@ -17,9 +17,9 @@ public class Marker : MonoBehaviour
         }
     }
 
-    protected void Start()
+    protected void Awake()
     {
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        ToggleMeshRenderer(false);
         ToggleColor(false);
     }
 

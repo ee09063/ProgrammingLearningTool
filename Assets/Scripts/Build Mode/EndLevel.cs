@@ -3,10 +3,13 @@ using System.Collections;
 
 public class EndLevel : Marker
 {
+    private GameObject _endLevelPanel;
+    private bool _activated;
 
     new void Start()
     {
-        base.Start();
+        base.Awake();
+        _endLevelPanel = GameObject.FindGameObjectWithTag("EndLevelPanel");
     }
 
     protected override void OnMouseDown()
@@ -24,9 +27,31 @@ public class EndLevel : Marker
 
     void OnTriggerEnter(Collider other)
     {
+        if (!_active || _activated)
+        {
+            return;
+        }
+
+        print("ENTER " + gameObject.transform.position);
+
         if (other.gameObject.CompareTag("Player"))
         {
             StartCoroutine(WaitForEndOfMovement());
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (!_active || !_activated)
+        {
+            return;
+        }
+
+        print("EXIT " + gameObject.transform.position);
+
+        if (other.gameObject.CompareTag("Player"))
+        {
+            _activated = false;
         }
     }
 
@@ -36,11 +61,9 @@ public class EndLevel : Marker
         {
             yield return new WaitForSeconds(0.25f);
         }
-
-        /*if (EditorUtility.DisplayDialog("LEVEL COMPLETE", "Congratulations! You have completed the level!", "Restart", "Continue"))
-        {   
-            SaveLoad.RestartLevel();
-        }*/
+            
+        _endLevelPanel.GetComponent<SlidePanel>().SetVisible(true);
+        _activated = true;
 
         yield break;
     }

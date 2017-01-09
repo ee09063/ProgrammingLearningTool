@@ -92,6 +92,11 @@ public class BuildModeManager : MonoBehaviour
         {
             for (int x = 0; x < 7; x++)
             {
+                if (z == 0 && x == 0)
+                {
+                    continue;
+                }
+
                 GameObject check = Instantiate(Resources.Load("EndCheckpoint", typeof(GameObject))) as GameObject;
                 float x_pos = x + 0.5f;
                 float z_pos = z + 0.5f;

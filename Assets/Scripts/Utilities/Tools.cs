@@ -17,7 +17,8 @@
         {
             BuildMode,
             Instruction,
-            SaveLoad
+            SaveLoad,
+            EndLevel
         }
 
         public static void GetAnchorsForWindowPosition(WindowPositions targetPosition, out Vector2 anchorMin, out Vector2 anchorMax, PanelType type)
