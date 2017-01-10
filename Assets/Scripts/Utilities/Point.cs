@@ -4,12 +4,12 @@ using System.Collections;
 public class BoardPoint
 {
 	private float _x;
-	private float _y;
+	private float _z;
 
-	public BoardPoint(float x, float y)
+	public BoardPoint(float x, float z)
 	{
 		_x = x;
-		_y = y;
+		_z = z;
 	}
 
 	public float getX()
@@ -17,8 +17,8 @@ public class BoardPoint
 		return _x;
 	}
 
-	public float getY()
+	public float getZ()
 	{
-		return _y;
+		return _z;
 	}
 }

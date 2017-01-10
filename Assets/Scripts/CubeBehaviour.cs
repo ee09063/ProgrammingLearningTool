@@ -6,6 +6,7 @@ public class CubeBehaviour : MonoBehaviour
     private float _fixedAngle = 3f;
     private float _time = 0.015f;
     private float _rotAngle = 90f;
+    private ObstacleChecker _obsChecker;
 
     public void moveCube(bool forward)
     {
@@ -19,6 +20,9 @@ public class CubeBehaviour : MonoBehaviour
         Vector3 fwd = transform.forward;
         Vector3 pivot;
 
+        _obsChecker = new ObstacleChecker();
+        _obsChecker.Initialize();
+
         if (isForward && (fwd.x < -0.1f || fwd.z < -0.1f))
         {
             isForward = false;
@@ -28,8 +32,16 @@ public class CubeBehaviour : MonoBehaviour
             isForward = true;
         }
 
-        if (!canMove(isForward))
+        if (!isInsideBounds(getFuturePosition(isForward)))
         {
+            Debug.Log("CUBE WILL FALL OUTSIDE THE BOUNDS");
+            Program.currentCommandOver = true;
+            return true;
+        }
+
+        if (_obsChecker.checkWall(transform.position, transform.forward))
+        {
+            Debug.Log("CUBE WILL HIT A WALL");
             Program.currentCommandOver = true;
             return true;
         }
@@ -100,11 +112,6 @@ public class CubeBehaviour : MonoBehaviour
         return new Vector3(newX, 0.0f, newZ);
     }
 
-    private bool canMove(bool forward)
-    {
-        return isInsideBounds(getFuturePosition(forward));
-    }
-
     private Vector3 getFuturePosition(bool forward)
     {
         Vector3 pos = transform.position;
@@ -120,7 +127,7 @@ public class CubeBehaviour : MonoBehaviour
 
     private bool isInsideBounds(Vector3 pos)
     {
-        return pos.x >= 0.5 && pos.x <= 9.5 && pos.z >= 0.5 && pos.z <= 9.5;
+        return pos.x >= 0.5 && pos.x <= 6.5 && pos.z >= 0.5 && pos.z <= 6.5;
     }
 
     private bool isApproximateTo(float f1, float f2, float tolerance)
