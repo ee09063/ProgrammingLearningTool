@@ -82,7 +82,7 @@ public class FunctionManager
     public void addFunctionToMaster(string identifier)
     {
         int currentLine = _lineCounter.getLineCount();
-        Debug.Log("ADDING FUNCTION " + identifier + " TO MASTER ON LINE " + currentLine); 
+//        Debug.Log("ADDING FUNCTION " + identifier + " TO MASTER ON LINE " + currentLine); 
 
         if (identifier == null)
         {

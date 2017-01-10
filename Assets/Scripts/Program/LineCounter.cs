@@ -19,7 +19,7 @@ public class LineCounter : MonoBehaviour
     public void addLine()
     {
         _lineCount++;
-        Debug.Log("ADDING A NEW LINE -- TOTAL " + _lineCount);
+//        Debug.Log("ADDING A NEW LINE -- TOTAL " + _lineCount);
     }
 
     public void resetCount()

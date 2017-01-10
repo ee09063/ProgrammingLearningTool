@@ -52,13 +52,13 @@ public class CubeBehaviour : MonoBehaviour
             pivot = getPivotPoint(transform.position, fwd, isForward);
             transform.forward = fwd;
 			
-            Debug.Log("Pivot  "  + pivot);
-            Debug.Log("Forward  " + fwd);
+//            Debug.Log("Pivot  "  + pivot);
+  //          Debug.Log("Forward  " + fwd);
 
             Vector3 axis = fwd.z < -0.1f || fwd.z > 0.1f ? Vector3.left : Vector3.forward;
             float rotAngle = isForward ? -_fixedAngle : _fixedAngle;
 			
-            Debug.Log("Axis: " + axis);
+//            Debug.Log("Axis: " + axis);
 
             while (angle < _rotAngle)
             {
