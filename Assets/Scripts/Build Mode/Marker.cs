@@ -51,7 +51,10 @@ public class Marker : MonoBehaviour
 
     protected virtual void OnMouseDown()
     {
-        _active = !_active;
-        ToggleColor(_active);
+        if (BuildModeManager.BuildMode)
+        {
+            _active = !_active;
+            ToggleColor(_active);
+        }
     }
 }
