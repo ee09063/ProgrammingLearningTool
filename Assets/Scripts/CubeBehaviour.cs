@@ -32,7 +32,7 @@ public class CubeBehaviour : MonoBehaviour
             isForward = true;
         }
 
-        if (!isInsideBounds(getFuturePosition(isForward)))
+        if (!isInsideBounds(getFuturePosition(fwd)))
         {
             Debug.Log("CUBE WILL FALL OUTSIDE THE BOUNDS");
             Program.currentCommandOver = true;
@@ -112,17 +112,27 @@ public class CubeBehaviour : MonoBehaviour
         return new Vector3(newX, 0.0f, newZ);
     }
 
-    private Vector3 getFuturePosition(bool forward)
+    private Vector3 getFuturePosition(Vector3 fwd)
     {
         Vector3 pos = transform.position;
-        if (forward)
+        if (fwd.x > 0.1f && fwd.z < 0.1f)
         {
             return new Vector3(pos.x + 1.0f, 0, pos.z);
         }
-        else
+        else if(fwd.x < -0.1f && fwd.z < 0.1f)
         {
             return new Vector3(pos.x - 1.0f, 0, pos.z);
         }
+        else if(fwd.x < 0.1f && fwd.z > 0.1f)
+        {
+            return new Vector3(pos.x, 0, pos.z + 1.0f);
+        }
+        else if(fwd.x < 0.1f && fwd.z < -0.1f)
+        {
+            return new Vector3(pos.x, 0, pos.z - 1.0f);
+        }
+        Debug.LogError("SHOULD NOT BE POSSIBLE");
+        return new Vector3(0, 0, 0);
     }
 
     private bool isInsideBounds(Vector3 pos)
